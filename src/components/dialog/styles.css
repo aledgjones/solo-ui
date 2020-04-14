@@ -1,0 +1,38 @@
+.ui-dialog {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.ui-backdrop--visible {
+    pointer-events: all;
+}
+
+.ui-dialog__scroller {
+    position: relative;
+    overflow: auto;
+    max-height: 100vh;
+    z-index: 2;
+    padding: 40px;
+    width: 100%;
+}
+
+.ui-dialog__card {
+    margin: 0 auto;
+    border-radius: 8px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .4s, transform .4s;
+}
+
+.ui-dialog--show .ui-dialog__card {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "solo-ui",
+  "author": "Aled Jones",
+  "module": "dist/mui.esm.js",
+  "devDependencies": {
+    "@types/big.js": "^4.0.5",
+    "@types/color": "^3.0.1",
+    "@types/lodash.isboolean": "^3.0.6",
+    "@types/lodash.isnumber": "^3.0.6",
+    "@types/lodash.isobject": "^3.0.6",
+    "@types/lodash.isstring": "^4.0.6",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/shortid": "0.0.29",
+    "@types/showdown": "^1.9.3",
+    "autoprefixer": "^9.7.6",
+    "cssnano": "^4.1.10",
+    "husky": "^4.2.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rollup-plugin-postcss": "^2.6.2",
+    "tsdx": "^0.13.2",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@mdi/js": "^5.0.45",
+    "app-reset": "^1.0.2",
+    "big.js": "^5.2.2",
+    "color": "^3.1.2",
+    "isemail": "^3.2.0",
+    "lodash.isboolean": "^3.0.3",
+    "lodash.isnumber": "^3.0.3",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
+    "shortid": "^2.2.15",
+    "showdown": "^1.9.1",
+    "showdown-highlight": "^2.1.4"
+  }
+}
