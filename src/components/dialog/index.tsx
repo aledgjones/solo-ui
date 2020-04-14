@@ -26,7 +26,7 @@ export const Dialog: FC<Props> = ({ id, className, style, width, open, children 
     const render = useDelayBoolean(open, 500);
 
     return <Portal>
-        <Backdrop open={open} />
+        <Backdrop className="ui-dialog__backdrop" open={open} />
         <div id={id} className={merge("ui-dialog", className, { 'ui-dialog--show': open })} >
             <div className="ui-dialog__scroller">
                 <Card
