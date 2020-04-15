@@ -55,6 +55,7 @@
     "app-reset": "^1.0.2",
     "big.js": "^5.2.2",
     "color": "^3.1.2",
+    "hooks": "^0.3.2",
     "lodash.isboolean": "^3.0.3",
     "lodash.isnumber": "^3.0.3",
     "lodash.isobject": "^3.0.2",

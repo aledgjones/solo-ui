@@ -1326,7 +1326,7 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$m = ".ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:calc(100% - 20px);left:0;width:100%;transform:translateZ(0);z-index:10;max-height:140px;overflow:auto;padding:8px 0}.ui-select__card,.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+var css_248z$m = ".ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:calc(100% - 20px);left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .3s,opacity .3s;pointer-events:none}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
 styleInject(css_248z$m);
 
 /**
@@ -1349,6 +1349,7 @@ var Select = function Select(_ref) {
       setFocus = _useState[1];
 
   var element = React.useRef(null);
+  var open = useDelayBoolean(focus, 400);
   var display = React.useMemo(function () {
     var _display = '';
     React__default.Children.forEach(children, function (child) {
@@ -1413,9 +1414,11 @@ var Select = function Select(_ref) {
     size: 24,
     color: "#777777",
     path: js.mdiChevronDown
-  })), focus && React__default.createElement(Card, {
-    className: "ui-select__card"
-  }, React__default.Children.map(children, function (child) {
+  })), React__default.createElement(Card, {
+    className: merge("ui-select__card", {
+      'ui-select__card--open': focus
+    })
+  }, open && React__default.Children.map(children, function (child) {
     return React__default.createElement("div", {
       key: child.props.value,
       className: "ui-select__item",

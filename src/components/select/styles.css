@@ -13,10 +13,19 @@
     width: 100%;
     transform: translateZ(0);
     z-index: 10;
-    max-height: 140px;
     overflow: auto;
     padding: 8px 0;
     touch-action: pan-y;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height .3s, opacity .3s;
+    pointer-events: none;
+}
+
+.ui-select__card--open {
+    opacity: 1;
+    max-height: 140px;
+    pointer-events: all;
 }
 
 .ui-select__card * {

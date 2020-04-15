@@ -5,37 +5,55 @@ import { Input, Select, Option, Section, Subheader, Textarea } from '../dist';
 
 const App = () => {
 
-  const [value, setValue] = React.useState('');
-  const [value1, setValue1] = React.useState(100);
-  const [value2, setValue2] = React.useState('foo');
-  const [value3, setValue3] = React.useState('foo');
+  const [text, setText] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [number, setNumber] = React.useState<number>();
+  const [longtext, setLongtext] = React.useState('');
+  const [select, setSelect] = React.useState('foo');
 
   return <>
 
     <Section width={800}>
-      <Subheader>Inputs</Subheader>
       <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
-        <Input required type="email" label="Email" value={value} onChange={setValue} color="blue" />
-        <p>value: {value}</p>
+        <Subheader>Text Input</Subheader>
+        <Input required type="text" label="Text" value={text} onChange={setText} color="blue" />
+        <p>value: {text}</p>
       </div>
 
       <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
-        <Input units="mm" required type="number" label="Number" value={value1} onChange={setValue1} color="blue" precision={2} step={1} />
-        <p>value: {value1}</p>
+        <Subheader>Email Input</Subheader>
+        <Input required type="email" label="Email" value={email} onChange={setEmail} color="blue" />
+        <p>value: {email}</p>
       </div>
 
       <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
-        <Select value={value2} onChange={setValue2} label="Select" color="blue">
+        <Subheader>Password Input</Subheader>
+        <Input required type="password" label="Password" value={password} onChange={setPassword} color="blue" />
+        <p>value: {password}</p>
+      </div>
+
+      <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
+        <Subheader>Number Input</Subheader>
+        <Input units="mm" required type="number" label="Number" value={number} onChange={setNumber} color="blue" precision={2} step={1} />
+        <p>value: {number}</p>
+      </div>
+
+      <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
+        <Subheader>Textarea</Subheader>
+        <Textarea label="Textarea" value={longtext} onChange={setLongtext} color="blue" />
+        <p>value: {longtext}</p>
+      </div>
+
+      <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
+        <Subheader>Select &amp; Option</Subheader>
+        <Select value={select} onChange={setSelect} label="Select" color="blue">
           <Option value="foo" displayAs="Foo">Foo</Option>
           <Option value="bar" displayAs="Bar">Bar</Option>
         </Select>
-        <p>value: {value2}</p>
+        <p>value: {select}</p>
       </div>
 
-      <div style={{ border: '1px solid rgb(235,235,235)', marginBottom: 20, padding: 20 }}>
-        <Textarea label="Textarea" value={value3} onChange={setValue3} color="blue" />
-        <p>value: {value2}</p>
-      </div>
     </Section>
 
   </>;

@@ -4,6 +4,7 @@ import { mdiChevronDown } from '@mdi/js';
 import { merge } from '../../utils/merge';
 import { Icon } from '../icon';
 import { Card } from '../card';
+import { useDelayBoolean } from '../../hooks/use-delay-boolean';
 
 import '../input-base/styles.css';
 import './styles.css';
@@ -28,6 +29,8 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
 
     const [focus, setFocus] = useState<boolean>(false);
     const element = useRef<HTMLDivElement>(null);
+
+    const open = useDelayBoolean(focus, 400);
 
     const display = useMemo(() => {
         let _display = '';
@@ -79,9 +82,9 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
             <Icon className="ui-select__icon" style={{ transform: focus ? 'rotateZ(180deg)' : undefined }} size={24} color="#777777" path={mdiChevronDown} />
         </div>
 
-        {focus && <Card className="ui-select__card">
+        <Card className={merge("ui-select__card", { 'ui-select__card--open': focus })}>
             {
-                React.Children.map(children, (child: any) => {
+                open && React.Children.map(children, (child: any) => {
                     return <div
                         key={child.props.value}
                         className="ui-select__item"
@@ -93,7 +96,7 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
                     </div>;
                 })
             }
-        </Card>}
+        </Card>
 
     </div>;
 }
