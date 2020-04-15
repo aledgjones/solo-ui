@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { InputProps } from './defs';
+import { InputProps } from '../input-base/defs';
 /**
  * Input element with types: 'email' | 'password' | 'text' | 'number'.
  */

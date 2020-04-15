@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 require('app-reset/app-reset.css');
+require('highlight.js/styles/vs2015.css');
 var React = require('react');
 var React__default = _interopDefault(React);
 var isString = _interopDefault(require('lodash.isstring'));
@@ -13,13 +14,41 @@ var Color = _interopDefault(require('color'));
 var ReactDOM = _interopDefault(require('react-dom'));
 var Big = _interopDefault(require('big.js'));
 var js = require('@mdi/js');
-var isemail = _interopDefault(require('isemail'));
 require('shortid');
 var showdown = require('showdown');
 var showdownHighlight = _interopDefault(require('showdown-highlight'));
-require('highlight.js/styles/vs2015.css');
 var isNumber = _interopDefault(require('lodash.isnumber'));
 var isBoolean = _interopDefault(require('lodash.isboolean'));
+
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = "body{font-family:Roboto,sans-serif}*{box-sizing:border-box;-ms-scroll-chaining:none;overscroll-behavior:contain}";
+styleInject(css_248z);
 
 /**
  * Merge strings into single string with conditional inclusion. Useful for className strings
@@ -61,6 +90,9 @@ function merge() {
   }, []);
   return out.join(' ');
 }
+
+var css_248z$1 = ".ui-appbar{position:fixed;top:0;left:0;width:100%;z-index:999997}.ui-appbar--shadow{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23)}.ui-appbar__content{width:100%;min-height:56px;display:flex;align-items:center;padding:0 20px}";
+styleInject(css_248z$1);
 
 /**
  * A basic top of screen app bar with dynamic shadow.
@@ -174,6 +206,9 @@ function useForeground(color) {
   }, [color]);
 }
 
+var css_248z$2 = ".ui-avatar{display:block;border-radius:50%;background-color:hsla(0,0%,100%,.2);background-size:cover;background-position:50% 50%;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ui-avatar__letter{font-size:inherit;color:inherit;font-weight:300;text-transform:uppercase;position:relative}";
+styleInject(css_248z$2);
+
 /**
  * Avatar component. Displays image else falls back to GMail style colored circle and letter.
  */
@@ -240,6 +275,9 @@ var Avatar = function Avatar(_ref) {
   }, letter));
 };
 
+var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(35,30,45,0);transition:background-color .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(35,30,45,.6)}.ui-backdrop--transparent{background-color:rgba(35,30,45,0)!important}";
+styleInject(css_248z$3);
+
 /**
  * Backdrop component used for overlays (dialogs, sheets etc.)
  */
@@ -289,6 +327,9 @@ function useDelayBoolean(master, delay) {
   return slave;
 }
 
+var css_248z$4 = ".ui-portal{position:fixed;pointer-events:none;z-index:1000000}";
+styleInject(css_248z$4);
+
 /**
  * Create a portal. Useful to contain dialogs, overlays etc.
  */
@@ -317,6 +358,9 @@ var Portal = function Portal(_ref) {
   }
 };
 
+var css_248z$5 = ".ui-bottom-sheet{position:fixed;top:100%;left:50%;width:100vw;background-color:#fff;transform:translate(-50%);box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);transition:transform .4s;border-radius:12px 12px 0 0;pointer-events:all}";
+styleInject(css_248z$5);
+
 /**
  * Bottom Sheet component for displaying contexual actions.
  */
@@ -344,6 +388,9 @@ var BottomSheet = function BottomSheet(_ref) {
     }, style)
   }, render && children()));
 };
+
+var css_248z$6 = "@-webkit-keyframes rotate{0%{transform:rotate(-90deg)}to{transform:rotate(270deg)}}@keyframes rotate{0%{transform:rotate(-90deg)}to{transform:rotate(270deg)}}@-webkit-keyframes dash{0%{stroke-dasharray:5,120.66;stroke-dashoffset:0}50%{stroke-dasharray:100,25.66;stroke-dashoffset:0}to{stroke-dasharray:5,120.66;stroke-dashoffset:-125.66}}@keyframes dash{0%{stroke-dasharray:5,120.66;stroke-dashoffset:0}50%{stroke-dasharray:100,25.66;stroke-dashoffset:0}to{stroke-dasharray:5,120.66;stroke-dashoffset:-125.66}}.ui-spinner{position:relative;transform:rotate(-90deg)}.ui-spinner__circle{transform-origin:50% 50%;stroke-linecap:round;stroke-width:4px;fill:none;transition:stroke-dasharray .2s,stroke-dashoffset .2s,transform .2s}.ui-spinner--animate{-webkit-animation:rotate 1.5s linear infinite;animation:rotate 1.5s linear infinite}.ui-spinner--animate .ui-spinner__circle{-webkit-animation:dash 1.5s infinite;animation:dash 1.5s infinite;transition:none}";
+styleInject(css_248z$6);
 
 /**
  * A spinner which can be indeterminate or determinate to denote working states or progress.
@@ -400,6 +447,9 @@ var Spinner = function Spinner(_ref) {
   }));
 };
 
+var css_248z$7 = ".ui-button{display:inline-block;transition:box-shadow .1s;border-radius:3px;cursor:pointer;min-width:72px;min-height:36px;padding:7px 20px 8px;display:flex;align-items:center;justify-content:center;font-size:16px;outline:none;font-family:Roboto,sans-serif}.ui-button:focus,.ui-button:hover{box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-button:active{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23)}.ui-button--disabled{border:1px solid #c8c8c8!important;background-color:#ebebeb!important;color:#c8c8c8!important;pointer-events:none}.ui-spinner--button{margin-right:12px}";
+styleInject(css_248z$7);
+
 /**
  * Button component with optional outline-only styling.
  */
@@ -442,6 +492,9 @@ var Button = function Button(_ref) {
   }), children);
 };
 
+var css_248z$8 = "@-webkit-keyframes ui-card__in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-card__in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-card{display:block;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);border-radius:3px}.ui-card--margin{margin-bottom:20px}.ui-card--animate{-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation:ui-card__in .4s;animation:ui-card__in .4s}";
+styleInject(css_248z$8);
+
 /**
  * Generic card component.
  */
@@ -472,6 +525,9 @@ function useAlpha(color, alpha) {
     return Color(color).alpha(alpha).string();
   }, [color, alpha]);
 }
+
+var css_248z$9 = ".ui-icon,.ui-icon__svg{position:relative}.ui-icon__svg{z-index:2}.ui-icon__blob{position:absolute;border-radius:50%;visibility:hidden;z-index:1;width:calc(100% + 12px);height:calc(100% + 12px);top:-6px;left:-6px}.ui-icon--hover{cursor:pointer}.ui-icon--hover:hover>.ui-icon__blob{visibility:visible}.ui-icon__touch-target{position:absolute;height:48px;width:48px;top:calc(50% - 24px);left:calc(50% - 24px)}.ui-icon--disabled{opacity:.4;pointer-events:none}";
+styleInject(css_248z$9);
 
 /**
  * Icon which takes an svg path and renders.
@@ -520,6 +576,9 @@ var Icon = function Icon(_ref) {
   }));
 };
 
+var css_248z$a = ".ui-checkbox{display:flex;align-items:center}.ui-checkbox__inner{position:relative;width:20px;height:20px;min-width:20px;border-radius:3px;border:2px solid #646464;cursor:pointer}.ui-checkbox__icon{position:absolute;top:0;left:0}.ui-checkbox__label{flex-grow:1}.ui-checkbox--margin{margin-bottom:20px}";
+styleInject(css_248z$a);
+
 /**
  * Chackbox component for boolean values.
  */
@@ -564,6 +623,9 @@ var Checkbox = function Checkbox(_ref) {
   }, children));
 };
 
+var css_248z$b = ".ui-content{display:block;padding:20px}";
+styleInject(css_248z$b);
+
 /**
  * Content component with default padding.
  */
@@ -579,6 +641,9 @@ var Content = function Content(_ref) {
     style: style
   }, children);
 };
+
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2}.ui-dialog__backdrop{z-index:1}.ui-backdrop--visible{pointer-events:all}.ui-dialog__scroller{position:relative;overflow:auto;max-height:100vh;z-index:2;padding:40px;width:100%}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+styleInject(css_248z$c);
 
 /**
  * Dialog component for displaying related but long form actions.
@@ -610,6 +675,9 @@ var Dialog = function Dialog(_ref) {
   }, render && children()))));
 };
 
+var css_248z$d = ".ui-divider{display:block;height:1px;width:100%;margin:8px 0;background-color:rgba(0,0,0,.1)}.ui-divider--compact{margin:0}";
+styleInject(css_248z$d);
+
 /**
  * Simple devider component.
  */
@@ -628,6 +696,9 @@ var Divider = function Divider(_ref) {
     style: style
   }, children);
 };
+
+var css_248z$e = ".ui-drawer{height:100vh;background-color:#fff;position:fixed;top:0;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);z-index:1;overflow:auto;transition:transform .4s;pointer-events:all}";
+styleInject(css_248z$e);
 
 /**
  * App drawer component.
@@ -700,6 +771,9 @@ function fileAccepted(file, accept) {
 
   return false;
 }
+
+var css_248z$f = ".ui-dropzone{position:relative}.ui-dropzone__hover-container{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#fff;padding:40px;z-index:100;border-radius:8px}.ui-dropzone__hover-content{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%;height:100%;border:4px dashed #afafaf;pointer-events:none}.ui-dropzone__hover-text{color:#969696;margin-top:4px}";
+styleInject(css_248z$f);
 
 /**
  * A dropzone component for dropping files into the UI
@@ -788,6 +862,9 @@ var DropFiles = function DropFiles(_ref) {
   }, "Drop files here"))));
 };
 
+var css_248z$g = ".ui-fab{position:fixed;bottom:20px;right:20px;z-index:999996;height:56px;min-width:56px;display:flex;align-items:center;justify-content:center;border-radius:28px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);cursor:pointer;transition:transform .2s,opacity .2s;padding:0 16px}.ui-fab__text{white-space:nowrap;margin:0 4px 0 12px;font-family:Roboto,sans-serif;transition:margin .2s,width .2s,opacity .2s .1s;width:auto}.ui-fab__text--hidden{width:0;opacity:0;margin:0;transition:margin .2s,width .2s,opacity 0s}.ui-fab:active,.ui-fab:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23)}.ui-fab--hidden{transform:scale(0);opacity:0;pointer-events:none}";
+styleInject(css_248z$g);
+
 /**
  * Floating action button (FAB)
  */
@@ -864,10 +941,14 @@ function error(code, message) {
 /**
  * Checks if an email is valid
  */
-
 function isEmail(email) {
-  return isemail.validate(email);
+  // from [https://emailregex.com/](https://emailregex.com/)
+  var regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+  return regex.test(email);
 }
+
+var css_248z$h = "@-webkit-keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}.ui-input{position:relative;padding-bottom:20px}.ui-input__container{display:flex;position:relative;border:1px solid #afafaf;border-radius:3px;font-family:Roboto,sans-serif;min-height:36px;z-index:1}.ui-input__display{border-radius:3px;background-color:transparent!important;font-size:16px;padding:8px 12px;min-height:36px;border:none;outline:none;z-index:2;font-family:inherit;resize:none;width:100%}.ui-input__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-input__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-input__label--float{font-size:10px;top:-6px}.ui-input__error-text{position:absolute;left:12px;bottom:4px;font-size:10px;color:tomato;-webkit-animation:error__in .2s;animation:error__in .2s}.ui-input--margin{margin-bottom:20px}.ui-input--disabled{pointer-events:none}.ui-input--disabled .ui-input__display{border:1px dashed #afafaf}";
+styleInject(css_248z$h);
 
 var InputBase = function InputBase(_ref) {
   var id = _ref.id,
@@ -878,7 +959,6 @@ var InputBase = function InputBase(_ref) {
       label = _ref.label,
       required = _ref.required,
       color = _ref.color,
-      errorColor = _ref.errorColor,
       disabled = _ref.disabled,
       spellcheck = _ref.spellcheck,
       validate = _ref.validate,
@@ -925,7 +1005,7 @@ var InputBase = function InputBase(_ref) {
     }
 
     if (error) {
-      return errorColor;
+      return '#ff6347';
     }
 
     if (focus) {
@@ -933,9 +1013,12 @@ var InputBase = function InputBase(_ref) {
     }
 
     return undefined;
-  }, [disabled, error, focus, color, errorColor]);
+  }, [disabled, error, focus, color]);
   return React__default.createElement("div", {
-    className: "ui-input__container"
+    id: id,
+    className: merge('ui-input', {
+      'ui-input--disabled': disabled
+    }, className)
   }, label && React__default.createElement("p", {
     style: {
       color: highlight
@@ -944,10 +1027,7 @@ var InputBase = function InputBase(_ref) {
       'ui-input__label--float': focus || hasValue
     })
   }, label, required && '*'), React__default.createElement("div", {
-    id: id,
-    className: merge('ui-input', {
-      'ui-input--disabled': disabled
-    }, className),
+    className: "ui-input__container",
     style: _extends({
       border: highlight ? "1px solid " + highlight : undefined
     }, style)
@@ -960,9 +1040,6 @@ var InputBase = function InputBase(_ref) {
     onFocus: _onFocus,
     onBlur: _onBlur
   }), children), error && !disabled && React__default.createElement("p", {
-    style: {
-      color: errorColor
-    },
     className: "ui-input__error-text"
   }, error.message));
 };
@@ -1029,6 +1106,9 @@ var InputPassword = function InputPassword(_ref) {
   }, props));
 };
 
+var css_248z$i = ".ui-input-number__units{padding-right:12px;color:#969696}.ui-input-number__controls{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 9px;border-left:1px solid #afafaf;overflow:hidden}";
+styleInject(css_248z$i);
+
 var InputNumber = function InputNumber(_ref) {
   var value = _ref.value,
       required = _ref.required,
@@ -1040,10 +1120,18 @@ var InputNumber = function InputNumber(_ref) {
       props = _objectWithoutPropertiesLoose(_ref, ["value", "required", "step", "precision", "units", "onChange", "onBlur"]);
 
   var toValue = React.useCallback(function (value) {
-    return parseFloat(value);
+    if (value === undefined || value === '') {
+      return undefined;
+    } else {
+      return parseFloat(value);
+    }
   }, []);
   var toPrecision = React.useCallback(function (value) {
-    return new Big(value).toFixed(precision);
+    if (value === undefined || value === '') {
+      return '';
+    } else {
+      return new Big(value).toFixed(precision);
+    }
   }, [precision]);
 
   var _useState = React.useState(toPrecision(value)),
@@ -1054,6 +1142,10 @@ var InputNumber = function InputNumber(_ref) {
     return setDisplay(toPrecision(value));
   }, [value, toPrecision]);
   var validate = React.useCallback(function (display) {
+    if (!required && display === '') {
+      return null;
+    }
+
     if (required && display === '') {
       return error('@ui/input-required', 'Required');
     }
@@ -1084,16 +1176,20 @@ var InputNumber = function InputNumber(_ref) {
   }, [onBlur, toPrecision, toValue, display, value]);
 
   var onIncrease = React.useCallback(function () {
-    var val = new Big(value).plus(step).toFixed(precision);
-    var parsed = parseFloat(val);
-    setDisplay(val);
-    onChange(parsed);
+    if (value !== undefined) {
+      var val = new Big(value).plus(step).toFixed(precision);
+      var parsed = parseFloat(val);
+      setDisplay(val);
+      onChange(parsed);
+    }
   }, [step, value, display, error, precision, onChange]);
   var onDecrease = React.useCallback(function () {
-    var val = new Big(value).minus(step).toFixed(precision);
-    var parsed = parseFloat(val);
-    setDisplay(val);
-    onChange(parsed);
+    if (value !== undefined) {
+      var val = new Big(value).minus(step).toFixed(precision);
+      var parsed = parseFloat(val);
+      setDisplay(val);
+      onChange(parsed);
+    }
   }, [step, value, display, error, precision, onChange]);
   return React__default.createElement(InputBase, Object.assign({
     display: display,
@@ -1140,6 +1236,9 @@ var Input = function Input(props) {
   }
 };
 
+var css_248z$j = ".ui-list-item{display:flex;align-items:center;justify-content:space-between;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:12px 20px;cursor:pointer}.ui-list-item--hover:hover{background-color:rgba(0,0,0,.1)}.ui-list-item--disabled{opacity:.4;pointer-events:none}";
+styleInject(css_248z$j);
+
 /**
  * List Item with default hover styles if onClick present.
  */
@@ -1171,6 +1270,9 @@ var Option = function Option(_ref) {
   return React__default.createElement(React.Fragment, null, children);
 };
 
+var css_248z$k = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
+styleInject(css_248z$k);
+
 /**
  * Progress component. Can be indeterminate or determinate to show working state or progres.
  */
@@ -1201,6 +1303,9 @@ var Progress = function Progress(_ref) {
   }));
 };
 
+var css_248z$l = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
+styleInject(css_248z$l);
+
 /**
  * Section component.
  */
@@ -1222,6 +1327,9 @@ var Section = function Section(_ref) {
     }
   }, children));
 };
+
+var css_248z$m = ".ui-select{display:block;width:100%;position:relative}.ui-select__input{display:flex;align-items:center;width:100%;border:1px solid #afafaf;border-radius:3px;min-height:38px;padding-right:12px;cursor:pointer}.ui-select__display{margin:0;flex-grow:1;padding:0 12px}.ui-select__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-select__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-select__label--float{font-size:10px;top:-5px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;max-height:140px;overflow:auto;padding:8px 0}.ui-select__card,.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}.ui-select--margin{margin-bottom:20px}.ui-select--disabled{pointer-events:none}.ui-select--disabled .ui-select__input{border:1px dashed #afafaf}";
+styleInject(css_248z$m);
 
 /**
  * Select component to be used with the Option component.
@@ -1280,7 +1388,7 @@ var Select = function Select(_ref) {
     style: {
       color: focus ? color : undefined
     },
-    className: "ui-input__label ui-input__label--float"
+    className: "ui-select__label ui-select__label--float"
   }, label, "*"), React__default.createElement("div", {
     style: {
       borderColor: focus ? color : undefined
@@ -1308,6 +1416,9 @@ var Select = function Select(_ref) {
   })));
 };
 
+var css_248z$n = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
+styleInject(css_248z$n);
+
 /**
  * Google tasks style subheader component. Small, bold and capitalized.
  */
@@ -1323,6 +1434,9 @@ var Subheader = function Subheader(_ref) {
     style: style
   }, children);
 };
+
+var css_248z$o = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
+styleInject(css_248z$o);
 
 /**
  * Switch component.
@@ -1369,6 +1483,9 @@ var Tab = function Tab(_ref) {
   var children = _ref.children;
   return React__default.createElement(React.Fragment, null, children);
 };
+
+var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:6px;height:36px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer}";
+styleInject(css_248z$p);
 
 /**
  * Tab component to be used inside the Tabs component;
@@ -1450,6 +1567,9 @@ var Tabs = function Tabs(_ref) {
     }, bar)
   }));
 };
+
+var css_248z$q = ".ui-textarea__display{top:1px;left:1px;width:calc(100% - 2px);height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden}";
+styleInject(css_248z$q);
 
 /**
  * Auto expanding textarea component.
@@ -1545,6 +1665,9 @@ var Textarea = function Textarea(_ref) {
   }, error));
 };
 
+var css_248z$r = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:10000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
+styleInject(css_248z$r);
+
 /**
  * Internal component used by the Toast component.
  */
@@ -1618,6 +1741,9 @@ var Toast = function Toast(_ref) {
   }));
 };
 
+var css_248z$s = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
+styleInject(css_248z$s);
+
 /**
  * Basic animation in for elements.
  */
@@ -1660,6 +1786,9 @@ function useStyles() {
     };
   }, [args]);
 }
+
+var css_248z$t = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
+styleInject(css_248z$t);
 
 var MarkdownContent = function MarkdownContent(_ref) {
   var className = _ref.className,

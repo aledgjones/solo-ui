@@ -6,7 +6,6 @@ interface InputBaseProps {
     style?: CSSProperties;
     type: string;
     color: string;
-    errorColor: string;
     label: string;
     required?: boolean;
     disabled?: boolean;

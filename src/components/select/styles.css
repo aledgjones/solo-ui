@@ -21,6 +21,36 @@
     padding: 0 12px;
 }
 
+.ui-select__label {
+    position: absolute;
+    background-color: transparent;
+    z-index: 2;
+    font-size: 16px;
+    top: 9px;
+    left: 8px;
+    color: rgb(150, 150, 150);
+    padding: 0 4px;
+    margin: 0;
+    transition: top .2s, font-size .2s;
+    pointer-events: none;
+}
+
+.ui-select__label:before {
+    content: '';
+    height: calc(50% + 1px);
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: -1;
+}
+
+.ui-select__label--float {
+    font-size: 10px;
+    top: -5px;
+}
+
 .ui-select__card {
     position: absolute;
     top: 100%;

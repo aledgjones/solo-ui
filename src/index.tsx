@@ -1,4 +1,5 @@
 import 'app-reset/app-reset.css';
+import 'highlight.js/styles/vs2015.css';
 import './index.css';
 
 export { Appbar } from './components/appbar';

@@ -11,10 +11,7 @@ module.exports = {
                     cssnano({
                         preset: 'default',
                     }),
-                ],
-                inject: false,
-                // only write out CSS for the first bundle (avoids pointless extra files):
-                extract: !!options.writeMeta,
+                ]
             })
         );
         return config;

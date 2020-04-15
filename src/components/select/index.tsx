@@ -58,7 +58,7 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
         ref={element}
     >
 
-        {label && <p style={{ color: focus ? color : undefined }} className="ui-input__label ui-input__label--float">{label}*</p>}
+        {label && <p style={{ color: focus ? color : undefined }} className="ui-select__label ui-select__label--float">{label}*</p>}
 
         <div style={{ borderColor: focus ? color : undefined }} className="ui-select__input">
             <p className="ui-select__display">{display}</p>

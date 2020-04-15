@@ -1,8 +1,8 @@
 import React, { FC, useCallback } from 'react';
 
 import { error } from '../../utils/error';
-import { InputBase } from './input-base';
-import { TextInputProps } from './defs';
+import { InputBase } from '../input-base';
+import { TextInputProps } from '../input-base/defs';
 
 export const InputText: FC<TextInputProps> = ({ value, required, ...props }) => {
 

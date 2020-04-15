@@ -7,7 +7,6 @@ import { useAlpha } from '../../hooks/use-alpha';
 import { useStyles } from '../../hooks/use-styles';
 import { merge } from '../../utils/merge';
 
-import 'highlight.js/styles/vs2015.css';
 import './styles.css';
 
 interface Props {

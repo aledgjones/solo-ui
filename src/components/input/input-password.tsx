@@ -1,8 +1,8 @@
 import React, { FC, useCallback } from 'react';
 
 import { error } from '../../utils/error';
-import { InputBase } from './input-base';
-import { PasswordInputProps } from './defs';
+import { InputBase } from '../input-base';
+import { PasswordInputProps } from '../input-base/defs';
 
 export const InputPassword: FC<PasswordInputProps> = ({ value, required, ...props }) => {
 

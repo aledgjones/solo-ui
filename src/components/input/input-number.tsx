@@ -4,21 +4,39 @@ import Big from 'big.js';
 
 import { error } from '../../utils/error';
 import { Icon } from '../icon';
-import { InputBase } from './input-base';
-import { NumberInputProps } from './defs';
+import { InputBase } from '../input-base';
+import { NumberInputProps } from '../input-base/defs';
 
 import './input-number.css';
 
 export const InputNumber: FC<NumberInputProps> = ({ value, required, step, precision, units, onChange, onBlur, ...props }) => {
 
-    const toValue = useCallback((value: string) => parseFloat(value), []);
-    const toPrecision = useCallback((value: any) => new Big(value).toFixed(precision), [precision]);
+    const toValue = useCallback((value: string | undefined) => {
+        if (value === undefined || value === '') {
+            return undefined;
+        } else {
+            return parseFloat(value);
+        }
+    }, []);
+
+    const toPrecision = useCallback((value: number | string | undefined) => {
+        if (value === undefined || value === '') {
+            return '';
+        } else {
+            return new Big(value).toFixed(precision);
+        }
+    }, [precision]);
 
     const [display, setDisplay] = useState<string>(toPrecision(value));
 
     useEffect(() => setDisplay(toPrecision(value)), [value, toPrecision]);
 
     const validate = useCallback((display: string) => {
+
+        if(!required && display === '') {
+            return null;
+        }
+
         if (required && display === '') {
             return error('@ui/input-required', 'Required');
         }
@@ -51,19 +69,23 @@ export const InputNumber: FC<NumberInputProps> = ({ value, required, step, preci
 
     const onIncrease = useCallback(() => {
 
-        const val = new Big(value).plus(step).toFixed(precision);
-        const parsed = parseFloat(val);
-        setDisplay(val);
-        onChange(parsed);
+        if (value !== undefined) {
+            const val = new Big(value).plus(step).toFixed(precision);
+            const parsed = parseFloat(val);
+            setDisplay(val);
+            onChange(parsed);
+        }
 
     }, [step, value, display, error, precision, onChange]);
 
     const onDecrease = useCallback(() => {
 
-        const val = new Big(value).minus(step).toFixed(precision);
-        const parsed = parseFloat(val);
-        setDisplay(val);
-        onChange(parsed);
+        if (value !== undefined) {
+            const val = new Big(value).minus(step).toFixed(precision);
+            const parsed = parseFloat(val);
+            setDisplay(val);
+            onChange(parsed);
+        }
 
     }, [step, value, display, error, precision, onChange]);
 

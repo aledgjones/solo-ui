@@ -4,7 +4,7 @@ import { mdiAlertBox } from '@mdi/js';
 import { merge } from '../../utils/merge';
 import { Icon } from '../icon';
 
-import '../input/styles.css';
+import '../input-base/styles.css';
 import './styles.css';
 
 interface Props {

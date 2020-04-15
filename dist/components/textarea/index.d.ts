@@ -1,5 +1,5 @@
 import { CSSProperties, FC } from 'react';
-import '../input/styles.css';
+import '../input-base/styles.css';
 import './styles.css';
 interface Props {
     id?: string;

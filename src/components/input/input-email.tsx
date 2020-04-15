@@ -2,8 +2,8 @@ import React, { FC, useCallback } from 'react';
 
 import { error } from '../../utils/error';
 import { isEmail } from '../../utils/is-email';
-import { InputBase } from './input-base';
-import { EmailInputProps } from './defs';
+import { InputBase } from '../input-base';
+import { EmailInputProps } from '../input-base/defs';
 
 export const InputEmail: FC<EmailInputProps> = ({ value, required, ...props }) => {
 

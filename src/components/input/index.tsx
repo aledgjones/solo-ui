@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { InputProps } from './defs';
+import { InputProps } from '../input-base/defs';
 
 import { InputEmail } from './input-email';
 import { InputText } from './input-text';

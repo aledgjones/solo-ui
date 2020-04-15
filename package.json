@@ -20,11 +20,6 @@
   "peerDependencies": {
     "react": ">=16"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -60,7 +55,6 @@
     "app-reset": "^1.0.2",
     "big.js": "^5.2.2",
     "color": "^3.1.2",
-    "isemail": "^3.2.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isnumber": "^3.0.3",
     "lodash.isobject": "^3.0.2",
