@@ -6,7 +6,7 @@ import isObject from 'lodash.isobject';
 import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
-import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown, mdiAlertBox } from '@mdi/js';
+import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
@@ -940,7 +940,7 @@ function isEmail(email) {
   return regex.test(email);
 }
 
-var css_248z$h = "@-webkit-keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}.ui-input{position:relative;padding-bottom:20px}.ui-input__container{display:flex;position:relative;border:1px solid #afafaf;border-radius:3px;font-family:Roboto,sans-serif;min-height:36px;z-index:1}.ui-input__display{border-radius:3px;background-color:transparent!important;font-size:16px;padding:8px 12px;min-height:36px;border:none;outline:none;z-index:2;font-family:inherit;resize:none;width:100%}.ui-input__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-input__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-input__label--float{font-size:10px;top:-6px}.ui-input__error-text{position:absolute;left:12px;bottom:4px;font-size:10px;color:tomato;-webkit-animation:error__in .2s;animation:error__in .2s}.ui-input--margin{margin-bottom:20px}.ui-input--disabled{pointer-events:none}.ui-input--disabled .ui-input__display{border:1px dashed #afafaf}";
+var css_248z$h = "@-webkit-keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}.ui-input{position:relative;padding-bottom:20px}.ui-input__container{display:flex;align-items:center;position:relative;border:1px solid #afafaf;border-radius:3px;font-family:Roboto,sans-serif;min-height:36px;z-index:1}.ui-input__display{background-color:transparent!important;font-size:16px;padding:8px 12px;min-height:36px;border:none;outline:none;z-index:2;font-family:inherit;resize:none;flex-grow:1}.ui-input__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-input__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-input__label--float{font-size:10px;top:-6px}.ui-input__error-text{position:absolute;left:12px;bottom:4px;font-size:10px;color:tomato;-webkit-animation:error__in .2s;animation:error__in .2s}.ui-input--margin{margin-bottom:20px}.ui-input--disabled{pointer-events:none}.ui-input--disabled .ui-input__display{border:1px dashed #afafaf}";
 styleInject(css_248z$h);
 
 var InputBase = function InputBase(_ref) {
@@ -1159,9 +1159,7 @@ var InputNumber = function InputNumber(_ref) {
       var parsed = toValue(val);
       setDisplay(val);
       onChange(parsed);
-    } catch (e) {
-      setDisplay(toPrecision(value));
-    }
+    } catch (e) {}
 
     if (onBlur) {
       onBlur();
@@ -1321,7 +1319,7 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$m = ".ui-select{display:block;width:100%;position:relative}.ui-select__input{display:flex;align-items:center;width:100%;border:1px solid #afafaf;border-radius:3px;min-height:38px;padding-right:12px;cursor:pointer}.ui-select__display{margin:0;flex-grow:1;padding:0 12px}.ui-select__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-select__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-select__label--float{font-size:10px;top:-5px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;max-height:140px;overflow:auto;padding:8px 0}.ui-select__card,.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}.ui-select--margin{margin-bottom:20px}.ui-select--disabled{pointer-events:none}.ui-select--disabled .ui-select__input{border:1px dashed #afafaf}";
+var css_248z$m = ".ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:calc(100% - 20px);left:0;width:100%;transform:translateZ(0);z-index:10;max-height:140px;overflow:auto;padding:8px 0}.ui-select__card,.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
 styleInject(css_248z$m);
 
 /**
@@ -1370,10 +1368,21 @@ var Select = function Select(_ref) {
       return document.removeEventListener('click', cb);
     };
   }, [element]);
+  var highlight = useMemo(function () {
+    if (disabled) {
+      return undefined;
+    }
+
+    if (focus) {
+      return color;
+    }
+
+    return undefined;
+  }, [disabled, focus, color]);
   return React.createElement("div", {
     id: id,
-    className: merge('ui-select', {
-      'ui-select--disabled': disabled
+    className: merge('ui-select', 'ui-input', {
+      'ui-input--disabled': disabled
     }, className),
     style: style,
     ref: element
@@ -1381,15 +1390,16 @@ var Select = function Select(_ref) {
     style: {
       color: focus ? color : undefined
     },
-    className: "ui-select__label ui-select__label--float"
+    className: "ui-input__label ui-input__label--float"
   }, label, "*"), React.createElement("div", {
-    style: {
-      borderColor: focus ? color : undefined
-    },
-    className: "ui-select__input"
+    className: "ui-select__container ui-input__container",
+    style: _extends({
+      border: highlight ? "1px solid " + highlight : undefined
+    }, style)
   }, React.createElement("p", {
-    className: "ui-select__display"
+    className: "ui-input__display"
   }, display), React.createElement(Icon, {
+    className: "ui-select__icon",
     style: {
       transform: focus ? 'rotateZ(180deg)' : undefined
     },
@@ -1561,7 +1571,7 @@ var Tabs = function Tabs(_ref) {
   }));
 };
 
-var css_248z$q = ".ui-textarea__display{top:1px;left:1px;width:calc(100% - 2px);height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden}";
+var css_248z$q = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
 styleInject(css_248z$q);
 
 /**
@@ -1576,7 +1586,6 @@ var Textarea = function Textarea(_ref) {
       label = _ref.label,
       required = _ref.required,
       color = _ref.color,
-      errorColor = _ref.errorColor,
       disabled = _ref.disabled,
       spellcheck = _ref.spellcheck,
       _onChange = _ref.onChange;
@@ -1600,7 +1609,7 @@ var Textarea = function Textarea(_ref) {
   var hasValue = value !== undefined && value !== null && value !== '';
   var highlight = useMemo(function () {
     if (error) {
-      return errorColor;
+      return '#ff6347';
     }
 
     if (focus) {
@@ -1608,9 +1617,12 @@ var Textarea = function Textarea(_ref) {
     }
 
     return undefined;
-  }, [error, focus, color, errorColor]);
+  }, [error, focus, color]);
   return React.createElement("div", {
-    className: "ui-input__container"
+    id: id,
+    className: merge('ui-textarea', 'ui-input', {
+      'ui-input--disabled': disabled
+    }, className)
   }, label && React.createElement("p", {
     style: {
       color: highlight
@@ -1619,10 +1631,7 @@ var Textarea = function Textarea(_ref) {
       'ui-input__label--float': focus || hasValue
     })
   }, label, required && '*'), React.createElement("div", {
-    id: id,
-    className: merge('ui-input', {
-      'ui-input--disabled': disabled
-    }, className),
+    className: "ui-input__container ui-textarea__container",
     style: _extends({
       border: highlight ? "1px solid " + highlight : undefined
     }, style)
@@ -1642,18 +1651,7 @@ var Textarea = function Textarea(_ref) {
     }
   }), React.createElement("div", {
     className: "ui-input__display ui-textarea__slave"
-  }, value, '\n'), error && React.createElement(Icon, {
-    className: "ui-input__error-icon",
-    style: {
-      marginRight: 8
-    },
-    path: mdiAlertBox,
-    color: errorColor,
-    size: 24
-  })), error && React.createElement("p", {
-    style: {
-      color: errorColor
-    },
+  }, value, '\n')), error && React.createElement("p", {
     className: "ui-input__error-text"
   }, error));
 };

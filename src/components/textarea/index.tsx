@@ -1,8 +1,6 @@
 import React, { CSSProperties, FC, useState, useMemo, useCallback } from 'react';
-import { mdiAlertBox } from '@mdi/js';
 
 import { merge } from '../../utils/merge';
-import { Icon } from '../icon';
 
 import '../input-base/styles.css';
 import './styles.css';
@@ -12,7 +10,6 @@ interface Props {
     className?: string;
     style?: CSSProperties;
     color: string;
-    errorColor: string;
 
     value: any;
     label?: string;
@@ -26,7 +23,7 @@ interface Props {
 /**
  * Auto expanding textarea component.
  */
-export const Textarea: FC<Props> = ({ id, className, style, value, label, required, color, errorColor, disabled, spellcheck, onChange }) => {
+export const Textarea: FC<Props> = ({ id, className, style, value, label, required, color, disabled, spellcheck, onChange }) => {
 
     const validate = useCallback((value: string) => {
         if (required && value === '') {
@@ -43,19 +40,21 @@ export const Textarea: FC<Props> = ({ id, className, style, value, label, requir
 
     const highlight = useMemo(() => {
         if (error) {
-            return errorColor
+            return '#ff6347'
         };
         if (focus) {
             return color;
         }
         return undefined;
-    }, [error, focus, color, errorColor])
+    }, [error, focus, color])
 
-    return <div className="ui-input__container">
+    return <div
+        id={id}
+        className={merge('ui-textarea', 'ui-input', { 'ui-input--disabled': disabled }, className)}
+    >
         {label && <p style={{ color: highlight }} className={merge("ui-input__label", { 'ui-input__label--float': focus || hasValue })}>{label}{required && '*'}</p>}
         <div
-            id={id}
-            className={merge('ui-input', { 'ui-input--disabled': disabled }, className)}
+            className="ui-input__container ui-textarea__container"
             style={{ border: highlight ? `1px solid ${highlight}` : undefined, ...style }}
         >
             <textarea
@@ -70,8 +69,7 @@ export const Textarea: FC<Props> = ({ id, className, style, value, label, requir
                 }}
             />
             <div className="ui-input__display ui-textarea__slave">{value}{'\n'}</div>
-            {error && <Icon className="ui-input__error-icon" style={{ marginRight: 8 }} path={mdiAlertBox} color={errorColor} size={24} />}
         </div>
-        {error && <p style={{ color: errorColor }} className="ui-input__error-text">{error}</p>}
+        {error && <p className="ui-input__error-text">{error}</p>}
     </div>;
 }

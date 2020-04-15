@@ -1,59 +1,14 @@
-.ui-select {
-    display: block;
-    width: 100%;
-    position: relative;
-}
-
-.ui-select__input {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border: 1px solid rgb(175, 175, 175);
-    border-radius: 3px;
-    min-height: 38px;
-    padding-right: 12px;
+.ui-select__container {
     cursor: pointer;
 }
 
-.ui-select__display {
-    margin: 0;
-    flex-grow: 1;
-    padding: 0 12px;
-}
-
-.ui-select__label {
-    position: absolute;
-    background-color: transparent;
-    z-index: 2;
-    font-size: 16px;
-    top: 9px;
-    left: 8px;
-    color: rgb(150, 150, 150);
-    padding: 0 4px;
-    margin: 0;
-    transition: top .2s, font-size .2s;
-    pointer-events: none;
-}
-
-.ui-select__label:before {
-    content: '';
-    height: calc(50% + 1px);
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background-color: white;
-    z-index: -1;
-}
-
-.ui-select__label--float {
-    font-size: 10px;
-    top: -5px;
+.ui-select__icon {
+    margin-right: 12px;
 }
 
 .ui-select__card {
     position: absolute;
-    top: 100%;
+    top: calc(100% - 20px);
     left: 0;
     width: 100%;
     transform: translateZ(0);
@@ -76,16 +31,4 @@
 
 .ui-select__item:hover {
     background-color: rgba(0, 0, 0, .1);
-}
-
-.ui-select--margin {
-    margin-bottom: 20px;
-}
-
-.ui-select--disabled {
-    pointer-events: none;
-}
-
-.ui-select--disabled .ui-select__input {
-    border: 1px dashed rgb(175,175,175);
 }

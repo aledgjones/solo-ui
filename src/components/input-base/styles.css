@@ -16,6 +16,7 @@
 
 .ui-input__container {
     display: flex;
+    align-items: center;
     position: relative;
     border: 1px solid rgb(175, 175, 175);
     border-radius: 3px;
@@ -25,7 +26,6 @@
 }
 
 .ui-input__display {
-    border-radius: 3px;
     background-color: transparent !important;
     font-size: 16px;
     padding: 8px 12px;
@@ -35,7 +35,7 @@
     z-index: 2;
     font-family: inherit;
     resize: none;
-    width: 100%;
+    flex-grow: 1;
 }
 
 .ui-input__label {

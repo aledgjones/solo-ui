@@ -5,6 +5,7 @@ import { merge } from '../../utils/merge';
 import { Icon } from '../icon';
 import { Card } from '../card';
 
+import '../input-base/styles.css';
 import './styles.css';
 
 interface Props {
@@ -51,18 +52,31 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
         return () => document.removeEventListener('click', cb);
     }, [element]);
 
+    const highlight = useMemo(() => {
+        if (disabled) {
+            return undefined;
+        }
+        if (focus) {
+            return color;
+        }
+        return undefined;
+    }, [disabled, focus, color]);
+
     return <div
         id={id}
-        className={merge('ui-select', { 'ui-select--disabled': disabled }, className)}
+        className={merge('ui-select', 'ui-input', { 'ui-input--disabled': disabled }, className)}
         style={style}
         ref={element}
     >
 
-        {label && <p style={{ color: focus ? color : undefined }} className="ui-select__label ui-select__label--float">{label}*</p>}
+        {label && <p style={{ color: focus ? color : undefined }} className="ui-input__label ui-input__label--float">{label}*</p>}
 
-        <div style={{ borderColor: focus ? color : undefined }} className="ui-select__input">
-            <p className="ui-select__display">{display}</p>
-            <Icon style={{ transform: focus ? 'rotateZ(180deg)' : undefined }} size={24} color="#777777" path={mdiChevronDown} />
+        <div
+            className="ui-select__container ui-input__container"
+            style={{ border: highlight ? `1px solid ${highlight}` : undefined, ...style }}
+        >
+            <p className="ui-input__display">{display}</p>
+            <Icon className="ui-select__icon" style={{ transform: focus ? 'rotateZ(180deg)' : undefined }} size={24} color="#777777" path={mdiChevronDown} />
         </div>
 
         {focus && <Card className="ui-select__card">

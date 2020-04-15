@@ -18,6 +18,7 @@ interface InputBaseProps {
 export interface InternalInputBaseProps extends InputBaseProps {
     display: string;
     spellcheck: boolean;
+    readonly: boolean;
     validate: (value: string) => Error | null;
 }
 

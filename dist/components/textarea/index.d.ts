@@ -6,7 +6,6 @@ interface Props {
     className?: string;
     style?: CSSProperties;
     color: string;
-    errorColor: string;
     value: any;
     label?: string;
     required?: boolean;

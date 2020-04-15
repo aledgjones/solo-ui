@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 
 import { InputProps } from '../input-base/defs';
 
-import { InputEmail } from './input-email';
-import { InputText } from './input-text';
-import { InputPassword } from './input-password';
-import { InputNumber } from './input-number';
+import { InputEmail } from '../input-email';
+import { InputText } from '../input-text';
+import { InputPassword } from '../input-password';
+import { InputNumber } from '../input-number';
 
 /**
  * Input element with types: 'email' | 'password' | 'text' | 'number'.
