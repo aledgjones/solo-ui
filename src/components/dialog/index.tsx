@@ -35,6 +35,6 @@ export const Dialog: FC<Props> = ({ id, className, style, width, open, children 
                 {render && children()}
             </Card>
         </div>
-    </Portal >;
+    </Portal >
 
 }
