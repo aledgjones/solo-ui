@@ -12,6 +12,7 @@
 .ui-input {
     position: relative;
     padding-bottom: 20px;
+    display: block;
 }
 
 .ui-input__container {
