@@ -642,7 +642,7 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2}.ui-dialog__backdrop{z-index:1}.ui-backdrop--visible{pointer-events:all}.ui-dialog__scroller{position:relative;overflow:auto;max-height:100vh;z-index:2;padding:40px;width:100%}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2}.ui-dialog__backdrop{z-index:1}.ui-dialog__scroller{position:relative;overflow:auto;max-height:100vh;z-index:2;padding:40px;width:100%}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
 styleInject(css_248z$c);
 
 /**
@@ -697,7 +697,7 @@ var Divider = function Divider(_ref) {
   }, children);
 };
 
-var css_248z$e = ".ui-drawer{height:100vh;background-color:#fff;position:fixed;top:0;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);z-index:1;overflow:auto;transition:transform .4s;pointer-events:all}";
+var css_248z$e = ".ui-drawer{height:100vh;background-color:#fff;position:fixed;top:0;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);z-index:1;overflow:auto;transition:transform .4s;pointer-events:all;width:calc(100vw - 40px)}";
 styleInject(css_248z$e);
 
 /**
@@ -720,9 +720,8 @@ var Drawer = function Drawer(_ref) {
     id: id,
     className: merge('ui-drawer', className),
     style: _extends({
-      width: width,
-      left: -width,
-      transform: "translate3d(" + (open ? width : 0) + "px, 0, 0)"
+      maxWidth: width,
+      transform: "translate3d(" + (open ? 0 : '-100%') + ", 0, 0)"
     }, style)
   }, render && children()));
 };
@@ -957,6 +956,7 @@ var InputBase = function InputBase(_ref) {
       type = _ref.type,
       display = _ref.display,
       label = _ref.label,
+      margin = _ref.margin,
       required = _ref.required,
       color = _ref.color,
       disabled = _ref.disabled,
@@ -1017,7 +1017,8 @@ var InputBase = function InputBase(_ref) {
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-input', {
-      'ui-input--disabled': disabled
+      'ui-input--disabled': disabled,
+      'ui-input--margin': margin
     }, className)
   }, label && React__default.createElement("p", {
     style: {
@@ -1326,7 +1327,7 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$m = ".ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:calc(100% - 20px);left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .3s,opacity .3s;pointer-events:none}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+var css_248z$m = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
 styleInject(css_248z$m);
 
 /**
@@ -1338,6 +1339,7 @@ var Select = function Select(_ref) {
       className = _ref.className,
       style = _ref.style,
       value = _ref.value,
+      margin = _ref.margin,
       children = _ref.children,
       label = _ref.label,
       onChange = _ref.onChange,
@@ -1390,7 +1392,8 @@ var Select = function Select(_ref) {
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-select', 'ui-input', {
-      'ui-input--disabled': disabled
+      'ui-input--disabled': disabled,
+      'ui-input--margin': margin
     }, className),
     style: style,
     ref: element

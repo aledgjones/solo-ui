@@ -17,6 +17,7 @@ interface Props {
     value: any;
     label: string;
     color: string;
+    margin?: boolean;
     disabled?: boolean;
 
     onChange: (value: any) => void;
@@ -25,7 +26,7 @@ interface Props {
 /**
  * Select component to be used with the Option component.
  */
-export const Select: FC<Props> = ({ id, className, style, value, children, label, onChange, color, disabled }) => {
+export const Select: FC<Props> = ({ id, className, style, value, margin, children, label, onChange, color, disabled }) => {
 
     const [focus, setFocus] = useState<boolean>(false);
     const element = useRef<HTMLDivElement>(null);
@@ -67,7 +68,7 @@ export const Select: FC<Props> = ({ id, className, style, value, children, label
 
     return <div
         id={id}
-        className={merge('ui-select', 'ui-input', { 'ui-input--disabled': disabled }, className)}
+        className={merge('ui-select', 'ui-input', { 'ui-input--disabled': disabled, 'ui-input--margin': margin }, className)}
         style={style}
         ref={element}
     >

@@ -8,4 +8,5 @@
     overflow: auto;
     transition: transform .4s;
     pointer-events: all;
+    width: calc(100vw - 40px);
 }

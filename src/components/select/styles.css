@@ -1,3 +1,7 @@
+.ui-select {
+    padding-bottom: 0;
+}
+
 .ui-select__container {
     cursor: pointer;
 }
@@ -8,7 +12,7 @@
 
 .ui-select__card {
     position: absolute;
-    top: calc(100% - 20px);
+    top: 100%;
     left: 0;
     width: 100%;
     transform: translateZ(0);
@@ -18,7 +22,7 @@
     touch-action: pan-y;
     max-height: 0;
     opacity: 0;
-    transition: max-height .3s, opacity .3s;
+    transition: max-height .2s, opacity .2s;
     pointer-events: none;
 }
 

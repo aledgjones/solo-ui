@@ -33,9 +33,8 @@ export const Drawer: FC<Props> = ({ id, className, style, children, open, width,
             id={id}
             className={merge('ui-drawer', className)}
             style={{
-                width,
-                left: -width,
-                transform: `translate3d(${open ? width : 0}px, 0, 0)`,
+                maxWidth: width,
+                transform: `translate3d(${open ? 0 : '-100%'}, 0, 0)`,
                 ...style
             }}
         >

@@ -241,5 +241,62 @@ img {
   width: 100%;
 }
 
+.bar {
+    background-color: rgb(235, 235, 235);
+}
+
+.bar .start {
+    display: flex;
+    align-items: center;
+}
+
+.bar h1 {
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.box {
+    border: 1px solid rgb(200, 200, 200);
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.box:last-child {
+    margin-bottom: 0;
+}
+
+.description {
+    margin-bottom: 20px;
+}
+
+.type {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.value {
+    border: 1px solid rgb(235, 235, 235);
+}
+
+.value span {
+    display: inline-block;
+    padding: 8px 12px;
+}
+
+.value span:first-child {
+    background-color: rgb(235, 235, 235);
+}
+
+.offset {
+    display: block;
+    position: relative;
+    top: -76px;
+    visibility: hidden;
+}
+
+.ui-drawer .ui-subheader {
+    padding-left: 20px;
+    margin-top: 20px;
+}
 
 /*# sourceMappingURL=/example.f69400ca.css.map */

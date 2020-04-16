@@ -8,6 +8,7 @@ interface Props {
     value: any;
     label: string;
     color: string;
+    margin?: boolean;
     disabled?: boolean;
     onChange: (value: any) => void;
 }

@@ -5,7 +5,7 @@ import { InternalInputBaseProps } from './defs';
 
 import './styles.css';
 
-export const InputBase: FC<InternalInputBaseProps> = ({ id, className, style, type, display, label, required, color, disabled, spellcheck, validate, onChange, onBlur, onFocus, children }) => {
+export const InputBase: FC<InternalInputBaseProps> = ({ id, className, style, type, display, label, margin, required, color, disabled, spellcheck, validate, onChange, onBlur, onFocus, children }) => {
 
     const [focus, setFocus] = useState<boolean>(false);
     const [touched, setTouched] = useState(false);
@@ -45,7 +45,7 @@ export const InputBase: FC<InternalInputBaseProps> = ({ id, className, style, ty
 
     return <div
         id={id}
-        className={merge('ui-input', { 'ui-input--disabled': disabled }, className)}
+        className={merge('ui-input', { 'ui-input--disabled': disabled, 'ui-input--margin': margin }, className)}
     >
         {label && <p style={{ color: highlight }} className={merge("ui-input__label", { 'ui-input__label--float': focus || hasValue })}>{label}{required && '*'}</p>}
         <div
