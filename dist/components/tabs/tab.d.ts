@@ -3,8 +3,7 @@ import './styles.css';
 interface Props {
     value: any;
     selected: boolean;
-    background: string;
-    highlight: string;
+    color: string;
     onChange: (value: any) => void;
     setBar: (value: {
         left: number;

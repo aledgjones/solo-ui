@@ -8,6 +8,7 @@ interface Props {
     size: number;
     color: string;
     disabled?: boolean;
+    toggle?: boolean;
     onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 /**

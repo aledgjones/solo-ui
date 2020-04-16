@@ -7,6 +7,7 @@ import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
+import { useForeground as useForeground$1 } from 'hooks/use-foreground';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
@@ -519,7 +520,7 @@ function useAlpha(color, alpha) {
   }, [color, alpha]);
 }
 
-var css_248z$9 = ".ui-icon,.ui-icon__svg{position:relative}.ui-icon__svg{z-index:2}.ui-icon__blob{position:absolute;border-radius:50%;visibility:hidden;z-index:1;width:calc(100% + 12px);height:calc(100% + 12px);top:-6px;left:-6px}.ui-icon--hover{cursor:pointer}.ui-icon--hover:hover>.ui-icon__blob{visibility:visible}.ui-icon__touch-target{position:absolute;height:48px;width:48px;top:calc(50% - 24px);left:calc(50% - 24px)}.ui-icon--disabled{opacity:.4;pointer-events:none}";
+var css_248z$9 = ".ui-icon,.ui-icon__svg{position:relative}.ui-icon__svg{z-index:2}.ui-icon__blob{position:absolute;border-radius:50%;visibility:hidden;z-index:1;width:calc(100% + 12px);height:calc(100% + 12px);top:-6px;left:-6px}.ui-icon__blob--toggle{border-radius:3px}.ui-icon--hover{cursor:pointer}.ui-icon--hover:hover>.ui-icon__blob{visibility:visible}.ui-icon__touch-target{position:absolute;height:48px;width:48px;top:calc(50% - 24px);left:calc(50% - 24px)}.ui-icon--disabled{opacity:.4;pointer-events:none}";
 styleInject(css_248z$9);
 
 /**
@@ -534,8 +535,10 @@ var Icon = function Icon(_ref) {
       size = _ref.size,
       color = _ref.color,
       disabled = _ref.disabled,
+      toggle = _ref.toggle,
       onClick = _ref.onClick;
-  var bg = useAlpha(color, .1);
+  var bg = useAlpha(color, toggle ? 1 : .1);
+  var fg = useForeground$1(bg);
   return React.createElement("div", {
     id: id,
     className: merge('ui-icon', {
@@ -559,10 +562,12 @@ var Icon = function Icon(_ref) {
   }, React.createElement("path", {
     d: path,
     style: {
-      fill: color
+      fill: toggle ? fg : color
     }
   })), React.createElement("div", {
-    className: "ui-icon__blob",
+    className: merge("ui-icon__blob", {
+      'ui-icon__blob--toggle': toggle
+    }),
     style: {
       backgroundColor: bg
     }
@@ -635,7 +640,7 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:hidden}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
 styleInject(css_248z$c);
 
 /**
@@ -1493,7 +1498,7 @@ var Tab = function Tab(_ref) {
   return React.createElement(Fragment, null, children);
 };
 
-var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:6px;height:36px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer}";
+var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer}";
 styleInject(css_248z$p);
 
 /**
@@ -1504,12 +1509,10 @@ var Tab$1 = function Tab(_ref) {
   var children = _ref.children,
       value = _ref.value,
       selected = _ref.selected,
-      background = _ref.background,
-      highlight = _ref.highlight,
+      color = _ref.color,
       onChange = _ref.onChange,
       setBar = _ref.setBar;
   var ref = useRef(null);
-  var text = useForeground(selected ? highlight || '#000000' : background || '#ffffff');
 
   var _onClick = useCallback(function () {
     if (onChange) {
@@ -1529,7 +1532,7 @@ var Tab$1 = function Tab(_ref) {
     ref: ref,
     className: "ui-tab",
     style: {
-      color: text,
+      color: selected ? color : undefined,
       transition: selected ? 'color .2s .1s' : 'color .2s'
     },
     onClick: _onClick
@@ -1544,8 +1547,7 @@ var Tabs = function Tabs(_ref) {
   var children = _ref.children,
       value = _ref.value,
       onChange = _ref.onChange,
-      background = _ref.background,
-      highlight = _ref.highlight,
+      color = _ref.color,
       className = _ref.className;
 
   var _useState = useState({
@@ -1556,23 +1558,19 @@ var Tabs = function Tabs(_ref) {
       setBar = _useState[1];
 
   return React.createElement("div", {
-    className: merge("ui-tabs", className),
-    style: {
-      backgroundColor: background
-    }
+    className: merge("ui-tabs", className)
   }, Children.map(children, function (child) {
     return React.createElement(Tab$1, {
       value: child.props.value,
       selected: value === child.props.value,
-      background: background,
-      highlight: highlight,
+      color: color,
       onChange: onChange,
       setBar: setBar
     }, child);
   }), React.createElement("div", {
     className: "ui-tabs__bar",
     style: _extends({
-      backgroundColor: highlight
+      backgroundColor: color
     }, bar)
   }));
 };

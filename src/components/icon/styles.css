@@ -18,6 +18,10 @@
     left: -6px;
 }
 
+.ui-icon__blob--toggle {
+    border-radius: 3px;
+}
+
 .ui-icon--hover {
     cursor: pointer;
 }

@@ -3,8 +3,7 @@ import './styles.css';
 interface Props {
     value: any;
     onChange: (value: any) => void;
-    background: string;
-    highlight: string;
+    color: string;
     className?: string;
 }
 /**
