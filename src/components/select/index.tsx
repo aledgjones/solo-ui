@@ -19,6 +19,7 @@ interface Props {
     color: string;
     margin?: boolean;
     disabled?: boolean;
+    direction?: 'up' | 'down';
 
     onChange: (value: any) => void;
 }
@@ -26,7 +27,7 @@ interface Props {
 /**
  * Select component to be used with the Option component.
  */
-export const Select: FC<Props> = ({ id, className, style, value, margin, children, label, onChange, color, disabled }) => {
+export const Select: FC<Props> = ({ id, className, style, value, margin, children, label, onChange, color, disabled, direction }) => {
 
     const [focus, setFocus] = useState<boolean>(false);
     const element = useRef<HTMLDivElement>(null);
@@ -83,7 +84,7 @@ export const Select: FC<Props> = ({ id, className, style, value, margin, childre
             <Icon className="ui-select__icon" style={{ transform: focus ? 'rotateZ(180deg)' : undefined }} size={24} color="#777777" path={mdiChevronDown} />
         </div>
 
-        <Card className={merge("ui-select__card", { 'ui-select__card--open': focus })}>
+        <Card className={merge("ui-select__card", { 'ui-select__card--open': focus, 'ui-select__card--up': direction === 'up' })}>
             {
                 open && React.Children.map(children, (child: any) => {
                     return <div

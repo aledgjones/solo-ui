@@ -10,6 +10,7 @@ interface Props {
     color: string;
     margin?: boolean;
     disabled?: boolean;
+    direction?: 'up' | 'down';
     onChange: (value: any) => void;
 }
 /**

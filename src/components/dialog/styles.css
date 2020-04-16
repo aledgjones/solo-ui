@@ -9,19 +9,11 @@
     height: 100vh;
     pointer-events: none;
     z-index: 2;
+    padding: 40px;
 }
 
 .ui-dialog__backdrop {
     z-index: 1;
-}
-
-.ui-dialog__scroller {
-    position: relative;
-    overflow: auto;
-    max-height: 100vh;
-    z-index: 2;
-    padding: 40px;
-    width: 100%;
 }
 
 .ui-dialog__card {
@@ -31,6 +23,9 @@
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .4s, transform .4s;
+    z-index: 2;
+    max-height: calc(100vh - 80px);
+    overflow: auto;
 }
 
 .ui-dialog--show {

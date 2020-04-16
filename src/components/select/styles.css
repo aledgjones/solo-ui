@@ -26,6 +26,11 @@
     pointer-events: none;
 }
 
+.ui-select__card--up {
+    top: initial;
+    bottom: 100%;
+}
+
 .ui-select__card--open {
     opacity: 1;
     max-height: 140px;

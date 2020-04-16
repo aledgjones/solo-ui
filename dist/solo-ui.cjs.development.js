@@ -642,7 +642,7 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2}.ui-dialog__backdrop{z-index:1}.ui-dialog__scroller{position:relative;overflow:auto;max-height:100vh;z-index:2;padding:40px;width:100%}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;z-index:2;max-height:calc(100vh - 80px);overflow:auto}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
 styleInject(css_248z$c);
 
 /**
@@ -665,14 +665,12 @@ var Dialog = function Dialog(_ref) {
     className: merge("ui-dialog", className, {
       'ui-dialog--show': open
     })
-  }, React__default.createElement("div", {
-    className: "ui-dialog__scroller"
   }, React__default.createElement(Card, {
     className: "ui-dialog__card",
     style: _extends({
       maxWidth: width
     }, style)
-  }, render && children()))));
+  }, render && children())));
 };
 
 var css_248z$d = ".ui-divider{display:block;height:1px;width:100%;margin:8px 0;background-color:rgba(0,0,0,.1)}.ui-divider--compact{margin:0}";
@@ -1327,7 +1325,7 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$m = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+var css_248z$m = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
 styleInject(css_248z$m);
 
 /**
@@ -1344,7 +1342,8 @@ var Select = function Select(_ref) {
       label = _ref.label,
       onChange = _ref.onChange,
       color = _ref.color,
-      disabled = _ref.disabled;
+      disabled = _ref.disabled,
+      direction = _ref.direction;
 
   var _useState = React.useState(false),
       focus = _useState[0],
@@ -1419,7 +1418,8 @@ var Select = function Select(_ref) {
     path: js.mdiChevronDown
   })), React__default.createElement(Card, {
     className: merge("ui-select__card", {
-      'ui-select__card--open': focus
+      'ui-select__card--open': focus,
+      'ui-select__card--up': direction === 'up'
     })
   }, open && React__default.Children.map(children, function (child) {
     return React__default.createElement("div", {

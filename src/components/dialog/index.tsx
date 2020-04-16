@@ -28,14 +28,12 @@ export const Dialog: FC<Props> = ({ id, className, style, width, open, children 
     return <Portal>
         <Backdrop className="ui-dialog__backdrop" open={open} />
         <div id={id} className={merge("ui-dialog", className, { 'ui-dialog--show': open })} >
-            <div className="ui-dialog__scroller">
-                <Card
-                    className="ui-dialog__card"
-                    style={{ maxWidth: width, ...style }}
-                >
-                    {render && children()}
-                </Card>
-            </div>
+            <Card
+                className="ui-dialog__card"
+                style={{ maxWidth: width, ...style }}
+            >
+                {render && children()}
+            </Card>
         </div>
     </Portal >;
 

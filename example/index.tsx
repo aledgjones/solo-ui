@@ -3,8 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { mdiMenu } from '@mdi/js';
 import { Input, Select, Option, Section, Subheader, Textarea, Button, Dialog, Content, Appbar, useScrollListener, Icon, Drawer, ListItem, Divider } from '../dist';
-import './styles.css';
 import { Box } from './box';
+import './styles.css';
 
 const App = () => {
 
@@ -101,9 +101,11 @@ const App = () => {
             <Box id="select">
                 <Subheader>Select &amp; Option</Subheader>
                 <p className="description">Choose from a selection of options.</p>
-                <Select margin value={select} onChange={setSelect} label="Select" color={theme}>
+                <Select direction="up" margin value={select} onChange={setSelect} label="Select" color={theme}>
                     <Option value="foo" displayAs="Foo">Foo <span className="type">{'{'}value: 'foo', displayAs: 'Bar'{'}'}</span></Option>
                     <Option value="bar" displayAs="Bar">Bar <span className="type">{'{'}value: 'bar', displayAs: 'Bar'{'}'}</span></Option>
+                    <Option value="clang" displayAs="Clang">Bar <span className="type">{'{'}value: 'clang', displayAs: 'Clang'{'}'}</span></Option>
+                    <Option value="clop" displayAs="Clop">Bar <span className="type">{'{'}value: 'clop', displayAs: 'Clop'{'}'}</span></Option>
                 </Select>
                 <div className="value"><span>value</span><span>'{select}'</span></div>
             </Box>
