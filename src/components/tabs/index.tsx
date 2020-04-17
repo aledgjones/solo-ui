@@ -10,13 +10,15 @@ interface Props {
     onChange: (value: any) => void;
 
     color: string;
+    highlight: string;
+    background: string;
     className?: string;
 }
 
 /**
  * Tabs component used with the Tab ccomponent.
  */
-export const Tabs: FC<Props> = ({ children, value, onChange, color, className }) => {
+export const Tabs: FC<Props> = ({ children, value, onChange, color, highlight, className }) => {
 
     const [bar, setBar] = useState({ left: 0, width: 90 });
 
@@ -25,7 +27,8 @@ export const Tabs: FC<Props> = ({ children, value, onChange, color, className })
             return <Tab
                 value={child.props.value}
                 selected={value === child.props.value}
-                color={color}
+                color={highlight}
+                highlight={color}
                 onChange={onChange}
                 setBar={setBar}
             >{child}</Tab>;

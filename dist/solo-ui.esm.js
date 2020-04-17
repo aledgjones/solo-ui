@@ -7,7 +7,6 @@ import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
-import { useForeground as useForeground$1 } from 'hooks/use-foreground';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
@@ -520,7 +519,7 @@ function useAlpha(color, alpha) {
   }, [color, alpha]);
 }
 
-var css_248z$9 = ".ui-icon,.ui-icon__svg{position:relative}.ui-icon__svg{z-index:2}.ui-icon__blob{position:absolute;border-radius:50%;visibility:hidden;z-index:1;width:calc(100% + 12px);height:calc(100% + 12px);top:-6px;left:-6px}.ui-icon__blob--toggle{border-radius:3px}.ui-icon--hover{cursor:pointer}.ui-icon--hover:hover>.ui-icon__blob{visibility:visible}.ui-icon__touch-target{position:absolute;height:48px;width:48px;top:calc(50% - 24px);left:calc(50% - 24px)}.ui-icon--disabled{opacity:.4;pointer-events:none}";
+var css_248z$9 = ".ui-icon,.ui-icon__svg{position:relative}.ui-icon__svg{z-index:2}.ui-icon__blob{position:absolute;border-radius:50%;visibility:hidden;z-index:1;width:calc(100% + 12px);height:calc(100% + 12px);top:-6px;left:-6px;transition:border-radius .1s,background-color .1s}.ui-icon path{transition:color .1s}.ui-icon__blob--toggle{border-radius:3px;visibility:visible}.ui-icon--hover{cursor:pointer}.ui-icon--hover:hover>.ui-icon__blob{visibility:visible}.ui-icon__touch-target{position:absolute;height:48px;width:48px;top:calc(50% - 24px);left:calc(50% - 24px)}.ui-icon--disabled{opacity:.4;pointer-events:none}";
 styleInject(css_248z$9);
 
 /**
@@ -534,11 +533,12 @@ var Icon = function Icon(_ref) {
       path = _ref.path,
       size = _ref.size,
       color = _ref.color,
+      highlight = _ref.highlight,
       disabled = _ref.disabled,
       toggle = _ref.toggle,
       onClick = _ref.onClick;
-  var bg = useAlpha(color, toggle ? 1 : .1);
-  var fg = useForeground$1(bg);
+  var bg = useAlpha(color, .1);
+  var toggledFG = useForeground(highlight || color);
   return React.createElement("div", {
     id: id,
     className: merge('ui-icon', {
@@ -562,14 +562,14 @@ var Icon = function Icon(_ref) {
   }, React.createElement("path", {
     d: path,
     style: {
-      fill: toggle ? fg : color
+      fill: toggle ? toggledFG : color
     }
   })), React.createElement("div", {
     className: merge("ui-icon__blob", {
       'ui-icon__blob--toggle': toggle
     }),
     style: {
-      backgroundColor: bg
+      backgroundColor: toggle ? highlight || color : bg
     }
   }));
 };
@@ -1498,7 +1498,7 @@ var Tab = function Tab(_ref) {
   return React.createElement(Fragment, null, children);
 };
 
-var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer}";
+var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
 styleInject(css_248z$p);
 
 /**
@@ -1509,6 +1509,7 @@ var Tab$1 = function Tab(_ref) {
   var children = _ref.children,
       value = _ref.value,
       selected = _ref.selected,
+      highlight = _ref.highlight,
       color = _ref.color,
       onChange = _ref.onChange,
       setBar = _ref.setBar;
@@ -1532,7 +1533,7 @@ var Tab$1 = function Tab(_ref) {
     ref: ref,
     className: "ui-tab",
     style: {
-      color: selected ? color : undefined,
+      color: selected ? highlight : color,
       transition: selected ? 'color .2s .1s' : 'color .2s'
     },
     onClick: _onClick
@@ -1548,6 +1549,7 @@ var Tabs = function Tabs(_ref) {
       value = _ref.value,
       onChange = _ref.onChange,
       color = _ref.color,
+      highlight = _ref.highlight,
       className = _ref.className;
 
   var _useState = useState({
@@ -1563,7 +1565,8 @@ var Tabs = function Tabs(_ref) {
     return React.createElement(Tab$1, {
       value: child.props.value,
       selected: value === child.props.value,
-      color: color,
+      color: highlight,
+      highlight: color,
       onChange: onChange,
       setBar: setBar
     }, child);

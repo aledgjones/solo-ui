@@ -7,6 +7,7 @@ interface Props {
     path: string;
     size: number;
     color: string;
+    highlight?: string;
     disabled?: boolean;
     toggle?: boolean;
     onClick?: (e: MouseEvent<HTMLDivElement>) => void;

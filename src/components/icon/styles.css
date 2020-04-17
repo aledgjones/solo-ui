@@ -16,10 +16,16 @@
     height: calc(100% + 12px);
     top: -6px;
     left: -6px;
+    transition: border-radius .1s, background-color .1s;
+}
+
+.ui-icon path {
+    transition: color .1s;
 }
 
 .ui-icon__blob--toggle {
     border-radius: 3px;
+    visibility: visible;
 }
 
 .ui-icon--hover {

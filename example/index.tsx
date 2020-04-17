@@ -1,9 +1,10 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { mdiMenu } from '@mdi/js';
-import { Input, Select, Option, Section, Subheader, Textarea, Button, Dialog, Content, Appbar, useScrollListener, Icon, Drawer, ListItem, Divider } from '../dist';
+import { mdiMenu, mdiHome, mdiHeart, mdiHeartOutline } from '@mdi/js';
+import { Input, Select, Option, Section, Subheader, Textarea, Button, Dialog, Content, Appbar, useScrollListener, Icon, Drawer, ListItem, Divider, Tabs, Tab } from '../dist';
 import { Box } from './box';
+
 import './styles.css';
 
 const App = () => {
@@ -18,6 +19,8 @@ const App = () => {
     const [number, setNumber] = React.useState<number>();
     const [longtext, setLongtext] = React.useState('');
     const [select, setSelect] = React.useState('foo');
+    const [tab, setTab] = React.useState('foo');
+    const [toggled, setToggled] = React.useState(true);
 
     const [dialog, setDialog] = React.useState(false);
 
@@ -52,6 +55,8 @@ const App = () => {
                         <ListItem onClick={() => location.replace('#textarea')}>Textarea</ListItem>
                         <ListItem onClick={() => location.replace('#select')}>Select &amp; Option</ListItem>
                         <ListItem onClick={() => location.replace('#dialog')}>Dialog</ListItem>
+                        <ListItem onClick={() => location.replace('#tabs')}>Tabs &amp; Tab</ListItem>
+                        <ListItem onClick={() => location.replace('#icon')}>Icon</ListItem>
                         <Divider compact />
                         <Subheader>hooks</Subheader>
                         <Divider compact />
@@ -104,8 +109,8 @@ const App = () => {
                 <Select direction="up" margin value={select} onChange={setSelect} label="Select" color={theme}>
                     <Option value="foo" displayAs="Foo">Foo <span className="type">{'{'}value: 'foo', displayAs: 'Bar'{'}'}</span></Option>
                     <Option value="bar" displayAs="Bar">Bar <span className="type">{'{'}value: 'bar', displayAs: 'Bar'{'}'}</span></Option>
-                    <Option value="clang" displayAs="Clang">Bar <span className="type">{'{'}value: 'clang', displayAs: 'Clang'{'}'}</span></Option>
-                    <Option value="clop" displayAs="Clop">Bar <span className="type">{'{'}value: 'clop', displayAs: 'Clop'{'}'}</span></Option>
+                    <Option value="clang" displayAs="Clang">Clang <span className="type">{'{'}value: 'clang', displayAs: 'Clang'{'}'}</span></Option>
+                    <Option value="clop" displayAs="Clop">Clop <span className="type">{'{'}value: 'clop', displayAs: 'Clop'{'}'}</span></Option>
                 </Select>
                 <div className="value"><span>value</span><span>'{select}'</span></div>
             </Box>
@@ -126,6 +131,47 @@ const App = () => {
                         </>
                     }
                 </Dialog>
+            </Box>
+
+            <Box id="tabs">
+                <Subheader>Tabs &amp; Tab</Subheader>
+                <p className="description">Tabbed navigation element.</p>
+                <div style={{ marginBottom: 20 }}>
+                    <Tabs value={tab} onChange={setTab} color="#000000" highlight={theme}>
+                        <Tab value="foo">Foo</Tab>
+                        <Tab value="bar">Bar</Tab>
+                        <Tab value="clang">Clang</Tab>
+                        <Tab value="clop">Clop</Tab>
+                    </Tabs>
+                </div>
+                <div className="value"><span>value</span><span>'{tab}'</span></div>
+            </Box>
+
+            <Box id="icon">
+                <Subheader>Icon</Subheader>
+                <p className="description">Display SVG paths in an icon form. Works well with @mdi/js package.</p>
+                <div className="inline">
+                    <div className="label">
+                        <Icon path={mdiHeartOutline} color="black" size={24} />
+                        <p>Default</p>
+                    </div>
+                    <div className="label">
+                        <Icon path={mdiHeartOutline} color="black" size={24} onClick={() => alert('clicked')} />
+                        <p>onClick</p>
+                    </div>
+                    <div className="label">
+                        <Icon path={mdiHeartOutline} color={theme} size={24} />
+                        <p>Themed</p>
+                    </div>
+                    <div className="label">
+                        <Icon path={mdiHeartOutline} color={theme} size={24} onClick={() => alert('clicked')} />
+                        <p>onClick</p>
+                    </div>
+                    <div className="label">
+                        <Icon toggle={toggled} path={mdiHeartOutline} color="#000000" highlight={theme} size={24} onClick={() => setToggled(t => !t)} />
+                        <p>{toggled ? 'Toggled' : 'Untoggled'}</p>
+                    </div>
+                </div>
             </Box>
 
         </Section>

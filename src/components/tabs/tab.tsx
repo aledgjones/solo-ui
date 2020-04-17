@@ -5,6 +5,7 @@ import './styles.css';
 interface Props {
     value: any;
     selected: boolean;
+    highlight: string;
     color: string;
     onChange: (value: any) => void;
     setBar: (value: { left: number, width: number }) => void;
@@ -13,7 +14,7 @@ interface Props {
 /**
  * Tab component to be used inside the Tabs component;
  */
-export const Tab: FC<Props> = ({ children, value, selected, color, onChange, setBar }) => {
+export const Tab: FC<Props> = ({ children, value, selected, highlight, color, onChange, setBar }) => {
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -33,7 +34,7 @@ export const Tab: FC<Props> = ({ children, value, selected, color, onChange, set
         ref={ref}
         className="ui-tab"
         style={{
-            color: selected ? color : undefined,
+            color: selected ? highlight : color,
             transition: selected ? 'color .2s .1s' : 'color .2s'
         }}
         onClick={_onClick}
