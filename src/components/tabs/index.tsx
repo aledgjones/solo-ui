@@ -11,7 +11,6 @@ interface Props {
 
     color: string;
     highlight: string;
-    background: string;
     className?: string;
 }
 

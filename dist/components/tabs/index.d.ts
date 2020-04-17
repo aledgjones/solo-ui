@@ -5,7 +5,6 @@ interface Props {
     onChange: (value: any) => void;
     color: string;
     highlight: string;
-    background: string;
     className?: string;
 }
 /**
