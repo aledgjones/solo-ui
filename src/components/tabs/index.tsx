@@ -26,12 +26,12 @@ export const Tabs: FC<Props> = ({ children, value, onChange, color, highlight, c
             return <Tab
                 value={child.props.value}
                 selected={value === child.props.value}
-                color={highlight}
-                highlight={color}
+                color={color}
+                highlight={highlight}
                 onChange={onChange}
                 setBar={setBar}
             >{child}</Tab>;
         })}
-        <div className="ui-tabs__bar" style={{ backgroundColor: color, ...bar }} />
+        <div className="ui-tabs__bar" style={{ backgroundColor: highlight, ...bar }} />
     </div>;
 }

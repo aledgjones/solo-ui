@@ -1565,15 +1565,15 @@ var Tabs = function Tabs(_ref) {
     return React.createElement(Tab$1, {
       value: child.props.value,
       selected: value === child.props.value,
-      color: highlight,
-      highlight: color,
+      color: color,
+      highlight: highlight,
       onChange: onChange,
       setBar: setBar
     }, child);
   }), React.createElement("div", {
     className: "ui-tabs__bar",
     style: _extends({
-      backgroundColor: color
+      backgroundColor: highlight
     }, bar)
   }));
 };
