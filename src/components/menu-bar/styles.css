@@ -3,11 +3,11 @@
     height: 28px;
     background-color: white;
     width: 100%;
-    z-index: 100000;
+    z-index: 999998;
 }
 
 .ui-menu-bar__content {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: flex-start;
+    height: 100%;
 }

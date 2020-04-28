@@ -3,7 +3,6 @@
         opacity: 0;
         transform: translateY(100%);
     }
-
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -23,11 +22,10 @@
     align-items: center;
     min-width: 288px;
     min-height: 48px;
-    z-index: 10000000;
+    z-index: 1000000;
     border-radius: 2px;
     transition: transform .4s, opacity .4s;
 }
-
 
 .ui-toast__text {
     flex-grow: 1;
