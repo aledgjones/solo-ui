@@ -1,5 +1,5 @@
 import 'app-reset/app-reset.css';
-import React, { useMemo, useState, useEffect, useCallback, Children, Fragment, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef, Children, Fragment } from 'react';
 import isString from 'lodash.isstring';
 import isObject from 'lodash.isobject';
 import Color from 'color';
@@ -1296,26 +1296,45 @@ var MenuBar = function MenuBar(_ref) {
 
   // is the menu bar currently active?
   var _useState = useState(false),
-      active = _useState[0],
-      setActive = _useState[1]; // which item is currently selected
+      open = _useState[0],
+      setOpen = _useState[1]; // which item is currently selected
 
 
   var _useState2 = useState(''),
       selection = _useState2[0],
       setSelection = _useState2[1];
 
+  var element = useRef(null); // auto close
+
+  useEffect(function () {
+    var cb = function cb(e) {
+      if (!element.current || !element.current.contains(e.target)) {
+        setOpen(false);
+      } else {
+        setOpen(function (o) {
+          return !o;
+        });
+      }
+    };
+
+    document.addEventListener('click', cb);
+    return function () {
+      return document.removeEventListener('click', cb);
+    };
+  }, [element]);
   return React.createElement("div", {
     id: id,
     className: merge('ui-menu-bar', className),
     style: style,
     onClick: function onClick() {
-      return setActive(function (o) {
-        return !o;
+      return setOpen(function (a) {
+        return !a;
       });
-    }
+    },
+    ref: element
   }, Children.map(children, function (child) {
     return React.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
-      selected: active && child.props.label === selection,
+      selected: open && child.props.label === selection,
       onSelect: setSelection
     }));
   }));
