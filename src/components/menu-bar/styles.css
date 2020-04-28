@@ -1,0 +1,8 @@
+.ui-menu-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 28px;
+    background-color: white;
+    width: 100%;
+}

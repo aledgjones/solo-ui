@@ -1,8 +1,8 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { mdiMenu, mdiHome, mdiHeart, mdiHeartOutline } from '@mdi/js';
-import { Input, Select, Option, Section, Subheader, Textarea, Button, Dialog, Content, Appbar, useScrollListener, Icon, Drawer, ListItem, Divider, Tabs, Tab } from '../dist';
+import { mdiMenu, mdiHeartOutline } from '@mdi/js';
+import { Input, Select, Option, Section, Subheader, Textarea, Button, Dialog, Content, MenuBar, MenuBarItem, Appbar, useScrollListener, Icon, Drawer, ListItem, Divider, Tabs, Tab } from '../dist';
 import { Box } from './box';
 
 import './styles.css';
@@ -172,6 +172,25 @@ const App = () => {
                         <p>{toggled ? 'Toggled' : 'Untoggled'}</p>
                     </div>
                 </div>
+            </Box>
+
+            <Box id="menu-bar">
+                <Subheader>Menu Bar</Subheader>
+                <p className="description">Application menu bar for complex actions.</p>
+                <MenuBar>
+                    <MenuBarItem label="File">
+                        <ListItem>
+                            <p>New</p>
+                        </ListItem>
+                        <ListItem>
+                            <p>Open...</p>
+                        </ListItem>
+                    </MenuBarItem>
+                    <MenuBarItem label="Edit">
+
+                        
+                    </MenuBarItem>
+                </MenuBar>
             </Box>
 
         </Section>

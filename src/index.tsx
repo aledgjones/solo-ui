@@ -1,5 +1,4 @@
 import 'app-reset/app-reset.css';
-import 'highlight.js/styles/vs2015.css';
 import './index.css';
 
 export { Appbar } from './components/appbar';
@@ -19,6 +18,8 @@ export { Form } from './components/form';
 export { Icon } from './components/icon';
 export { Input } from './components/input';
 export { ListItem } from './components/list-item';
+export { MenuBar } from './components/menu-bar';
+export { MenuBarItem } from './components/menu-bar-item';
 export { Option } from './components/option';
 export { Portal } from './components/portal';
 export { Progress } from './components/progress';

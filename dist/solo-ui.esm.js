@@ -1,15 +1,16 @@
 import 'app-reset/app-reset.css';
-import 'highlight.js/styles/vs2015.css';
-import React, { useMemo, useState, useEffect, useCallback, Fragment, useRef, Children } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, Children, Fragment, useRef } from 'react';
 import isString from 'lodash.isstring';
 import isObject from 'lodash.isobject';
 import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
+import { Card as Card$1 } from 'components/card';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
+import 'highlight.js/styles/vs2015.css';
 import isNumber from 'lodash.isnumber';
 import isBoolean from 'lodash.isboolean';
 
@@ -1256,6 +1257,71 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
+var css_248z$k = ".ui-menu-bar-item{position:relative}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto}";
+styleInject(css_248z$k);
+
+var MenuBarItem = function MenuBarItem(_ref) {
+  var children = _ref.children;
+  return React.createElement(React.Fragment, null, children);
+};
+var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
+  var id = _ref2.id,
+      className = _ref2.className,
+      style = _ref2.style,
+      selected = _ref2.selected,
+      label = _ref2.label,
+      onSelect = _ref2.onSelect,
+      children = _ref2.children;
+  return React.createElement("div", {
+    id: id,
+    className: merge('ui-menu-bar-item', {
+      'ui-menu-bar-item--selected': selected
+    }, className),
+    style: style,
+    onPointerEnter: function onPointerEnter() {
+      return onSelect(label);
+    }
+  }, label, selected && React.createElement(Card$1, {
+    className: "ui-menu-bar-item__card"
+  }, children));
+};
+
+var css_248z$l = ".ui-menu-bar{display:flex;align-items:center;justify-content:flex-start;height:28px;background-color:#fff;width:100%}";
+styleInject(css_248z$l);
+
+var MenuBar = function MenuBar(_ref) {
+  var id = _ref.id,
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
+
+  // is the menu bar currently active?
+  var _useState = useState(false),
+      active = _useState[0],
+      setActive = _useState[1]; // which item is currently selected
+
+
+  var _useState2 = useState(''),
+      selection = _useState2[0],
+      setSelection = _useState2[1];
+
+  return React.createElement("div", {
+    id: id,
+    className: merge('ui-menu-bar', className),
+    style: style,
+    onClick: function onClick() {
+      return setActive(function (o) {
+        return !o;
+      });
+    }
+  }, Children.map(children, function (child) {
+    return React.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
+      selected: active && child.props.label === selection,
+      onSelect: setSelection
+    }));
+  }));
+};
+
 /**
  * Option to be used with Select element.
  */
@@ -1265,8 +1331,8 @@ var Option = function Option(_ref) {
   return React.createElement(Fragment, null, children);
 };
 
-var css_248z$k = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
-styleInject(css_248z$k);
+var css_248z$m = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
+styleInject(css_248z$m);
 
 /**
  * Progress component. Can be indeterminate or determinate to show working state or progres.
@@ -1298,8 +1364,8 @@ var Progress = function Progress(_ref) {
   }));
 };
 
-var css_248z$l = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
-styleInject(css_248z$l);
+var css_248z$n = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
+styleInject(css_248z$n);
 
 /**
  * Section component.
@@ -1323,8 +1389,8 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$m = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
-styleInject(css_248z$m);
+var css_248z$o = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+styleInject(css_248z$o);
 
 /**
  * Select component to be used with the Option component.
@@ -1430,8 +1496,8 @@ var Select = function Select(_ref) {
   })));
 };
 
-var css_248z$n = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
-styleInject(css_248z$n);
+var css_248z$p = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
+styleInject(css_248z$p);
 
 /**
  * Google tasks style subheader component. Small, bold and capitalized.
@@ -1449,8 +1515,8 @@ var Subheader = function Subheader(_ref) {
   }, children);
 };
 
-var css_248z$o = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
-styleInject(css_248z$o);
+var css_248z$q = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
+styleInject(css_248z$q);
 
 /**
  * Switch component.
@@ -1489,30 +1555,29 @@ var Switch = function Switch(_ref) {
   }));
 };
 
+var css_248z$r = ".ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
+styleInject(css_248z$r);
+
 /**
  * Tab component to be used inside the Tabs component;
  */
 
 var Tab = function Tab(_ref) {
   var children = _ref.children;
-  return React.createElement(Fragment, null, children);
+  return React.createElement(React.Fragment, null, children);
 };
-
-var css_248z$p = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}.ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
-styleInject(css_248z$p);
-
 /**
  * Tab component to be used inside the Tabs component;
  */
 
-var Tab$1 = function Tab(_ref) {
-  var children = _ref.children,
-      value = _ref.value,
-      selected = _ref.selected,
-      highlight = _ref.highlight,
-      color = _ref.color,
-      onChange = _ref.onChange,
-      setBar = _ref.setBar;
+var TabExtended = function TabExtended(_ref2) {
+  var children = _ref2.children,
+      value = _ref2.value,
+      selected = _ref2.selected,
+      highlight = _ref2.highlight,
+      color = _ref2.color,
+      onChange = _ref2.onChange,
+      setBar = _ref2.setBar;
   var ref = useRef(null);
 
   var _onClick = useCallback(function () {
@@ -1540,6 +1605,9 @@ var Tab$1 = function Tab(_ref) {
   }, children);
 };
 
+var css_248z$s = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}";
+styleInject(css_248z$s);
+
 /**
  * Tabs component used with the Tab ccomponent.
  */
@@ -1562,14 +1630,13 @@ var Tabs = function Tabs(_ref) {
   return React.createElement("div", {
     className: merge("ui-tabs", className)
   }, Children.map(children, function (child) {
-    return React.createElement(Tab$1, {
-      value: child.props.value,
+    return React.createElement(TabExtended, Object.assign({}, child.props, {
       selected: value === child.props.value,
       color: color,
       highlight: highlight,
       onChange: onChange,
       setBar: setBar
-    }, child);
+    }));
   }), React.createElement("div", {
     className: "ui-tabs__bar",
     style: _extends({
@@ -1578,8 +1645,8 @@ var Tabs = function Tabs(_ref) {
   }));
 };
 
-var css_248z$q = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
-styleInject(css_248z$q);
+var css_248z$t = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
+styleInject(css_248z$t);
 
 /**
  * Auto expanding textarea component.
@@ -1663,8 +1730,8 @@ var Textarea = function Textarea(_ref) {
   }, error));
 };
 
-var css_248z$r = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:10000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
-styleInject(css_248z$r);
+var css_248z$u = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:10000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
+styleInject(css_248z$u);
 
 /**
  * Internal component used by the Toast component.
@@ -1739,8 +1806,8 @@ var Toast = function Toast(_ref) {
   }));
 };
 
-var css_248z$s = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
-styleInject(css_248z$s);
+var css_248z$v = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
+styleInject(css_248z$v);
 
 /**
  * Basic animation in for elements.
@@ -1785,8 +1852,8 @@ function useStyles() {
   }, [args]);
 }
 
-var css_248z$t = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
-styleInject(css_248z$t);
+var css_248z$w = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
+styleInject(css_248z$w);
 
 var MarkdownContent = function MarkdownContent(_ref) {
   var className = _ref.className,
@@ -2066,5 +2133,5 @@ var wait = function wait(duration) {
   }
 };
 
-export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, Drawer, DropFiles, Fab, Form, Icon, Input, ListItem, MarkdownContent, Option, Portal, Progress, Section, Select, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useWindowResizeListener, wait };
+export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, Drawer, DropFiles, Fab, Form, Icon, Input, ListItem, MarkdownContent, MenuBar, MenuBarItem, Option, Portal, Progress, Section, Select, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useWindowResizeListener, wait };
 //# sourceMappingURL=solo-ui.esm.js.map

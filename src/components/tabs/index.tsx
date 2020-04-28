@@ -1,7 +1,7 @@
 import React, { FC, Children, useState } from 'react';
 
 import { merge } from '../../utils/merge';
-import { Tab } from './tab';
+import { TabExtended } from '../tab';
 
 import './styles.css';
 
@@ -23,14 +23,14 @@ export const Tabs: FC<Props> = ({ children, value, onChange, color, highlight, c
 
     return <div className={merge("ui-tabs", className)}>
         {Children.map(children, (child: any) => {
-            return <Tab
-                value={child.props.value}
+            return <TabExtended
+                {...child.props}
                 selected={value === child.props.value}
                 color={color}
                 highlight={highlight}
                 onChange={onChange}
                 setBar={setBar}
-            >{child}</Tab>;
+            />;
         })}
         <div className="ui-tabs__bar" style={{ backgroundColor: highlight, ...bar }} />
     </div>;
