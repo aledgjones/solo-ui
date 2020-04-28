@@ -36,11 +36,11 @@ export const MenuBar: FC<Props> = ({ id, className, style, children }) => {
         id={id}
         className={merge('ui-menu-bar', className)}
         style={style}
-        onClick={() => setOpen(a => !a)}
-        ref={element}
     >
-        {Children.map(children, (child: any) => {
-            return <MenuBarItemExtended {...child.props} selected={open && child.props.label === selection} onSelect={setSelection} />
-        })}
+        <div ref={element} className="ui-menu-bar__content">
+            {Children.map(children, (child: any) => {
+                return <MenuBarItemExtended {...child.props} selected={open && child.props.label === selection} onSelect={setSelection} />
+            })}
+        </div>
     </div>;
 }

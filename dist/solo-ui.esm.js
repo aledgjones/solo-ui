@@ -1285,7 +1285,7 @@ var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
   }, children));
 };
 
-var css_248z$l = ".ui-menu-bar{position:relative;display:flex;align-items:center;justify-content:flex-start;height:28px;background-color:#fff;width:100%;z-index:100000}";
+var css_248z$l = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:100000}.ui-menu-bar__content{display:flex;align-items:center;justify-content:flex-start}";
 styleInject(css_248z$l);
 
 var MenuBar = function MenuBar(_ref) {
@@ -1325,19 +1325,16 @@ var MenuBar = function MenuBar(_ref) {
   return React.createElement("div", {
     id: id,
     className: merge('ui-menu-bar', className),
-    style: style,
-    onClick: function onClick() {
-      return setOpen(function (a) {
-        return !a;
-      });
-    },
-    ref: element
+    style: style
+  }, React.createElement("div", {
+    ref: element,
+    className: "ui-menu-bar__content"
   }, Children.map(children, function (child) {
     return React.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
       selected: open && child.props.label === selection,
       onSelect: setSelection
     }));
-  }));
+  })));
 };
 
 /**

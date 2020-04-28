@@ -1,10 +1,13 @@
 .ui-menu-bar {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     height: 28px;
     background-color: white;
     width: 100%;
     z-index: 100000;
+}
+
+.ui-menu-bar__content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
