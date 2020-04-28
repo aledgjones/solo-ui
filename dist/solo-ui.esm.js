@@ -6,7 +6,6 @@ import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
-import { Card as Card$1 } from 'components/card';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
@@ -1257,7 +1256,7 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$k = ".ui-menu-bar-item{position:relative}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto}";
+var css_248z$k = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto}";
 styleInject(css_248z$k);
 
 var MenuBarItem = function MenuBarItem(_ref) {
@@ -1281,12 +1280,12 @@ var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
     onPointerEnter: function onPointerEnter() {
       return onSelect(label);
     }
-  }, label, selected && React.createElement(Card$1, {
+  }, label, selected && React.createElement(Card, {
     className: "ui-menu-bar-item__card"
   }, children));
 };
 
-var css_248z$l = ".ui-menu-bar{display:flex;align-items:center;justify-content:flex-start;height:28px;background-color:#fff;width:100%}";
+var css_248z$l = ".ui-menu-bar{position:relative;display:flex;align-items:center;justify-content:flex-start;height:28px;background-color:#fff;width:100%;z-index:100000}";
 styleInject(css_248z$l);
 
 var MenuBar = function MenuBar(_ref) {
