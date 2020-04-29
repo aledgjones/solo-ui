@@ -276,7 +276,7 @@ var Avatar = function Avatar(_ref) {
   }, letter));
 };
 
-var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(35,30,45,0);transition:background-color .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(35,30,45,.6)}.ui-backdrop--transparent{background-color:rgba(35,30,45,0)!important}";
+var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(30,30,30,0);transition:background-color .4s,-webkit-backdrop-filter .4s;transition:background-color .4s,backdrop-filter .4s;transition:background-color .4s,backdrop-filter .4s,-webkit-backdrop-filter .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(30,30,30,.6);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}.ui-backdrop--transparent{background-color:rgba(30,30,30,0)!important}";
 styleInject(css_248z$3);
 
 /**
@@ -1264,7 +1264,7 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$k = ".ui-menu-bar-item{position:relative}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto}";
+var css_248z$k = ".ui-menu-bar-item{position:relative}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
 styleInject(css_248z$k);
 
 var MenuBarItem = function MenuBarItem(_ref) {
@@ -1293,7 +1293,7 @@ var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
   }, children));
 };
 
-var css_248z$l = ".ui-menu-bar{display:flex;align-items:center;justify-content:flex-start;height:28px;background-color:#fff;width:100%}";
+var css_248z$l = ".ui-menu-bar{display:flex;align-items:center;justify-content:flex-start;height:32px;background-color:#fff;width:100%}";
 styleInject(css_248z$l);
 
 var MenuBar = function MenuBar(_ref) {
@@ -1600,7 +1600,7 @@ var TabExtended = function TabExtended(_ref2) {
         width: ref.current.offsetWidth
       });
     }
-  }, [selected, setBar]);
+  }, [selected, setBar, ref]);
   return React__default.createElement("div", {
     ref: ref,
     className: "ui-tab",

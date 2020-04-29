@@ -39,7 +39,7 @@ export const TabExtended: FC<PropsExtended> = ({ children, value, selected, high
         if (setBar && selected && ref.current) {
             setBar({ left: ref.current.offsetLeft, width: ref.current.offsetWidth });
         }
-    }, [selected, setBar]);
+    }, [selected, setBar, ref]);
 
     return <div
         ref={ref}
