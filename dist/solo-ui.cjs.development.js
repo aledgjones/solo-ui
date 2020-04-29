@@ -700,8 +700,162 @@ var Divider = function Divider(_ref) {
   }, children);
 };
 
-var css_248z$e = ".ui-drawer{height:100vh;background-color:#fff;position:fixed;top:0;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);z-index:1;overflow:auto;transition:transform .4s;pointer-events:all;width:calc(100vw - 40px)}";
+/**
+ * Boilerplate for adding pointer move events after an initial pointer down event
+ */
+function dragHandler(_ref) {
+  var onDown = _ref.onDown,
+      onMove = _ref.onMove,
+      onEnd = _ref.onEnd;
+  var pointer = undefined;
+  return function (e) {
+    // only one pointer at a time
+    if (pointer !== undefined) return;
+    var data = onDown(e);
+
+    if (data !== false) {
+      pointer = e.pointerId;
+
+      var move = function move(ev) {
+        if (pointer !== ev.pointerId) return;
+        onMove(ev, data);
+        return false;
+      };
+
+      var stop = function stop(ev) {
+        if (pointer !== ev.pointerId) return;
+        onEnd(ev, data);
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', stop);
+        document.removeEventListener('pointercancel', stop);
+        pointer = undefined;
+      };
+
+      document.addEventListener('pointermove', move, {
+        passive: true
+      });
+      document.addEventListener('pointerup', stop, {
+        passive: true
+      });
+      document.addEventListener('pointercancel', stop, {
+        passive: true
+      });
+    }
+  };
+}
+
+function useDragHandler(config, deps) {
+  return React.useCallback(dragHandler(config), [deps]);
+}
+
+var css_248z$e = ".ui-drag-scroll{overflow:auto;touch-action:none}.ui-drag-scroll-x{touch-action:pan-y}.ui-drag-scroll-y{touch-action:pan-x}.ui-drag-scroll-x.ui-drag-scroll-y{touch-action:pan-y pan-x}.ui-drag-scroll--dragging,.ui-drag-scroll--dragging *{cursor:-webkit-grab!important;cursor:grab!important}";
 styleInject(css_248z$e);
+
+var DragScroll = function DragScroll(_ref) {
+  var id = _ref.id,
+      className = _ref.className,
+      style = _ref.style,
+      x = _ref.x,
+      y = _ref.y,
+      ignore = _ref.ignore,
+      ignoreX = _ref.ignoreX,
+      ignoreY = _ref.ignoreY,
+      children = _ref.children;
+
+  var _useState = React.useState(false),
+      dragging = _useState[0],
+      setDragging = _useState[1];
+
+  var allow = React.useCallback(function (target, ignore) {
+    if (ignore) {
+      var nodes = document.getElementsByClassName(ignore);
+
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes.item(i);
+
+        if (node && (node === target || node.contains(target))) {
+          return false;
+        }
+      }
+
+      return true;
+    } else {
+      return true;
+    }
+  }, []);
+  var onDrag = useDragHandler({
+    onDown: function onDown(e) {
+      if (!allow(e.target, ignore)) {
+        return false;
+      }
+      var allowX = allow(e.target, ignoreX);
+      var allowY = allow(e.target, ignoreY);
+      setDragging(true);
+      return {
+        target: e.currentTarget,
+        allowX: allowX,
+        allowY: allowY,
+        x: e.screenX,
+        y: e.screenY,
+        scrollLeft: e.currentTarget.scrollLeft,
+        scrollTop: e.currentTarget.scrollTop
+      };
+    },
+    onMove: function onMove(e, init) {
+      if (x && init.allowX) {
+        var diff = e.screenX - init.x;
+        var scrollLeft = init.scrollLeft - diff;
+        var min = 0;
+        var max = init.target.scrollWidth - init.target.offsetWidth;
+
+        if (scrollLeft < min) {
+          // if you over scroll, offset the init position so we start scrolling again
+          // straight away on direction change
+          init.x = init.x - scrollLeft;
+        } else if (scrollLeft > max) {
+          init.x = init.x - (scrollLeft - max);
+        }
+
+        init.target.scrollLeft = scrollLeft; // this is always bound so just keep setting it.
+      }
+
+      if (y && init.allowY) {
+        var _diff = e.screenY - init.y;
+
+        var scrollTop = init.scrollTop - _diff;
+        var _min = 0;
+
+        var _max = init.target.scrollHeight - init.target.offsetHeight;
+
+        if (scrollTop < _min) {
+          // if you over scroll, offset the init position so we start scrolling again
+          // straight away on direction change
+          init.y = init.y - scrollTop;
+        } else if (scrollTop > _max) {
+          init.y = init.y - (scrollTop - _max);
+        }
+
+        init.target.scrollTop = scrollTop;
+      }
+    },
+    onEnd: function onEnd() {
+      setDragging(false);
+    }
+  }, [x, y, allow, ignore, ignoreX, ignoreY]);
+  return React__default.createElement("div", {
+    onPointerDown: onDrag,
+    id: id,
+    className: merge('ui-drag-scroll', {
+      'ui-drag-scroll-x': x,
+      'ui-drag-scroll-y': y,
+      'ui-drag-scroll--dragging': dragging
+    }, className),
+    style: style
+  }, children);
+};
+
+var css_248z$f = ".ui-drawer{height:100vh;background-color:#fff;position:fixed;top:0;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);z-index:1;overflow:auto;transition:transform .4s;pointer-events:all;width:calc(100vw - 40px)}";
+styleInject(css_248z$f);
 
 /**
  * App drawer component.
@@ -774,8 +928,8 @@ function fileAccepted(file, accept) {
   return false;
 }
 
-var css_248z$f = ".ui-dropzone{position:relative}.ui-dropzone__hover-container{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#fff;padding:40px;z-index:100;border-radius:8px}.ui-dropzone__hover-content{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%;height:100%;border:4px dashed #afafaf;pointer-events:none}.ui-dropzone__hover-text{color:#969696;margin-top:4px}";
-styleInject(css_248z$f);
+var css_248z$g = ".ui-dropzone{position:relative}.ui-dropzone__hover-container{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#fff;padding:40px;z-index:100;border-radius:8px}.ui-dropzone__hover-content{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%;height:100%;border:4px dashed #afafaf;pointer-events:none}.ui-dropzone__hover-text{color:#969696;margin-top:4px}";
+styleInject(css_248z$g);
 
 /**
  * A dropzone component for dropping files into the UI
@@ -864,8 +1018,8 @@ var DropFiles = function DropFiles(_ref) {
   }, "Drop files here"))));
 };
 
-var css_248z$g = ".ui-fab{position:fixed;bottom:20px;right:20px;z-index:999996;height:56px;min-width:56px;display:flex;align-items:center;justify-content:center;border-radius:28px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);cursor:pointer;transition:transform .2s,opacity .2s;padding:0 16px}.ui-fab__text{white-space:nowrap;margin:0 4px 0 12px;font-family:Roboto,sans-serif;transition:margin .2s,width .2s,opacity .2s .1s;width:auto}.ui-fab__text--hidden{width:0;opacity:0;margin:0;transition:margin .2s,width .2s,opacity 0s}.ui-fab:active,.ui-fab:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23)}.ui-fab--hidden{transform:scale(0);opacity:0;pointer-events:none}";
-styleInject(css_248z$g);
+var css_248z$h = ".ui-fab{position:fixed;bottom:20px;right:20px;z-index:999996;height:56px;min-width:56px;display:flex;align-items:center;justify-content:center;border-radius:28px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);cursor:pointer;transition:transform .2s,opacity .2s;padding:0 16px}.ui-fab__text{white-space:nowrap;margin:0 4px 0 12px;font-family:Roboto,sans-serif;transition:margin .2s,width .2s,opacity .2s .1s;width:auto}.ui-fab__text--hidden{width:0;opacity:0;margin:0;transition:margin .2s,width .2s,opacity 0s}.ui-fab:active,.ui-fab:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23)}.ui-fab--hidden{transform:scale(0);opacity:0;pointer-events:none}";
+styleInject(css_248z$h);
 
 /**
  * Floating action button (FAB)
@@ -949,8 +1103,8 @@ function isEmail(email) {
   return regex.test(email);
 }
 
-var css_248z$h = "@-webkit-keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}.ui-input{position:relative;padding-bottom:20px;display:block}.ui-input__container{display:flex;align-items:center;position:relative;border:1px solid #afafaf;border-radius:3px;font-family:Roboto,sans-serif;min-height:36px;z-index:1}.ui-input__display{background-color:transparent!important;font-size:16px;padding:8px 12px;min-height:36px;border:none;outline:none;z-index:2;font-family:inherit;resize:none;flex-grow:1}.ui-input__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-input__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-input__label--float{font-size:10px;top:-6px}.ui-input__error-text{position:absolute;left:12px;bottom:4px;font-size:10px;color:tomato;-webkit-animation:error__in .2s;animation:error__in .2s}.ui-input--margin{margin-bottom:20px}.ui-input--disabled{pointer-events:none}.ui-input--disabled .ui-input__display{border:1px dashed #afafaf}";
-styleInject(css_248z$h);
+var css_248z$i = "@-webkit-keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes error__in{0%{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}.ui-input{position:relative;padding-bottom:20px;display:block}.ui-input__container{display:flex;align-items:center;position:relative;border:1px solid #afafaf;border-radius:3px;font-family:Roboto,sans-serif;min-height:36px;z-index:1}.ui-input__display{background-color:transparent!important;font-size:16px;padding:8px 12px;min-height:36px;border:none;outline:none;z-index:2;font-family:inherit;resize:none;flex-grow:1}.ui-input__label{position:absolute;background-color:transparent;z-index:2;font-size:16px;top:9px;left:8px;color:#969696;padding:0 4px;margin:0;transition:top .2s,font-size .2s;pointer-events:none}.ui-input__label:before{content:\"\";height:calc(50% + 1px);width:100%;position:absolute;left:0;bottom:0;background-color:#fff;z-index:-1}.ui-input__label--float{font-size:10px;top:-6px}.ui-input__error-text{position:absolute;left:12px;bottom:4px;font-size:10px;color:tomato;-webkit-animation:error__in .2s;animation:error__in .2s}.ui-input--margin{margin-bottom:20px}.ui-input--disabled{pointer-events:none}.ui-input--disabled .ui-input__display{border:1px dashed #afafaf}";
+styleInject(css_248z$i);
 
 var InputBase = function InputBase(_ref) {
   var id = _ref.id,
@@ -1110,8 +1264,8 @@ var InputPassword = function InputPassword(_ref) {
   }, props));
 };
 
-var css_248z$i = ".ui-input-number__units{padding-right:12px;color:#969696}.ui-input-number__controls{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 9px;border-left:1px solid #afafaf;overflow:hidden}";
-styleInject(css_248z$i);
+var css_248z$j = ".ui-input-number__units{padding-right:12px;color:#969696}.ui-input-number__controls{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 9px;border-left:1px solid #afafaf;overflow:hidden}";
+styleInject(css_248z$j);
 
 var InputNumber = function InputNumber(_ref) {
   var value = _ref.value,
@@ -1238,8 +1392,23 @@ var Input = function Input(props) {
   }
 };
 
-var css_248z$j = ".ui-list-item{display:flex;align-items:center;justify-content:space-between;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:12px 20px;cursor:pointer}.ui-list-item--hover:hover{background-color:rgba(0,0,0,.1)}.ui-list-item--disabled{opacity:.4;pointer-events:none}";
-styleInject(css_248z$j);
+var css_248z$k = ".ui-label{display:block}.ui-label p{margin:0;color:inherit;font-size:.85em;opacity:.6;margin-bottom:2px}.ui-label p:first-of-type{opacity:1;font-size:1em}.ui-label p:last-of-type{margin-bottom:0}.ui-label p.ui-label--clipped{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}";
+styleInject(css_248z$k);
+
+var Label = function Label(_ref) {
+  var id = _ref.id,
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
+  return React__default.createElement("div", {
+    id: id,
+    className: merge('ui-label', className),
+    style: style
+  }, children);
+};
+
+var css_248z$l = ".ui-list-item{display:flex;align-items:center;justify-content:space-between;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:12px 20px;cursor:pointer}.ui-list-item--hover:hover{background-color:rgba(0,0,0,.1)}.ui-list-item--disabled{opacity:.4;pointer-events:none}";
+styleInject(css_248z$l);
 
 /**
  * List Item with default hover styles if onClick present.
@@ -1263,8 +1432,8 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$k = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
-styleInject(css_248z$k);
+var css_248z$m = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
+styleInject(css_248z$m);
 
 var MenuBarItem = function MenuBarItem(_ref) {
   var children = _ref.children;
@@ -1292,8 +1461,8 @@ var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
   }, children));
 };
 
-var css_248z$l = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
-styleInject(css_248z$l);
+var css_248z$n = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
+styleInject(css_248z$n);
 
 var MenuBar = function MenuBar(_ref) {
   var id = _ref.id,
@@ -1337,10 +1506,14 @@ var MenuBar = function MenuBar(_ref) {
     ref: element,
     className: "ui-menu-bar__content"
   }, React.Children.map(children, function (child) {
-    return React__default.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
-      selected: open && child.props.label === selection,
-      onSelect: setSelection
-    }));
+    if (child) {
+      return React__default.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
+        selected: open && child.props.label === selection,
+        onSelect: setSelection
+      }));
+    } else {
+      return null;
+    }
   })));
 };
 
@@ -1350,11 +1523,11 @@ var MenuBar = function MenuBar(_ref) {
 
 var Option = function Option(_ref) {
   var children = _ref.children;
-  return React__default.createElement(React.Fragment, null, children);
+  return React__default.createElement(React__default.Fragment, null, children);
 };
 
-var css_248z$m = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
-styleInject(css_248z$m);
+var css_248z$o = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
+styleInject(css_248z$o);
 
 /**
  * Progress component. Can be indeterminate or determinate to show working state or progres.
@@ -1386,8 +1559,8 @@ var Progress = function Progress(_ref) {
   }));
 };
 
-var css_248z$n = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
-styleInject(css_248z$n);
+var css_248z$p = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
+styleInject(css_248z$p);
 
 /**
  * Section component.
@@ -1411,8 +1584,8 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$o = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
-styleInject(css_248z$o);
+var css_248z$q = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+styleInject(css_248z$q);
 
 /**
  * Select component to be used with the Option component.
@@ -1439,8 +1612,8 @@ var Select = function Select(_ref) {
   var open = useDelayBoolean(focus, 400);
   var display = React.useMemo(function () {
     var _display = '';
-    React__default.Children.forEach(children, function (child) {
-      if (child.props.value === value) {
+    React.Children.forEach(children, function (child) {
+      if (child && child.props.value === value) {
         _display = child.props.displayAs;
       }
     });
@@ -1507,19 +1680,23 @@ var Select = function Select(_ref) {
       'ui-select__card--open': focus,
       'ui-select__card--up': direction === 'up'
     })
-  }, open && React__default.Children.map(children, function (child) {
-    return React__default.createElement("div", {
-      key: child.props.value,
-      className: "ui-select__item",
-      onClick: function onClick() {
-        onChange(child.props.value);
-      }
-    }, child);
+  }, open && React.Children.map(children, function (child) {
+    if (child) {
+      return React__default.createElement("div", {
+        key: child.props.value,
+        className: "ui-select__item",
+        onClick: function onClick() {
+          onChange(child.props.value);
+        }
+      }, child);
+    } else {
+      return null;
+    }
   })));
 };
 
-var css_248z$p = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
-styleInject(css_248z$p);
+var css_248z$r = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
+styleInject(css_248z$r);
 
 /**
  * Google tasks style subheader component. Small, bold and capitalized.
@@ -1537,8 +1714,8 @@ var Subheader = function Subheader(_ref) {
   }, children);
 };
 
-var css_248z$q = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
-styleInject(css_248z$q);
+var css_248z$s = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
+styleInject(css_248z$s);
 
 /**
  * Switch component.
@@ -1577,8 +1754,8 @@ var Switch = function Switch(_ref) {
   }));
 };
 
-var css_248z$r = ".ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
-styleInject(css_248z$r);
+var css_248z$t = ".ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
+styleInject(css_248z$t);
 
 /**
  * Tab component to be used inside the Tabs component;
@@ -1627,8 +1804,8 @@ var TabExtended = function TabExtended(_ref2) {
   }, children);
 };
 
-var css_248z$s = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}";
-styleInject(css_248z$s);
+var css_248z$u = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}";
+styleInject(css_248z$u);
 
 /**
  * Tabs component used with the Tab ccomponent.
@@ -1652,13 +1829,17 @@ var Tabs = function Tabs(_ref) {
   return React__default.createElement("div", {
     className: merge("ui-tabs", className)
   }, React.Children.map(children, function (child) {
-    return React__default.createElement(TabExtended, Object.assign({}, child.props, {
-      selected: value === child.props.value,
-      color: color,
-      highlight: highlight,
-      onChange: onChange,
-      setBar: setBar
-    }));
+    if (child) {
+      return React__default.createElement(TabExtended, Object.assign({}, child.props, {
+        selected: value === child.props.value,
+        color: color,
+        highlight: highlight,
+        onChange: onChange,
+        setBar: setBar
+      }));
+    } else {
+      return null;
+    }
   }), React__default.createElement("div", {
     className: "ui-tabs__bar",
     style: _extends({
@@ -1667,8 +1848,8 @@ var Tabs = function Tabs(_ref) {
   }));
 };
 
-var css_248z$t = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
-styleInject(css_248z$t);
+var css_248z$v = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
+styleInject(css_248z$v);
 
 /**
  * Auto expanding textarea component.
@@ -1752,8 +1933,8 @@ var Textarea = function Textarea(_ref) {
   }, error));
 };
 
-var css_248z$u = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:1000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
-styleInject(css_248z$u);
+var css_248z$w = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:1000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
+styleInject(css_248z$w);
 
 /**
  * Internal component used by the Toast component.
@@ -1828,8 +2009,8 @@ var Toast = function Toast(_ref) {
   }));
 };
 
-var css_248z$v = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
-styleInject(css_248z$v);
+var css_248z$x = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
+styleInject(css_248z$x);
 
 /**
  * Basic animation in for elements.
@@ -1874,8 +2055,8 @@ function useStyles() {
   }, [args]);
 }
 
-var css_248z$w = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
-styleInject(css_248z$w);
+var css_248z$y = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
+styleInject(css_248z$y);
 
 var MarkdownContent = function MarkdownContent(_ref) {
   var className = _ref.className,
@@ -2165,12 +2346,14 @@ exports.Checkbox = Checkbox;
 exports.Content = Content;
 exports.Dialog = Dialog;
 exports.Divider = Divider;
+exports.DragScroll = DragScroll;
 exports.Drawer = Drawer;
 exports.DropFiles = DropFiles;
 exports.Fab = Fab;
 exports.Form = Form;
 exports.Icon = Icon;
 exports.Input = Input;
+exports.Label = Label;
 exports.ListItem = ListItem;
 exports.MarkdownContent = MarkdownContent;
 exports.MenuBar = MenuBar;
@@ -2189,12 +2372,14 @@ exports.Textarea = Textarea;
 exports.Toast = Toast;
 exports.Transition = Transition;
 exports.chooseFiles = chooseFiles;
+exports.dragHandler = dragHandler;
 exports.error = error;
 exports.fileAccepted = fileAccepted;
 exports.isEmail = isEmail;
 exports.merge = merge;
 exports.useAlpha = useAlpha;
 exports.useDelayBoolean = useDelayBoolean;
+exports.useDragHandler = useDragHandler;
 exports.useForeground = useForeground;
 exports.useLog = useLog;
 exports.usePluralize = usePluralize;

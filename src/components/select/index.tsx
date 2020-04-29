@@ -1,4 +1,4 @@
-import React, { useState, useMemo, CSSProperties, FC, useRef, useEffect } from 'react';
+import React, { useState, useMemo, CSSProperties, FC, useRef, useEffect, Children } from 'react';
 import { mdiChevronDown } from '@mdi/js';
 
 import { merge } from '../../utils/merge';
@@ -36,8 +36,8 @@ export const Select: FC<Props> = ({ id, className, style, value, margin, childre
 
     const display = useMemo(() => {
         let _display = '';
-        React.Children.forEach(children, (child: any) => {
-            if (child.props.value === value) {
+        Children.forEach(children, (child: any) => {
+            if (child && child.props.value === value) {
                 _display = child.props.displayAs;
             }
         });
@@ -85,8 +85,8 @@ export const Select: FC<Props> = ({ id, className, style, value, margin, childre
         </div>
 
         <Card className={merge("ui-select__card", { 'ui-select__card--open': focus, 'ui-select__card--up': direction === 'up' })}>
-            {
-                open && React.Children.map(children, (child: any) => {
+            {open && Children.map(children, (child: any) => {
+                if (child) {
                     return <div
                         key={child.props.value}
                         className="ui-select__item"
@@ -96,8 +96,10 @@ export const Select: FC<Props> = ({ id, className, style, value, margin, childre
                     >
                         {child}
                     </div>;
-                })
-            }
+                } else {
+                    return null;
+                }
+            })}
         </Card>
 
     </div>;

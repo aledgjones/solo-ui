@@ -23,14 +23,18 @@ export const Tabs: FC<Props> = ({ children, value, onChange, color, highlight, c
 
     return <div className={merge("ui-tabs", className)}>
         {Children.map(children, (child: any) => {
-            return <TabExtended
-                {...child.props}
-                selected={value === child.props.value}
-                color={color}
-                highlight={highlight}
-                onChange={onChange}
-                setBar={setBar}
-            />;
+            if (child) {
+                return <TabExtended
+                    {...child.props}
+                    selected={value === child.props.value}
+                    color={color}
+                    highlight={highlight}
+                    onChange={onChange}
+                    setBar={setBar}
+                />;
+            } else {
+                return null;
+            }
         })}
         <div className="ui-tabs__bar" style={{ backgroundColor: highlight, ...bar }} />
     </div>;

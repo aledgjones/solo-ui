@@ -39,7 +39,11 @@ export const MenuBar: FC<Props> = ({ id, className, style, children }) => {
     >
         <div ref={element} className="ui-menu-bar__content">
             {Children.map(children, (child: any) => {
-                return <MenuBarItemExtended {...child.props} selected={open && child.props.label === selection} onSelect={setSelection} />
+                if (child) {
+                    return <MenuBarItemExtended {...child.props} selected={open && child.props.label === selection} onSelect={setSelection} />
+                } else {
+                    return null;
+                }
             })}
         </div>
     </div>;
