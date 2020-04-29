@@ -6,13 +6,12 @@
     height: 100vh;
     pointer-events: none;
     background-color: rgba(30, 30, 30, 0);
-    transition: background-color .4s, backdrop-filter .4s;
+    transition: background-color .4s;
 }
 
 .ui-backdrop--visible {
     pointer-events: all;
     background-color: rgba(30,30,30, .6);
-    backdrop-filter: blur(2px);
 }
 
 .ui-backdrop--transparent {

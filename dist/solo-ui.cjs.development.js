@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault(ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 require('app-reset/app-reset.css');
 var React = require('react');
@@ -21,7 +21,7 @@ var isNumber = _interopDefault(require('lodash.isnumber'));
 var isBoolean = _interopDefault(require('lodash.isboolean'));
 
 function styleInject(css, ref) {
-  if (ref === void 0) ref = {};
+  if ( ref === void 0 ) ref = {};
   var insertAt = ref.insertAt;
 
   if (!css || typeof document === 'undefined') { return; }
@@ -100,10 +100,10 @@ styleInject(css_248z$1);
 
 var Appbar = function Appbar(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    shadow = _ref.shadow,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      shadow = _ref.shadow,
+      children = _ref.children;
   return React__default.createElement("header", {
     id: id,
     className: merge('ui-appbar', {
@@ -156,15 +156,15 @@ const _asyncIteratorSymbol = /*#__PURE__*/ typeof Symbol !== "undefined" ? (Symb
 
 // Asynchronously call a function and send errors to recovery continuation
 function _catch(body, recover) {
-  try {
-    var result = body();
-  } catch (e) {
-    return recover(e);
-  }
-  if (result && result.then) {
-    return result.then(void 0, recover);
-  }
-  return result;
+	try {
+		var result = body();
+	} catch(e) {
+		return recover(e);
+	}
+	if (result && result.then) {
+		return result.then(void 0, recover);
+	}
+	return result;
 }
 
 var colors = {
@@ -215,18 +215,18 @@ styleInject(css_248z$2);
 
 var Avatar = function Avatar(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    src = _ref.src,
-    name = _ref.name,
-    size = _ref.size;
+      className = _ref.className,
+      style = _ref.style,
+      src = _ref.src,
+      name = _ref.name,
+      size = _ref.size;
   var letter = name.slice(0, 1).toUpperCase();
   var background = colors[letter] || 'rgb(200,200,200)';
   var foreground = useForeground(background);
 
   var _useState = React.useState(false),
-    isImageValid = _useState[0],
-    setIsImageValid = _useState[1];
+      isImageValid = _useState[0],
+      setIsImageValid = _useState[1];
 
   React.useEffect(function () {
     var checkImageExists = function checkImageExists(src) {
@@ -241,9 +241,9 @@ var Avatar = function Avatar(_ref) {
               setIsImageValid(true);
             }
           });
-        }, function () { });
+        }, function () {});
 
-        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(function () { }) : void 0);
+        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(function () {}) : void 0);
       } catch (e) {
         return Promise.reject(e);
       }
@@ -275,7 +275,7 @@ var Avatar = function Avatar(_ref) {
   }, letter));
 };
 
-var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(30,30,30,0);transition:background-color .4s,-webkit-backdrop-filter .4s;transition:background-color .4s,backdrop-filter .4s;transition:background-color .4s,backdrop-filter .4s,-webkit-backdrop-filter .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(30,30,30,.6);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}.ui-backdrop--transparent{background-color:rgba(30,30,30,0)!important}";
+var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(30,30,30,0);transition:background-color .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(30,30,30,.6)}.ui-backdrop--transparent{background-color:rgba(30,30,30,0)!important}";
 styleInject(css_248z$3);
 
 /**
@@ -284,10 +284,10 @@ styleInject(css_248z$3);
 
 var Backdrop = function Backdrop(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    open = _ref.open,
-    transparent = _ref.transparent,
-    onClick = _ref.onClick;
+      className = _ref.className,
+      open = _ref.open,
+      transparent = _ref.transparent,
+      onClick = _ref.onClick;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-backdrop', className, {
@@ -304,8 +304,8 @@ var Backdrop = function Backdrop(_ref) {
 
 function useDelayBoolean(master, delay) {
   var _useState = React.useState(false),
-    slave = _useState[0],
-    setSlave = _useState[1];
+      slave = _useState[0],
+      setSlave = _useState[1];
 
   React.useEffect(function () {
     var timeout;
@@ -338,8 +338,8 @@ var Portal = function Portal(_ref) {
   var children = _ref.children;
 
   var _useState = React.useState(),
-    container = _useState[0],
-    setContainer = _useState[1];
+      container = _useState[0],
+      setContainer = _useState[1];
 
   React.useEffect(function () {
     var $container = document.createElement('div');
@@ -367,12 +367,12 @@ styleInject(css_248z$5);
 
 var BottomSheet = function BottomSheet(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    width = _ref.width,
-    open = _ref.open,
-    onClose = _ref.onClose,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      width = _ref.width,
+      open = _ref.open,
+      onClose = _ref.onClose,
+      children = _ref.children;
   var render = useDelayBoolean(open, 500);
   return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
     open: open,
@@ -398,11 +398,11 @@ styleInject(css_248z$6);
 
 var Spinner = function Spinner(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    size = _ref.size,
-    color = _ref.color,
-    percent = _ref.percent;
+      className = _ref.className,
+      style = _ref.style,
+      size = _ref.size,
+      color = _ref.color,
+      percent = _ref.percent;
 
   var _useMemo = React.useMemo(function () {
     if (percent !== undefined) {
@@ -416,8 +416,8 @@ var Spinner = function Spinner(_ref) {
       return [undefined, undefined];
     }
   }, [percent]),
-    dashoffset = _useMemo[0],
-    dasharray = _useMemo[1];
+      dashoffset = _useMemo[0],
+      dasharray = _useMemo[1];
 
   var animate = percent === undefined;
   return React__default.createElement("svg", {
@@ -456,15 +456,15 @@ styleInject(css_248z$7);
 
 var Button = function Button(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    compact = _ref.compact,
-    outline = _ref.outline,
-    color = _ref.color,
-    disabled = _ref.disabled,
-    working = _ref.working,
-    onClick = _ref.onClick;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      compact = _ref.compact,
+      outline = _ref.outline,
+      color = _ref.color,
+      disabled = _ref.disabled,
+      working = _ref.working,
+      onClick = _ref.onClick;
   var bg = React.useMemo(function () {
     if (outline) {
       return 'transparent';
@@ -501,11 +501,11 @@ styleInject(css_248z$8);
 
 var Card = function Card(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    margin = _ref.margin,
-    animate = _ref.animate;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      margin = _ref.margin,
+      animate = _ref.animate;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-card', {
@@ -535,15 +535,15 @@ styleInject(css_248z$9);
 
 var Icon = function Icon(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    path = _ref.path,
-    size = _ref.size,
-    color = _ref.color,
-    highlight = _ref.highlight,
-    disabled = _ref.disabled,
-    toggle = _ref.toggle,
-    onClick = _ref.onClick;
+      className = _ref.className,
+      style = _ref.style,
+      path = _ref.path,
+      size = _ref.size,
+      color = _ref.color,
+      highlight = _ref.highlight,
+      disabled = _ref.disabled,
+      toggle = _ref.toggle,
+      onClick = _ref.onClick;
   var bg = useAlpha(color, .1);
   var toggledFG = useForeground(highlight || color);
   return React__default.createElement("div", {
@@ -590,14 +590,14 @@ styleInject(css_248z$a);
 
 var Checkbox = function Checkbox(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    value = _ref.value,
-    color = _ref.color,
-    onChange = _ref.onChange,
-    disabled = _ref.disabled,
-    margin = _ref.margin;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      value = _ref.value,
+      color = _ref.color,
+      onChange = _ref.onChange,
+      disabled = _ref.disabled,
+      margin = _ref.margin;
   var onCheckboxChange = React.useCallback(function () {
     return onChange(!value);
   }, [value, onChange]);
@@ -637,9 +637,9 @@ styleInject(css_248z$b);
 
 var Content = function Content(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-content', className),
@@ -656,11 +656,11 @@ styleInject(css_248z$c);
 
 var Dialog = function Dialog(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    width = _ref.width,
-    open = _ref.open,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      width = _ref.width,
+      open = _ref.open,
+      children = _ref.children;
   var render = useDelayBoolean(open, 500);
   return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
     className: "ui-dialog__backdrop",
@@ -687,10 +687,10 @@ styleInject(css_248z$d);
 
 var Divider = function Divider(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    compact = _ref.compact;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      compact = _ref.compact;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-divider', {
@@ -709,12 +709,12 @@ styleInject(css_248z$e);
 
 var Drawer = function Drawer(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    open = _ref.open,
-    width = _ref.width,
-    onClose = _ref.onClose;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      open = _ref.open,
+      width = _ref.width,
+      onClose = _ref.onClose;
   var render = useDelayBoolean(open, 500);
   return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
     open: open,
@@ -783,15 +783,15 @@ styleInject(css_248z$f);
 
 var DropFiles = function DropFiles(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children,
-    accept = _ref.accept,
-    onDrop = _ref.onDrop;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children,
+      accept = _ref.accept,
+      onDrop = _ref.onDrop;
 
   var _useState = React.useState(false),
-    over = _useState[0],
-    setOver = _useState[1];
+      over = _useState[0],
+      setOver = _useState[1];
 
   var handleDrop = React.useCallback(function (e) {
     if (e.dataTransfer.files.length > 0) {
@@ -873,14 +873,14 @@ styleInject(css_248z$g);
 
 var Fab = function Fab(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    path = _ref.path,
-    color = _ref.color,
-    onClick = _ref.onClick,
-    compact = _ref.compact,
-    hidden = _ref.hidden,
-    text = _ref.text;
+      className = _ref.className,
+      style = _ref.style,
+      path = _ref.path,
+      color = _ref.color,
+      onClick = _ref.onClick,
+      compact = _ref.compact,
+      hidden = _ref.hidden,
+      text = _ref.text;
   var fg = useForeground(color);
   return React__default.createElement("div", {
     id: id,
@@ -909,9 +909,9 @@ var Fab = function Fab(_ref) {
 
 var Form = function Form(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
   return React__default.createElement("form", {
     id: id,
     className: merge('ui-form', className),
@@ -954,29 +954,29 @@ styleInject(css_248z$h);
 
 var InputBase = function InputBase(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    type = _ref.type,
-    display = _ref.display,
-    label = _ref.label,
-    margin = _ref.margin,
-    required = _ref.required,
-    color = _ref.color,
-    disabled = _ref.disabled,
-    spellcheck = _ref.spellcheck,
-    validate = _ref.validate,
-    onChange = _ref.onChange,
-    onBlur = _ref.onBlur,
-    onFocus = _ref.onFocus,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      type = _ref.type,
+      display = _ref.display,
+      label = _ref.label,
+      margin = _ref.margin,
+      required = _ref.required,
+      color = _ref.color,
+      disabled = _ref.disabled,
+      spellcheck = _ref.spellcheck,
+      validate = _ref.validate,
+      onChange = _ref.onChange,
+      onBlur = _ref.onBlur,
+      onFocus = _ref.onFocus,
+      children = _ref.children;
 
   var _useState = React.useState(false),
-    focus = _useState[0],
-    setFocus = _useState[1];
+      focus = _useState[0],
+      setFocus = _useState[1];
 
   var _useState2 = React.useState(false),
-    touched = _useState2[0],
-    setTouched = _useState2[1];
+      touched = _useState2[0],
+      setTouched = _useState2[1];
 
   var error = touched ? validate(display) : null;
   var hasValue = display !== undefined && display !== null && display !== '';
@@ -1050,8 +1050,8 @@ var InputBase = function InputBase(_ref) {
 
 var InputEmail = function InputEmail(_ref) {
   var value = _ref.value,
-    required = _ref.required,
-    props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
+      required = _ref.required,
+      props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
 
   var validate = React.useCallback(function (value) {
     if (required && value === '') {
@@ -1072,8 +1072,8 @@ var InputEmail = function InputEmail(_ref) {
 
 var InputText = function InputText(_ref) {
   var value = _ref.value,
-    required = _ref.required,
-    props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
+      required = _ref.required,
+      props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
 
   var validate = React.useCallback(function (value) {
     if (required && value === '') {
@@ -1092,8 +1092,8 @@ var InputText = function InputText(_ref) {
 
 var InputPassword = function InputPassword(_ref) {
   var value = _ref.value,
-    required = _ref.required,
-    props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
+      required = _ref.required,
+      props = _objectWithoutPropertiesLoose(_ref, ["value", "required"]);
 
   var validate = React.useCallback(function (value) {
     if (required && value === '') {
@@ -1115,13 +1115,13 @@ styleInject(css_248z$i);
 
 var InputNumber = function InputNumber(_ref) {
   var value = _ref.value,
-    required = _ref.required,
-    step = _ref.step,
-    precision = _ref.precision,
-    units = _ref.units,
-    onChange = _ref.onChange,
-    onBlur = _ref.onBlur,
-    props = _objectWithoutPropertiesLoose(_ref, ["value", "required", "step", "precision", "units", "onChange", "onBlur"]);
+      required = _ref.required,
+      step = _ref.step,
+      precision = _ref.precision,
+      units = _ref.units,
+      onChange = _ref.onChange,
+      onBlur = _ref.onBlur,
+      props = _objectWithoutPropertiesLoose(_ref, ["value", "required", "step", "precision", "units", "onChange", "onBlur"]);
 
   var toValue = React.useCallback(function (value) {
     if (value === undefined || value === '') {
@@ -1139,8 +1139,8 @@ var InputNumber = function InputNumber(_ref) {
   }, [precision]);
 
   var _useState = React.useState(toPrecision(value)),
-    display = _useState[0],
-    setDisplay = _useState[1];
+      display = _useState[0],
+      setDisplay = _useState[1];
 
   React.useEffect(function () {
     return setDisplay(toPrecision(value));
@@ -1170,7 +1170,7 @@ var InputNumber = function InputNumber(_ref) {
       var parsed = toValue(val);
       setDisplay(val);
       onChange(parsed);
-    } catch (e) { }
+    } catch (e) {}
 
     if (onBlur) {
       onBlur();
@@ -1247,11 +1247,11 @@ styleInject(css_248z$j);
 
 var ListItem = function ListItem(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    disabled = _ref.disabled,
-    onClick = _ref.onClick,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      disabled = _ref.disabled,
+      onClick = _ref.onClick,
+      children = _ref.children;
   return React__default.createElement("div", {
     id: id,
     className: merge("ui-list-item", {
@@ -1263,11 +1263,7 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-<<<<<<< HEAD
-var css_248z$k = ".ui-menu-bar-item{position:relative}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
-=======
-var css_248z$k = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto}";
->>>>>>> 219d37875addb091b57bd9c3f4ff2d2ef5fa42b3
+var css_248z$k = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
 styleInject(css_248z$k);
 
 var MenuBarItem = function MenuBarItem(_ref) {
@@ -1276,12 +1272,12 @@ var MenuBarItem = function MenuBarItem(_ref) {
 };
 var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
   var id = _ref2.id,
-    className = _ref2.className,
-    style = _ref2.style,
-    selected = _ref2.selected,
-    label = _ref2.label,
-    onSelect = _ref2.onSelect,
-    children = _ref2.children;
+      className = _ref2.className,
+      style = _ref2.style,
+      selected = _ref2.selected,
+      label = _ref2.label,
+      onSelect = _ref2.onSelect,
+      children = _ref2.children;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-menu-bar-item', {
@@ -1301,19 +1297,19 @@ styleInject(css_248z$l);
 
 var MenuBar = function MenuBar(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
 
   // is the menu bar currently active?
   var _useState = React.useState(false),
-    open = _useState[0],
-    setOpen = _useState[1]; // which item is currently selected
+      open = _useState[0],
+      setOpen = _useState[1]; // which item is currently selected
 
 
   var _useState2 = React.useState(''),
-    selection = _useState2[0],
-    setSelection = _useState2[1];
+      selection = _useState2[0],
+      setSelection = _useState2[1];
 
   var element = React.useRef(null); // auto close
 
@@ -1366,11 +1362,11 @@ styleInject(css_248z$m);
 
 var Progress = function Progress(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    color = _ref.color,
-    percent = _ref.percent,
-    hidden = _ref.hidden;
+      className = _ref.className,
+      style = _ref.style,
+      color = _ref.color,
+      percent = _ref.percent,
+      hidden = _ref.hidden;
   var bg = useAlpha(color, .2);
   return React__default.createElement("div", {
     id: id,
@@ -1399,10 +1395,10 @@ styleInject(css_248z$n);
 
 var Section = function Section(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    width = _ref.width,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      width = _ref.width,
+      children = _ref.children;
   return React__default.createElement("section", {
     id: id,
     className: merge('ui-section__container', className),
@@ -1424,20 +1420,20 @@ styleInject(css_248z$o);
 
 var Select = function Select(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    value = _ref.value,
-    margin = _ref.margin,
-    children = _ref.children,
-    label = _ref.label,
-    onChange = _ref.onChange,
-    color = _ref.color,
-    disabled = _ref.disabled,
-    direction = _ref.direction;
+      className = _ref.className,
+      style = _ref.style,
+      value = _ref.value,
+      margin = _ref.margin,
+      children = _ref.children,
+      label = _ref.label,
+      onChange = _ref.onChange,
+      color = _ref.color,
+      disabled = _ref.disabled,
+      direction = _ref.direction;
 
   var _useState = React.useState(false),
-    focus = _useState[0],
-    setFocus = _useState[1];
+      focus = _useState[0],
+      setFocus = _useState[1];
 
   var element = React.useRef(null);
   var open = useDelayBoolean(focus, 400);
@@ -1531,9 +1527,9 @@ styleInject(css_248z$p);
 
 var Subheader = function Subheader(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      children = _ref.children;
   return React__default.createElement("p", {
     id: id,
     className: merge("ui-subheader", className),
@@ -1550,12 +1546,12 @@ styleInject(css_248z$q);
 
 var Switch = function Switch(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    value = _ref.value,
-    disabled = _ref.disabled,
-    color = _ref.color,
-    onChange = _ref.onChange;
+      className = _ref.className,
+      style = _ref.style,
+      value = _ref.value,
+      disabled = _ref.disabled,
+      color = _ref.color,
+      onChange = _ref.onChange;
   var bg = useAlpha(color, .4);
   return React__default.createElement("div", {
     id: id,
@@ -1598,12 +1594,12 @@ var Tab = function Tab(_ref) {
 
 var TabExtended = function TabExtended(_ref2) {
   var children = _ref2.children,
-    value = _ref2.value,
-    selected = _ref2.selected,
-    highlight = _ref2.highlight,
-    color = _ref2.color,
-    onChange = _ref2.onChange,
-    setBar = _ref2.setBar;
+      value = _ref2.value,
+      selected = _ref2.selected,
+      highlight = _ref2.highlight,
+      color = _ref2.color,
+      onChange = _ref2.onChange,
+      setBar = _ref2.setBar;
   var ref = React.useRef(null);
 
   var _onClick = React.useCallback(function () {
@@ -1640,18 +1636,18 @@ styleInject(css_248z$s);
 
 var Tabs = function Tabs(_ref) {
   var children = _ref.children,
-    value = _ref.value,
-    onChange = _ref.onChange,
-    color = _ref.color,
-    highlight = _ref.highlight,
-    className = _ref.className;
+      value = _ref.value,
+      onChange = _ref.onChange,
+      color = _ref.color,
+      highlight = _ref.highlight,
+      className = _ref.className;
 
   var _useState = React.useState({
     left: 0,
     width: 90
   }),
-    bar = _useState[0],
-    setBar = _useState[1];
+      bar = _useState[0],
+      setBar = _useState[1];
 
   return React__default.createElement("div", {
     className: merge("ui-tabs", className)
@@ -1680,15 +1676,15 @@ styleInject(css_248z$t);
 
 var Textarea = function Textarea(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    value = _ref.value,
-    label = _ref.label,
-    required = _ref.required,
-    color = _ref.color,
-    disabled = _ref.disabled,
-    spellcheck = _ref.spellcheck,
-    _onChange = _ref.onChange;
+      className = _ref.className,
+      style = _ref.style,
+      value = _ref.value,
+      label = _ref.label,
+      required = _ref.required,
+      color = _ref.color,
+      disabled = _ref.disabled,
+      spellcheck = _ref.spellcheck,
+      _onChange = _ref.onChange;
   var validate = React.useCallback(function (value) {
     if (required && value === '') {
       return 'Required';
@@ -1698,12 +1694,12 @@ var Textarea = function Textarea(_ref) {
   }, [required]);
 
   var _useState = React.useState(false),
-    focus = _useState[0],
-    setFocus = _useState[1];
+      focus = _useState[0],
+      setFocus = _useState[1];
 
   var _useState2 = React.useState(false),
-    touched = _useState2[0],
-    setTouched = _useState2[1];
+      touched = _useState2[0],
+      setTouched = _useState2[1];
 
   var error = touched ? validate(value) : null;
   var hasValue = value !== undefined && value !== null && value !== '';
@@ -1765,16 +1761,16 @@ styleInject(css_248z$u);
 
 var ToastEntry = function ToastEntry(_ref) {
   var color = _ref.color,
-    toast = _ref.toast,
-    onDestroy = _ref.onDestroy;
+      toast = _ref.toast,
+      onDestroy = _ref.onDestroy;
 
   var _useState = React.useState(false),
-    hidden = _useState[0],
-    setHidden = _useState[1];
+      hidden = _useState[0],
+      setHidden = _useState[1];
 
   var _useState2 = React.useState(),
-    selfCombustTimeout = _useState2[0],
-    setSelfCombustTimeout = _useState2[1];
+      selfCombustTimeout = _useState2[0],
+      setSelfCombustTimeout = _useState2[1];
 
   React.useEffect(function () {
     setHidden(false);
@@ -1820,8 +1816,8 @@ var ToastEntry = function ToastEntry(_ref) {
 
 var Toast = function Toast(_ref) {
   var color = _ref.color,
-    toasts = _ref.toasts,
-    onDestroy = _ref.onDestroy;
+      toasts = _ref.toasts,
+      onDestroy = _ref.onDestroy;
   return React__default.createElement(React.Fragment, null, toasts.map(function (toast) {
     return React__default.createElement(ToastEntry, {
       key: toast.key,
@@ -1841,10 +1837,10 @@ styleInject(css_248z$v);
 
 var Transition = function Transition(_ref) {
   var id = _ref.id,
-    className = _ref.className,
-    style = _ref.style,
-    type = _ref.type,
-    children = _ref.children;
+      className = _ref.className,
+      style = _ref.style,
+      type = _ref.type,
+      children = _ref.children;
   return React__default.createElement("div", {
     id: id,
     className: merge('ui-transition', className, {
@@ -1883,8 +1879,8 @@ styleInject(css_248z$w);
 
 var MarkdownContent = function MarkdownContent(_ref) {
   var className = _ref.className,
-    markdown = _ref.markdown,
-    theme = _ref.theme;
+      markdown = _ref.markdown,
+      theme = _ref.theme;
   var faded = useAlpha(theme, .1);
   useStyles(".markdown-content blockquote { border-left: 4px solid " + theme + "; background-color: " + faded + "; }");
   useStyles(".markdown-content a { color: " + theme + "; }");
@@ -1959,8 +1955,8 @@ function parse(win, key, val, path) {
 
 function useLog(obj, rootName) {
   var _useState = React.useState(null),
-    win = _useState[0],
-    setWin = _useState[1]; // init
+      win = _useState[0],
+      setWin = _useState[1]; // init
 
 
   React.useEffect(function () {
@@ -2019,8 +2015,8 @@ function useRainbow(count) {
 
 function useScrollListener() {
   var _useState = React.useState(0.0),
-    y = _useState[0],
-    setY = _useState[1];
+      y = _useState[0],
+      setY = _useState[1];
 
   React.useEffect(function () {
     var cb = function cb() {
@@ -2061,12 +2057,12 @@ function useTheme(color) {
 
 function useWindowResizeListener() {
   var _useState = React.useState(window.innerWidth),
-    width = _useState[0],
-    setWidth = _useState[1];
+      width = _useState[0],
+      setWidth = _useState[1];
 
   var _useState2 = React.useState(window.innerHeight),
-    height = _useState2[0],
-    setHeight = _useState2[1];
+      height = _useState2[0],
+      setHeight = _useState2[1];
 
   React.useEffect(function () {
     var cb = function cb() {
