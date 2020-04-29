@@ -68,6 +68,66 @@ const App = () => {
 
         <Section style={{ paddingTop: 96 }} width={800}>
 
+        <Box id="menu-bar">
+                <Subheader>Menu Bar</Subheader>
+                <p className="description">Application menu bar for complex actions.</p>
+                <MenuBar>
+                    <MenuBarItem label="File">
+                        <ListItem onClick={() => false}>
+                            <p>New</p>
+                        </ListItem>
+                        <ListItem onClick={() => false}>
+                            <p>Open...</p>
+                        </ListItem>
+                        <Divider compact />
+                        <ListItem onClick={() => false}>
+                            <p>Save</p>
+                        </ListItem>
+                        <ListItem onClick={() => false}>
+                            <p>Save As...</p>
+                        </ListItem>
+                        <Divider compact />
+                        <ListItem onClick={() => false}>
+                            <p>Exit</p>
+                        </ListItem>
+                    </MenuBarItem>
+                    <MenuBarItem label="Edit">
+                        <ListItem disabled onClick={() => false}>
+                            <p>Undo</p>
+                        </ListItem>
+                        <ListItem disabled onClick={() => false}>
+                            <p>Redo</p>
+                        </ListItem>
+                        <Divider compact />
+                        <ListItem onClick={() => false}>
+                            <p>Cut</p>
+                        </ListItem>
+                        <ListItem onClick={() => false}>
+                            <p>Copy</p>
+                        </ListItem>
+                        <ListItem onClick={() => false}>
+                            <p>Paste</p>
+                        </ListItem>
+                    </MenuBarItem>
+                    <MenuBarItem label="Help">
+                        <ListItem onClick={() => false}>
+                            <p>Documentation</p>
+                        </ListItem>
+                        <ListItem onClick={() => false}>
+                            <p>Release Notes</p>
+                        </ListItem>
+                        <Divider compact />
+                        <ListItem onClick={() => false}>
+                            <p>Check for Updates...</p>
+                        </ListItem>
+                        <Divider compact />
+                        <ListItem onClick={() => false}>
+                            <p>About</p>
+                        </ListItem>
+                    </MenuBarItem>
+                </MenuBar>
+            </Box>
+
             <Box id="text-input">
                 <Subheader>Text Input</Subheader>
                 <p className="description">Input for generic single line text.</p>
@@ -172,25 +232,6 @@ const App = () => {
                         <p>{toggled ? 'Toggled' : 'Untoggled'}</p>
                     </div>
                 </div>
-            </Box>
-
-            <Box id="menu-bar">
-                <Subheader>Menu Bar</Subheader>
-                <p className="description">Application menu bar for complex actions.</p>
-                <MenuBar>
-                    <MenuBarItem label="File">
-                        <ListItem>
-                            <p>New</p>
-                        </ListItem>
-                        <ListItem>
-                            <p>Open...</p>
-                        </ListItem>
-                    </MenuBarItem>
-                    <MenuBarItem label="Edit">
-
-                        
-                    </MenuBarItem>
-                </MenuBar>
             </Box>
 
         </Section>

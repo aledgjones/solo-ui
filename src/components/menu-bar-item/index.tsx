@@ -1,6 +1,6 @@
 import React, { FC, CSSProperties } from 'react';
 import { merge } from '../../utils/merge';
-import { Card } from 'components/card';
+import { Card } from '../card';
 
 import './styles.css';
 
