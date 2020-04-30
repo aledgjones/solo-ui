@@ -13,7 +13,6 @@ var Color = _interopDefault(require('color'));
 var ReactDOM = _interopDefault(require('react-dom'));
 var Big = _interopDefault(require('big.js'));
 var js = require('@mdi/js');
-var merge$1 = require('utils/merge');
 require('shortid');
 var showdown = require('showdown');
 var showdownHighlight = _interopDefault(require('showdown-highlight'));
@@ -1794,7 +1793,7 @@ var TabExtended = function TabExtended(_ref2) {
   }, [selected, setBar, ref]);
   return React__default.createElement("div", {
     ref: ref,
-    className: merge$1.merge("ui-tab", {
+    className: merge("ui-tab", {
       'ui-tab--selected': selected
     }),
     style: {

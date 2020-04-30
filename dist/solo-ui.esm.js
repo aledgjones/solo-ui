@@ -6,7 +6,6 @@ import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
-import { merge as merge$1 } from 'utils/merge';
 import 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
@@ -1787,7 +1786,7 @@ var TabExtended = function TabExtended(_ref2) {
   }, [selected, setBar, ref]);
   return React.createElement("div", {
     ref: ref,
-    className: merge$1("ui-tab", {
+    className: merge("ui-tab", {
       'ui-tab--selected': selected
     }),
     style: {

@@ -1,7 +1,8 @@
 import React, { FC, useRef, useCallback, useEffect } from 'react';
 
+import { merge } from '../../utils/merge';
+
 import './styles.css';
-import { merge } from 'utils/merge';
 
 interface Props {
     value: any;
