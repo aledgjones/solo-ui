@@ -5,12 +5,10 @@
     position: relative;
     padding: 0px 12px;
     height: 100%;
-    border-radius: 3px;
     cursor: pointer;
 }
 
-.ui-menu-bar-item:hover,
-.ui-menu-bar-item--selected {
+.ui-menu-bar-item:hover, .ui-menu-bar-item--selected {
     background-color: rgb(235, 235, 235);
 }
 

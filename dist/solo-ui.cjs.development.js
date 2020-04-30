@@ -13,6 +13,7 @@ var Color = _interopDefault(require('color'));
 var ReactDOM = _interopDefault(require('react-dom'));
 var Big = _interopDefault(require('big.js'));
 var js = require('@mdi/js');
+var merge$1 = require('utils/merge');
 require('shortid');
 var showdown = require('showdown');
 var showdownHighlight = _interopDefault(require('showdown-highlight'));
@@ -1432,7 +1433,7 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$m = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;border-radius:3px;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
+var css_248z$m = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
 styleInject(css_248z$m);
 
 var MenuBarItem = function MenuBarItem(_ref) {
@@ -1778,13 +1779,11 @@ var TabExtended = function TabExtended(_ref2) {
       onChange = _ref2.onChange,
       setBar = _ref2.setBar;
   var ref = React.useRef(null);
-
-  var _onClick = React.useCallback(function () {
+  var onClick = React.useCallback(function () {
     if (onChange) {
       onChange(value);
     }
   }, [value, onChange]);
-
   React.useEffect(function () {
     if (setBar && selected && ref.current) {
       setBar({
@@ -1795,12 +1794,14 @@ var TabExtended = function TabExtended(_ref2) {
   }, [selected, setBar, ref]);
   return React__default.createElement("div", {
     ref: ref,
-    className: "ui-tab",
+    className: merge$1.merge("ui-tab", {
+      'ui-tab--selected': selected
+    }),
     style: {
       color: selected ? highlight : color,
       transition: selected ? 'color .2s .1s' : 'color .2s'
     },
-    onClick: _onClick
+    onClick: onClick
   }, children);
 };
 

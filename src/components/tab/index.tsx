@@ -1,6 +1,7 @@
 import React, { FC, useRef, useCallback, useEffect } from 'react';
 
 import './styles.css';
+import { merge } from 'utils/merge';
 
 interface Props {
     value: any;
@@ -29,7 +30,7 @@ export const TabExtended: FC<PropsExtended> = ({ children, value, selected, high
 
     const ref = useRef<HTMLDivElement>(null);
 
-    const _onClick = useCallback(() => {
+    const onClick = useCallback(() => {
         if (onChange) {
             onChange(value);
         }
@@ -43,11 +44,11 @@ export const TabExtended: FC<PropsExtended> = ({ children, value, selected, high
 
     return <div
         ref={ref}
-        className="ui-tab"
+        className={merge("ui-tab", { 'ui-tab--selected': selected })}
         style={{
             color: selected ? highlight : color,
             transition: selected ? 'color .2s .1s' : 'color .2s'
         }}
-        onClick={_onClick}
+        onClick={onClick}
     >{children}</div>;
 }
