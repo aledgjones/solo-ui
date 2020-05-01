@@ -1400,8 +1400,25 @@ var Label = function Label(_ref) {
   }, children);
 };
 
-var css_248z$l = ".ui-list-item{display:flex;align-items:center;justify-content:space-between;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:12px 20px;cursor:pointer}.ui-list-item--hover:hover{background-color:rgba(0,0,0,.1)}.ui-list-item--disabled{opacity:.4;pointer-events:none}";
+var css_248z$l = ".ui-list{padding:8px 0}";
 styleInject(css_248z$l);
+
+var List = function List(_ref) {
+  var id = _ref.id,
+      className = _ref.className,
+      style = _ref.style,
+      onClick = _ref.onClick,
+      children = _ref.children;
+  return React.createElement("div", {
+    id: id,
+    className: merge("ui-list", className),
+    style: style,
+    onClick: onClick
+  }, children);
+};
+
+var css_248z$m = ".ui-list-item{display:flex;align-items:center;justify-content:space-between;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:12px 20px;cursor:pointer}.ui-list-item--hover:hover{background-color:rgba(0,0,0,.1)}.ui-list-item--disabled{opacity:.4;pointer-events:none}";
+styleInject(css_248z$m);
 
 /**
  * List Item with default hover styles if onClick present.
@@ -1425,8 +1442,8 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$m = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
-styleInject(css_248z$m);
+var css_248z$n = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
+styleInject(css_248z$n);
 
 var MenuBarItem = function MenuBarItem(_ref) {
   var children = _ref.children;
@@ -1454,8 +1471,8 @@ var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
   }, children));
 };
 
-var css_248z$n = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
-styleInject(css_248z$n);
+var css_248z$o = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
+styleInject(css_248z$o);
 
 var MenuBar = function MenuBar(_ref) {
   var id = _ref.id,
@@ -1519,8 +1536,8 @@ var Option = function Option(_ref) {
   return React.createElement(React.Fragment, null, children);
 };
 
-var css_248z$o = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
-styleInject(css_248z$o);
+var css_248z$p = "@-webkit-keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}@keyframes ui-progress{0%{transform:translateX(-100%);left:0}to{transform:translateX(0);left:100%}}.ui-progress{position:relative;height:4px;width:100%;transition:height .2s;overflow:hidden}.ui-progress__indicator{position:absolute;top:0;left:0;height:100%;transition:width .2s}.ui-progress--indeterminate .ui-progress__indicator{-webkit-animation-name:ui-progress;animation-name:ui-progress;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-fill-mode:both;animation-fill-mode:both;width:25%}.ui-progress--hidden{height:0}";
+styleInject(css_248z$p);
 
 /**
  * Progress component. Can be indeterminate or determinate to show working state or progres.
@@ -1552,8 +1569,8 @@ var Progress = function Progress(_ref) {
   }));
 };
 
-var css_248z$p = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
-styleInject(css_248z$p);
+var css_248z$q = ".ui-section__container{display:block;padding:40px}.ui-section__content{display:block;margin-left:auto;margin-right:auto;width:100%}";
+styleInject(css_248z$q);
 
 /**
  * Section component.
@@ -1577,8 +1594,8 @@ var Section = function Section(_ref) {
   }, children));
 };
 
-var css_248z$q = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
-styleInject(css_248z$q);
+var css_248z$r = ".ui-select{padding-bottom:0}.ui-select__container{cursor:pointer}.ui-select__icon{margin-right:12px}.ui-select__card{position:absolute;top:100%;left:0;width:100%;transform:translateZ(0);z-index:10;overflow:auto;padding:8px 0;touch-action:pan-y;max-height:0;opacity:0;transition:max-height .2s,opacity .2s;pointer-events:none}.ui-select__card--up{top:auto;bottom:100%}.ui-select__card--open{opacity:1;max-height:140px;pointer-events:all}.ui-select__card *{touch-action:pan-y}.ui-select__item{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:8px 12px;cursor:pointer}.ui-select__item:hover{background-color:rgba(0,0,0,.1)}";
+styleInject(css_248z$r);
 
 /**
  * Select component to be used with the Option component.
@@ -1688,8 +1705,8 @@ var Select = function Select(_ref) {
   })));
 };
 
-var css_248z$r = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
-styleInject(css_248z$r);
+var css_248z$s = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
+styleInject(css_248z$s);
 
 /**
  * Google tasks style subheader component. Small, bold and capitalized.
@@ -1707,8 +1724,8 @@ var Subheader = function Subheader(_ref) {
   }, children);
 };
 
-var css_248z$s = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
-styleInject(css_248z$s);
+var css_248z$t = ".ui-switch{display:flex;justify-content:flex-start;align-items:center}.ui-switch,.ui-switch__track{position:relative;height:14px}.ui-switch__track{display:block;width:36px;min-width:36px;border-radius:7px;background-color:rgba(0,0,0,.26);transition:background-color .2s}.ui-switch__button{position:absolute;top:-3px;left:-3px;display:block;width:20px;height:20px;border-radius:50%;background-color:#fafafa;transition:background-color .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)}.ui-switch--disabled{pointer-events:none}.ui-switch--disabled .ui-switch__track{background-color:rgba(0,0,0,.12)!important}.ui-switch--disabled .ui-switch__button{background-color:#bdbdbd!important}";
+styleInject(css_248z$t);
 
 /**
  * Switch component.
@@ -1747,8 +1764,8 @@ var Switch = function Switch(_ref) {
   }));
 };
 
-var css_248z$t = ".ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
-styleInject(css_248z$t);
+var css_248z$u = ".ui-tab{display:flex;align-items:center;justify-content:center;padding:0 16px;min-height:48px;min-width:90px;text-transform:uppercase;z-index:1;cursor:pointer;color:#fff}";
+styleInject(css_248z$u);
 
 /**
  * Tab component to be used inside the Tabs component;
@@ -1797,8 +1814,8 @@ var TabExtended = function TabExtended(_ref2) {
   }, children);
 };
 
-var css_248z$u = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}";
-styleInject(css_248z$u);
+var css_248z$v = ".ui-tabs{position:relative;display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;margin-left:6px}.ui-tabs__bar{position:absolute;bottom:0;height:4px;min-width:90px;transition:width .2s,left .2s;z-index:0;border-radius:3px 3px 0 0}";
+styleInject(css_248z$v);
 
 /**
  * Tabs component used with the Tab ccomponent.
@@ -1841,8 +1858,8 @@ var Tabs = function Tabs(_ref) {
   }));
 };
 
-var css_248z$v = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
-styleInject(css_248z$v);
+var css_248z$w = ".ui-textarea__container{display:block}.ui-textarea__display{position:absolute;top:0;left:0;width:100%;height:100%}.ui-textarea__slave{position:relative;white-space:pre-line;pointer-events:none;width:100%;visibility:hidden;min-height:54px}";
+styleInject(css_248z$w);
 
 /**
  * Auto expanding textarea component.
@@ -1926,8 +1943,8 @@ var Textarea = function Textarea(_ref) {
   }, error));
 };
 
-var css_248z$w = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:1000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
-styleInject(css_248z$w);
+var css_248z$x = "@-webkit-keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes ui-toast-in{0%{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}.ui-toast{position:fixed;bottom:20px;left:20px;background-color:#323232;color:#fff;-webkit-animation:ui-toast-in .3s;animation:ui-toast-in .3s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;padding:0 0 0 20px;display:flex;align-items:center;min-width:288px;min-height:48px;z-index:1000000;border-radius:2px;transition:transform .4s,opacity .4s}.ui-toast__text{flex-grow:1;margin-right:20px}.ui-toast__button{color:#fff;border:1px solid transparent!important;box-shadow:none!important}.ui-toast--hide{opacity:0;transform:translateY(100%)}@media (max-width:500px){.ui-toast{position:fixed;bottom:0;left:0;width:100%;border-radius:0}}";
+styleInject(css_248z$x);
 
 /**
  * Internal component used by the Toast component.
@@ -2002,8 +2019,8 @@ var Toast = function Toast(_ref) {
   }));
 };
 
-var css_248z$x = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
-styleInject(css_248z$x);
+var css_248z$y = ".ui-transition{display:block;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ui-transition__swipe-up{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-transition--swipe-up{-webkit-animation:ui-transition__swipe-up .4s;animation:ui-transition__swipe-up .4s}@-webkit-keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}@keyframes ui-transition__fade-in{0%{opacity:0}to{opacity:1}}.ui-transition--fade-in{-webkit-animation:ui-transition__fade-in .4s;animation:ui-transition__fade-in .4s}";
+styleInject(css_248z$y);
 
 /**
  * Basic animation in for elements.
@@ -2048,8 +2065,8 @@ function useStyles() {
   }, [args]);
 }
 
-var css_248z$y = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
-styleInject(css_248z$y);
+var css_248z$z = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
+styleInject(css_248z$z);
 
 var MarkdownContent = function MarkdownContent(_ref) {
   var className = _ref.className,
@@ -2225,6 +2242,12 @@ function useTheme(color) {
   }, [color]);
 }
 
+function useTitle(title) {
+  useEffect(function () {
+    document.title = title;
+  }, [title]);
+}
+
 /**
  * Hook: Listens for window resize and returns width and height;
  */
@@ -2312,6 +2335,38 @@ function chooseFiles(config) {
   });
 }
 
+var download = function download(raw, name) {
+  try {
+    var content = JSON.stringify(raw, undefined, 2);
+    var blob = new Blob([content], {
+      type: 'text/plain'
+    });
+    var localUrl = URL.createObjectURL(blob); // yes we need to append else it doesn't work
+
+    var a = document.createElement('A');
+    document.body.appendChild(a);
+    a.style.position = 'fixed';
+    a.style.visibility = 'hidden';
+    a.style.left = '-100000px';
+    a.style.top = '-100000px';
+    a.href = localUrl;
+    a.download = name;
+
+    try {
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(localUrl);
+      return Promise.resolve();
+    } catch (err) {
+      a.remove();
+      URL.revokeObjectURL(localUrl);
+      throw error('@download/fail', 'Could not download the file.');
+    }
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 /**
  * Generate a Promise that will be resolved after specified duration.
  */
@@ -2329,5 +2384,5 @@ var wait = function wait(duration) {
   }
 };
 
-export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, DragScroll, Drawer, DropFiles, Fab, Form, Icon, Input, Label, ListItem, MarkdownContent, MenuBar, MenuBarItem, Option, Portal, Progress, Section, Select, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, dragHandler, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useDragHandler, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useWindowResizeListener, wait };
+export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, DragScroll, Drawer, DropFiles, Fab, Form, Icon, Input, Label, List, ListItem, MarkdownContent, MenuBar, MenuBarItem, Option, Portal, Progress, Section, Select, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, download, dragHandler, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useDragHandler, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useTitle, useWindowResizeListener, wait };
 //# sourceMappingURL=solo-ui.esm.js.map
