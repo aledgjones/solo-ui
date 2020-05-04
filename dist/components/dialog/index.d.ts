@@ -1,9 +1,7 @@
-import { FC, CSSProperties, ReactNode } from 'react';
-import './styles.css';
+import { ReactNode } from "react";
+import { SuperFC } from "../../generic";
+import "./styles.css";
 interface Props {
-    id?: string;
-    className?: string;
-    style?: CSSProperties;
     width?: number;
     open: boolean;
     children: () => ReactNode;
@@ -11,5 +9,5 @@ interface Props {
 /**
  * Dialog component for displaying related but long form actions.
  */
-export declare const Dialog: FC<Props>;
+export declare const Dialog: SuperFC<Props>;
 export {};

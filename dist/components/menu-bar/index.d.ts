@@ -1,5 +1,5 @@
-import { FC, CSSProperties } from 'react';
-import './styles.css';
+import { FC, CSSProperties } from "react";
+import "./styles.css";
 interface Props {
     id?: string;
     className?: string;

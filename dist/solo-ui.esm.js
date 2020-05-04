@@ -1,12 +1,12 @@
 import 'app-reset/app-reset.css';
-import React, { useMemo, useState, useEffect, useCallback, useRef, Children, Fragment } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef, Children, createContext, useContext, Fragment } from 'react';
 import isString from 'lodash.isstring';
 import isObject from 'lodash.isobject';
 import Color from 'color';
 import ReactDOM from 'react-dom';
 import Big from 'big.js';
 import { mdiCheck, mdiFileUploadOutline, mdiChevronUp, mdiChevronDown } from '@mdi/js';
-import 'shortid';
+import shortid from 'shortid';
 import { Converter } from 'showdown';
 import showdownHighlight from 'showdown-highlight';
 import 'highlight.js/styles/vs2015.css';
@@ -42,6 +42,39 @@ function styleInject(css, ref) {
 
 var css_248z = "body{font-family:Roboto,sans-serif}*{box-sizing:border-box;-ms-scroll-chaining:none;overscroll-behavior:contain}";
 styleInject(css_248z);
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
 
 /**
  * Merge strings into single string with conditional inclusion. Useful for className strings
@@ -92,54 +125,19 @@ styleInject(css_248z$1);
  */
 
 var Appbar = function Appbar(_ref) {
-  var id = _ref.id,
-      className = _ref.className,
-      style = _ref.style,
+  var className = _ref.className,
       shadow = _ref.shadow,
-      children = _ref.children;
-  return React.createElement("header", {
-    id: id,
-    className: merge('ui-appbar', {
-      'ui-appbar--shadow': shadow
-    }, className),
-    style: style
-  }, React.createElement("div", {
+      children = _ref.children,
+      props = _objectWithoutPropertiesLoose(_ref, ["className", "shadow", "children"]);
+
+  return React.createElement("header", Object.assign({
+    className: merge("ui-appbar", {
+      "ui-appbar--shadow": shadow
+    }, className)
+  }, props), React.createElement("div", {
     className: "ui-appbar__content"
   }, children));
 };
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 
 // A type of promise-like that resolves synchronously and supports only one observer
 
@@ -640,7 +638,7 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto;box-shadow:0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
 styleInject(css_248z$c);
 
 /**
@@ -648,27 +646,27 @@ styleInject(css_248z$c);
  */
 
 var Dialog = function Dialog(_ref) {
-  var id = _ref.id,
-      className = _ref.className,
+  var className = _ref.className,
       style = _ref.style,
       width = _ref.width,
       open = _ref.open,
-      children = _ref.children;
+      children = _ref.children,
+      props = _objectWithoutPropertiesLoose(_ref, ["className", "style", "width", "open", "children"]);
+
   var render = useDelayBoolean(open, 500);
   return React.createElement(Portal, null, React.createElement(Backdrop, {
     className: "ui-dialog__backdrop",
     open: open
   }), React.createElement("div", {
-    id: id,
-    className: merge("ui-dialog", className, {
-      'ui-dialog--show': open
+    className: merge("ui-dialog", {
+      "ui-dialog--show": open
     })
-  }, React.createElement(Card, {
-    className: "ui-dialog__card",
+  }, React.createElement(Card, Object.assign({
+    className: merge("ui-dialog__card", className),
     style: _extends({
       maxWidth: width
     }, style)
-  }, render && children())));
+  }, props), render && children())));
 };
 
 var css_248z$d = ".ui-divider{display:block;height:1px;width:100%;margin:8px 0;background-color:rgba(0,0,0,.1)}.ui-divider--compact{margin:0}";
@@ -1442,37 +1440,8 @@ var ListItem = function ListItem(_ref) {
   }, children);
 };
 
-var css_248z$n = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
+var css_248z$n = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
 styleInject(css_248z$n);
-
-var MenuBarItem = function MenuBarItem(_ref) {
-  var children = _ref.children;
-  return React.createElement(React.Fragment, null, children);
-};
-var MenuBarItemExtended = function MenuBarItemExtended(_ref2) {
-  var id = _ref2.id,
-      className = _ref2.className,
-      style = _ref2.style,
-      selected = _ref2.selected,
-      label = _ref2.label,
-      onSelect = _ref2.onSelect,
-      children = _ref2.children;
-  return React.createElement("div", {
-    id: id,
-    className: merge('ui-menu-bar-item', {
-      'ui-menu-bar-item--selected': selected
-    }, className),
-    style: style,
-    onPointerEnter: function onPointerEnter() {
-      return onSelect(label);
-    }
-  }, label, selected && React.createElement(Card, {
-    className: "ui-menu-bar-item__card"
-  }, children));
-};
-
-var css_248z$o = ".ui-menu-bar{position:relative;height:28px;background-color:#fff;width:100%;z-index:999998}.ui-menu-bar__content{display:inline-flex;align-items:center;height:100%}";
-styleInject(css_248z$o);
 
 var MenuBar = function MenuBar(_ref) {
   var id = _ref.id,
@@ -1486,7 +1455,7 @@ var MenuBar = function MenuBar(_ref) {
       setOpen = _useState[1]; // which item is currently selected
 
 
-  var _useState2 = useState(''),
+  var _useState2 = useState(""),
       selection = _useState2[0],
       setSelection = _useState2[1];
 
@@ -1503,28 +1472,45 @@ var MenuBar = function MenuBar(_ref) {
       }
     };
 
-    document.addEventListener('click', cb);
+    document.addEventListener("click", cb);
     return function () {
-      return document.removeEventListener('click', cb);
+      return document.removeEventListener("click", cb);
     };
   }, [element]);
   return React.createElement("div", {
     id: id,
-    className: merge('ui-menu-bar', className),
+    className: merge("ui-menu-bar", className),
     style: style
   }, React.createElement("div", {
     ref: element,
     className: "ui-menu-bar__content"
   }, Children.map(children, function (child) {
     if (child) {
-      return React.createElement(MenuBarItemExtended, Object.assign({}, child.props, {
-        selected: open && child.props.label === selection,
-        onSelect: setSelection
-      }));
+      var selected = open && child.props.label === selection;
+      return React.createElement("div", {
+        id: id,
+        className: merge("ui-menu-bar-item", {
+          "ui-menu-bar-item--selected": selected
+        }, className),
+        style: style,
+        onPointerEnter: function onPointerEnter() {
+          return setSelection(child.props.label);
+        }
+      }, child.props.label, selected && React.createElement(Card, {
+        className: "ui-menu-bar-item__card"
+      }, child.props.children));
     } else {
       return null;
     }
   })));
+};
+
+var css_248z$o = ".ui-menu-bar-item{display:flex;align-items:center;position:relative;padding:0 12px;height:100%;cursor:pointer}.ui-menu-bar-item--selected,.ui-menu-bar-item:hover{background-color:#ebebeb}.ui-menu-bar-item__card{position:absolute;top:100%;left:0;max-height:calc(100vh - 76px);min-width:200px;overflow:auto;border-radius:0}";
+styleInject(css_248z$o);
+
+var MenuBarItem = function MenuBarItem(_ref) {
+  var children = _ref.children;
+  return React.createElement(React.Fragment, null, children);
 };
 
 /**
@@ -1703,6 +1689,295 @@ var Select = function Select(_ref) {
       return null;
     }
   })));
+};
+
+var SortableContext = /*#__PURE__*/createContext({
+  config: {
+    direction: "y",
+    onEnd: function onEnd() {}
+  },
+  items: [],
+  setItems: function setItems() {}
+});
+
+var SortableContainer = function SortableContainer(_ref) {
+  var className = _ref.className,
+      direction = _ref.direction,
+      onEnd = _ref.onEnd,
+      children = _ref.children,
+      props = _objectWithoutPropertiesLoose(_ref, ["className", "direction", "onEnd", "children"]);
+
+  var _useState = useState([]),
+      items = _useState[0],
+      setItems = _useState[1];
+
+  return React.createElement(SortableContext.Provider, {
+    value: {
+      config: {
+        direction: direction,
+        onEnd: onEnd
+      },
+      items: items,
+      setItems: setItems
+    }
+  }, React.createElement("div", Object.assign({
+    className: merge("ui-sortable-container", className)
+  }, props), children));
+};
+
+function getAbsoluteHeight(element) {
+  if (element) {
+    var styles = window.getComputedStyle(element);
+    var margin = parseFloat(styles["marginBottom"]);
+    return Math.ceil(element.offsetHeight + margin);
+  } else {
+    return 0;
+  }
+}
+
+function getAbsoluteWidth(element) {
+  if (element) {
+    var styles = window.getComputedStyle(element);
+    var margin = parseFloat(styles["marginRight"]);
+    return Math.ceil(element.offsetWidth + margin);
+  } else {
+    return 0;
+  }
+}
+
+function getInsertPointX(e, items, oldIndex) {
+  var newIndex = 0;
+  items.forEach(function (item) {
+    var _item$ref$current;
+
+    var box = (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.getBoundingClientRect();
+
+    if (box) {
+      var insertCutOffPoint = box.left + box.width / 2; // don't insertAt the existing index
+
+      if (e.clientX > insertCutOffPoint) {
+        if (item.index > oldIndex) {
+          if (item.index > newIndex) {
+            newIndex = item.index;
+          }
+        } else if (item.index < oldIndex) {
+          if (item.index + 1 > newIndex) {
+            newIndex = item.index + 1;
+          }
+        }
+      }
+    }
+  });
+  return newIndex;
+}
+
+function getInsertPointY(e, items, oldIndex) {
+  var newIndex = 0;
+  items.forEach(function (item) {
+    var _item$ref$current;
+
+    var box = (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.getBoundingClientRect();
+
+    if (box) {
+      var insertCutOffPoint = box.top + box.height / 2; // don't insertAt the existing index
+
+      if (e.clientY > insertCutOffPoint) {
+        if (item.index > oldIndex) {
+          if (item.index > newIndex) {
+            newIndex = item.index;
+          }
+        } else if (item.index < oldIndex) {
+          if (item.index + 1 > newIndex) {
+            newIndex = item.index + 1;
+          }
+        }
+      }
+    }
+  });
+  return newIndex;
+}
+
+function getOffset(item, insertAt, index, offsetItemsBy) {
+  if (item.index < index) {
+    if (insertAt <= item.index) {
+      return offsetItemsBy;
+    }
+  }
+
+  if (item.index > index) {
+    if (insertAt >= item.index) {
+      return -offsetItemsBy;
+    }
+  }
+
+  return 0;
+}
+
+var SortableItem = function SortableItem(_ref) {
+  var index = _ref.index,
+      handle = _ref.handle,
+      className = _ref.className,
+      style = _ref.style,
+      onPointerDown = _ref.onPointerDown,
+      children = _ref.children,
+      props = _objectWithoutPropertiesLoose(_ref, ["index", "handle", "className", "style", "onPointerDown", "children"]);
+
+  var key = useMemo(function () {
+    return shortid();
+  }, []);
+  var ref = useRef(null);
+
+  var _useContext = useContext(SortableContext),
+      config = _useContext.config,
+      items = _useContext.items,
+      setItems = _useContext.setItems;
+
+  var item = items.find(function (item) {
+    return item.key === key;
+  }); // register the dom element ref with the container.
+
+  useEffect(function () {
+    setItems(function (s) {
+      return [].concat(s, [{
+        key: key,
+        index: index,
+        sorting: false,
+        active: false,
+        offset: {
+          x: 0,
+          y: 0
+        },
+        ref: ref
+      }]);
+    });
+    return function () {
+      setItems(function (s) {
+        return s.filter(function (item) {
+          return item.key !== key;
+        });
+      });
+    };
+  }, [key, index, ref, setItems]); // stop native touch scrolling in the config.direction
+
+  useEffect(function () {
+    var target = handle && handle.current ? handle.current : ref.current;
+
+    if (target) {
+      target.style.touchAction = "pan-" + (config.direction === "x" ? "y" : "x");
+    }
+  }, [handle, ref, config]);
+  var onDown = useDragHandler({
+    onDown: function onDown(e) {
+      if (onPointerDown) {
+        onPointerDown(e);
+      } // cancel if not the left mouse button
+
+
+      if (e.button === 2) {
+        return false;
+      } // cancel any pointerdown events not inside the handle
+
+
+      if (handle && handle.current) {
+        var target = e.target;
+
+        if (handle.current !== e.target && !handle.current.contains(target)) {
+          return false;
+        }
+      }
+
+      setItems(function (items) {
+        return items.map(function (item) {
+          return _extends(_extends({}, item), {}, {
+            active: item.key === key,
+            sorting: true
+          });
+        });
+      }); // init mouse/pointer position
+
+      return {
+        x: e.screenX,
+        y: e.screenY,
+        insertAt: index
+      };
+    },
+    onMove: function onMove(e, init) {
+      setItems(function (items) {
+        if (config.direction === "x") {
+          var offsetItemsBy = getAbsoluteWidth(ref.current);
+          init.insertAt = getInsertPointX(e, items, index);
+          return items.map(function (item) {
+            if (item.key === key) {
+              // if selected offset by pointer delta
+              return _extends(_extends({}, item), {}, {
+                offset: {
+                  x: e.screenX - init.x,
+                  y: 0
+                }
+              });
+            } else {
+              // else offset by selection height
+              return _extends(_extends({}, item), {}, {
+                offset: {
+                  x: getOffset(item, init.insertAt, index, offsetItemsBy),
+                  y: 0
+                }
+              });
+            }
+          });
+        } else {
+          var _offsetItemsBy = getAbsoluteHeight(ref.current);
+
+          init.insertAt = getInsertPointY(e, items, index);
+          return items.map(function (item) {
+            if (item.key === key) {
+              // if selected offset by pointer delta
+              return _extends(_extends({}, item), {}, {
+                offset: {
+                  y: e.screenY - init.y,
+                  x: 0
+                }
+              });
+            } else {
+              // else offset by selection height
+              return _extends(_extends({}, item), {}, {
+                offset: {
+                  y: getOffset(item, init.insertAt, index, _offsetItemsBy),
+                  x: 0
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    onEnd: function onEnd(_e, init) {
+      config.onEnd(index, init.insertAt);
+      setItems(function (items) {
+        return items.map(function (item) {
+          return _extends(_extends({}, item), {}, {
+            sorting: false,
+            active: false,
+            offset: {
+              x: 0,
+              y: 0
+            }
+          });
+        });
+      });
+    }
+  }, [key, config, items, index, handle, onPointerDown]);
+  return React.createElement("div", Object.assign({
+    ref: ref,
+    style: _extends({
+      transform: "translate(" + ((item === null || item === void 0 ? void 0 : item.offset.x) || 0) + "px," + ((item === null || item === void 0 ? void 0 : item.offset.y) || 0) + "px)"
+    }, style),
+    onPointerDown: onDown,
+    className: merge("ui-sortable-item", {
+      "ui-sortable-item--active": (item === null || item === void 0 ? void 0 : item.active) || false,
+      "ui-sortable-item--sorting": (item === null || item === void 0 ? void 0 : item.sorting) || false
+    }, className)
+  }, props), children);
 };
 
 var css_248z$s = ".ui-subheader{text-transform:uppercase;font-size:12px;font-weight:700;margin:0 0 20px;color:#323232}";
@@ -2384,5 +2659,5 @@ var wait = function wait(duration) {
   }
 };
 
-export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, DragScroll, Drawer, DropFiles, Fab, Form, Icon, Input, Label, List, ListItem, MarkdownContent, MenuBar, MenuBarItem, Option, Portal, Progress, Section, Select, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, download, dragHandler, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useDragHandler, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useTitle, useWindowResizeListener, wait };
+export { Appbar, Avatar, Backdrop, BottomSheet, Button, Card, Checkbox, Content, Dialog, Divider, DragScroll, Drawer, DropFiles, Fab, Form, Icon, Input, Label, List, ListItem, MarkdownContent, MenuBar, MenuBarItem, Option, Portal, Progress, Section, Select, SortableContainer, SortableItem, Spinner, Subheader, Switch, Tab, Tabs, Textarea, Toast, Transition, chooseFiles, download, dragHandler, error, fileAccepted, isEmail, merge, useAlpha, useDelayBoolean, useDragHandler, useForeground, useLog, usePluralize, useRainbow, useScrollListener, useStyles, useTheme, useTitle, useWindowResizeListener, wait };
 //# sourceMappingURL=solo-ui.esm.js.map

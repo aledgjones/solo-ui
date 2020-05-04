@@ -1,18 +1,15 @@
-import React, { FC, CSSProperties, ReactNode } from 'react';
+import React, { ReactNode } from "react";
 
-import { Portal } from '../portal';
-import { merge } from '../../utils/merge';
-import { Backdrop } from '../backdrop';
-import { Card } from '../card';
-import { useDelayBoolean } from '../../hooks/use-delay-boolean';
+import { SuperFC } from "../../generic";
+import { merge } from "../../utils/merge";
+import { useDelayBoolean } from "../../hooks/use-delay-boolean";
+import { Portal } from "../portal";
+import { Backdrop } from "../backdrop";
+import { Card } from "../card";
 
-import './styles.css';
+import "./styles.css";
 
 interface Props {
-    id?: string;
-    className?: string;
-    style?: CSSProperties;
-
     width?: number;
     open: boolean;
     children: () => ReactNode;
@@ -21,20 +18,17 @@ interface Props {
 /**
  * Dialog component for displaying related but long form actions.
  */
-export const Dialog: FC<Props> = ({ id, className, style, width, open, children }) => {
-
+export const Dialog: SuperFC<Props> = ({ className, style, width, open, children, ...props }) => {
     const render = useDelayBoolean(open, 500);
 
-    return <Portal>
-        <Backdrop className="ui-dialog__backdrop" open={open} />
-        <div id={id} className={merge("ui-dialog", className, { 'ui-dialog--show': open })} >
-            <Card
-                className="ui-dialog__card"
-                style={{ maxWidth: width, ...style }}
-            >
-                {render && children()}
-            </Card>
-        </div>
-    </Portal >
-
-}
+    return (
+        <Portal>
+            <Backdrop className="ui-dialog__backdrop" open={open} />
+            <div className={merge("ui-dialog", { "ui-dialog--show": open })}>
+                <Card className={merge("ui-dialog__card", className)} style={{ maxWidth: width, ...style }} {...props}>
+                    {render && children()}
+                </Card>
+            </div>
+        </Portal>
+    );
+};
