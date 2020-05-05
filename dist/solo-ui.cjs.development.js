@@ -1864,11 +1864,9 @@ var SortableItem = function SortableItem(_ref) {
       var item = items[key];
 
       if (item) {
-        var _item$ref$current, _extends2;
+        var _extends2;
 
-        // clear any offsets if the index has changed
-        (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.style.removeProperty("display"); // update the index in the context for use later
-
+        // update the index in the context for use later
         return _extends(_extends({}, items), {}, (_extends2 = {}, _extends2[key] = _extends(_extends({}, item), {}, {
           index: index,
           ref: ref
@@ -1884,7 +1882,13 @@ var SortableItem = function SortableItem(_ref) {
         }, _extends3));
       }
     });
-  }, [key, index, ref, setItems]); // cleanup on item destroyed
+  }, [key, index, ref, setItems]);
+  React.useLayoutEffect(function () {
+    var _ref$current;
+
+    // clear any offsets if the index has changed
+    (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.style.removeProperty("transform");
+  }, [index, ref]); // cleanup on item destroyed
 
   React.useEffect(function () {
     return function () {
@@ -1924,18 +1928,18 @@ var SortableItem = function SortableItem(_ref) {
       }
 
       Object.entries(items).forEach(function (_ref2) {
-        var _item$ref$current3;
+        var _item$ref$current2;
 
         var itemKey = _ref2[0],
             item = _ref2[1];
 
         if (itemKey === key) {
-          var _item$ref$current2;
+          var _item$ref$current;
 
-          (_item$ref$current2 = item.ref.current) === null || _item$ref$current2 === void 0 ? void 0 : _item$ref$current2.classList.add("ui-sortable-item--active");
+          (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.classList.add("ui-sortable-item--active");
         }
 
-        (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.classList.add("ui-sortable-item--sorting");
+        (_item$ref$current2 = item.ref.current) === null || _item$ref$current2 === void 0 ? void 0 : _item$ref$current2.classList.add("ui-sortable-item--sorting");
       }); // init mouse/pointer position
 
       return {
@@ -1949,40 +1953,36 @@ var SortableItem = function SortableItem(_ref) {
       if (config.direction === "x") {
         init.moveTo = getInsertPointX(e, Object.values(items), index);
         Object.entries(items).forEach(function (_ref3) {
-          var _item$ref$current4;
+          var _item$ref$current3;
 
           var itemKey = _ref3[0],
               item = _ref3[1];
-          (_item$ref$current4 = item.ref.current) === null || _item$ref$current4 === void 0 ? void 0 : _item$ref$current4.style.setProperty("transform", "translate3d(" + (itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px, 0px)");
+          (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.style.setProperty("transform", "translate3d(" + (itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px, 0px)");
         });
       } else {
         init.moveTo = getInsertPointY(e, Object.values(items), index);
         Object.entries(items).forEach(function (_ref4) {
-          var _item$ref$current5;
+          var _item$ref$current4;
 
           var itemKey = _ref4[0],
               item = _ref4[1];
-          (_item$ref$current5 = item.ref.current) === null || _item$ref$current5 === void 0 ? void 0 : _item$ref$current5.style.setProperty("transform", "translate3d(0px, " + (itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px)");
+          (_item$ref$current4 = item.ref.current) === null || _item$ref$current4 === void 0 ? void 0 : _item$ref$current4.style.setProperty("transform", "translate3d(0px, " + (itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px)");
         });
       }
     },
     onEnd: function onEnd(_e, init) {
       config.onEnd(index, init.moveTo);
-      Object.entries(items).forEach(function (_ref5) {
-        var _item$ref$current7, _item$ref$current8, _item$ref$current9;
+      Object.values(items).forEach(function (item) {
+        var _item$ref$current6, _item$ref$current7;
 
-        var itemKey = _ref5[0],
-            item = _ref5[1];
+        if (init.moveTo === index) {
+          var _item$ref$current5;
 
-        if (itemKey === key) {
-          var _item$ref$current6;
-
-          (_item$ref$current6 = item.ref.current) === null || _item$ref$current6 === void 0 ? void 0 : _item$ref$current6.style.setProperty("display", "none");
+          (_item$ref$current5 = item.ref.current) === null || _item$ref$current5 === void 0 ? void 0 : _item$ref$current5.style.removeProperty("transform");
         }
 
-        (_item$ref$current7 = item.ref.current) === null || _item$ref$current7 === void 0 ? void 0 : _item$ref$current7.style.setProperty("transform", "translate3d(0px, 0px, 0px)");
-        (_item$ref$current8 = item.ref.current) === null || _item$ref$current8 === void 0 ? void 0 : _item$ref$current8.classList.remove("ui-sortable-item--active");
-        (_item$ref$current9 = item.ref.current) === null || _item$ref$current9 === void 0 ? void 0 : _item$ref$current9.classList.remove("ui-sortable-item--sorting");
+        (_item$ref$current6 = item.ref.current) === null || _item$ref$current6 === void 0 ? void 0 : _item$ref$current6.classList.remove("ui-sortable-item--active");
+        (_item$ref$current7 = item.ref.current) === null || _item$ref$current7 === void 0 ? void 0 : _item$ref$current7.classList.remove("ui-sortable-item--sorting");
       });
     }
   }, [key, config, items, index, handle, onPointerDown]);

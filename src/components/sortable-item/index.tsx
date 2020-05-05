@@ -1,4 +1,11 @@
-import React, { useRef, useEffect, useContext, MutableRefObject, useMemo } from "react";
+import React, {
+    useRef,
+    useEffect,
+    useContext,
+    MutableRefObject,
+    useMemo,
+    useLayoutEffect
+} from "react";
 import shortid from "shortid";
 
 import { SortableContext } from "../sortable-container/context";
@@ -16,7 +23,14 @@ interface Props {
     handle?: MutableRefObject<HTMLDivElement | null>;
 }
 
-export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPointerDown, children, ...props }) => {
+export const SortableItem: SuperFC<Props> = ({
+    index,
+    handle,
+    className,
+    onPointerDown,
+    children,
+    ...props
+}) => {
     const ref = useRef<HTMLDivElement>(null);
 
     // set a fixed key for the duration of the items life
@@ -25,11 +39,9 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
 
     // if exists, the index has changed so update else register with the container
     useEffect(() => {
-        setItems(items => {
+        setItems((items) => {
             const item = items[key];
             if (item) {
-                // clear any offsets if the index has changed
-                item.ref.current?.style.removeProperty("display");
                 // update the index in the context for use later
                 return {
                     ...items,
@@ -45,10 +57,15 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
         });
     }, [key, index, ref, setItems]);
 
+    useLayoutEffect(() => {
+        // clear any offsets if the index has changed
+        ref.current?.style.removeProperty("transform");
+    }, [index, ref]);
+
     // cleanup on item destroyed
     useEffect(() => {
         return () => {
-            setItems(items => {
+            setItems((items) => {
                 const { [key]: item, ...others } = items;
                 return others;
             });
@@ -65,7 +82,7 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
 
     const onDown = useDragHandler<{ x: number; y: number; offsetItemsBy: number; moveTo: number }>(
         {
-            onDown: e => {
+            onDown: (e) => {
                 if (onPointerDown) {
                     onPointerDown(e as any);
                 }
@@ -95,7 +112,9 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
                     x: e.screenX,
                     y: e.screenY,
                     offsetItemsBy:
-                        config.direction === "x" ? getAbsoluteWidth(ref.current) : getAbsoluteHeight(ref.current),
+                        config.direction === "x"
+                            ? getAbsoluteWidth(ref.current)
+                            : getAbsoluteHeight(ref.current),
                     moveTo: index
                 };
             },
@@ -128,11 +147,11 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
             },
             onEnd: (_e, init) => {
                 config.onEnd(index, init.moveTo);
-                Object.entries(items).forEach(([itemKey, item]) => {
-                    if (itemKey === key) {
-                        item.ref.current?.style.setProperty("display", `none`);
+                Object.values(items).forEach((item) => {
+                    if (init.moveTo === index) {
+                        item.ref.current?.style.removeProperty("transform");
                     }
-                    item.ref.current?.style.setProperty("transform", `translate3d(0px, 0px, 0px)`);
+
                     item.ref.current?.classList.remove("ui-sortable-item--active");
                     item.ref.current?.classList.remove("ui-sortable-item--sorting");
                 });
@@ -142,7 +161,12 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
     );
 
     return (
-        <div ref={ref} onPointerDown={onDown} className={merge("ui-sortable-item", className)} {...props}>
+        <div
+            ref={ref}
+            onPointerDown={onDown}
+            className={merge("ui-sortable-item", className)}
+            {...props}
+        >
             {children}
         </div>
     );
