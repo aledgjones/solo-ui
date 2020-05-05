@@ -1861,28 +1861,15 @@ var SortableItem = function SortableItem(_ref) {
 
   React.useEffect(function () {
     setItems(function (items) {
-      var item = items[key];
+      var _extends2;
 
-      if (item) {
-        var _extends2;
-
-        // update the index in the context for use later
-        return _extends(_extends({}, items), {}, (_extends2 = {}, _extends2[key] = _extends(_extends({}, item), {}, {
-          index: index,
-          ref: ref
-        }), _extends2));
-      } else {
-        var _extends3;
-
-        // on creation
-        return _extends(_extends({}, items), {}, (_extends3 = {}, _extends3[key] = {
-          key: key,
-          index: index,
-          sorting: false,
-          active: false,
-          ref: ref
-        }, _extends3));
-      }
+      return _extends(_extends({}, items), {}, (_extends2 = {}, _extends2[key] = {
+        key: key,
+        index: index,
+        sorting: false,
+        active: false,
+        ref: ref
+      }, _extends2));
     });
   }, [key, index, ref, setItems]);
   React.useLayoutEffect(function () {
@@ -1931,14 +1918,14 @@ var SortableItem = function SortableItem(_ref) {
 
       setItems(function (items) {
         return Object.entries(items).reduce(function (output, _ref2) {
-          var _extends4;
+          var _extends3;
 
           var itemKey = _ref2[0],
               item = _ref2[1];
-          return _extends(_extends({}, output), {}, (_extends4 = {}, _extends4[itemKey] = _extends(_extends({}, item), {}, {
+          return _extends(_extends({}, output), {}, (_extends3 = {}, _extends3[itemKey] = _extends(_extends({}, item), {}, {
             active: itemKey === key,
             sorting: true
-          }), _extends4));
+          }), _extends3));
         }, {});
       }); // init mouse/pointer position
 
@@ -1971,26 +1958,28 @@ var SortableItem = function SortableItem(_ref) {
       }
     },
     onEnd: function onEnd(_e, init) {
-      config.onEnd(index, init.moveTo);
-      setItems(function (items) {
-        return Object.entries(items).reduce(function (output, _ref5) {
-          var _extends5;
+      // if no move
+      if (init.moveTo === index) {
+        Object.values(items).forEach(function (item) {
+          var _item$ref$current3;
 
-          var itemKey = _ref5[0],
-              item = _ref5[1];
+          (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.style.removeProperty("transform");
+        });
+        setItems(function (items) {
+          return Object.entries(items).reduce(function (output, _ref5) {
+            var _extends4;
 
-          if (init.moveTo === index) {
-            var _item$ref$current3;
-
-            (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.style.removeProperty("transform");
-          }
-
-          return _extends(_extends({}, output), {}, (_extends5 = {}, _extends5[itemKey] = _extends(_extends({}, item), {}, {
-            active: false,
-            sorting: false
-          }), _extends5));
-        }, {});
-      });
+            var itemKey = _ref5[0],
+                item = _ref5[1];
+            return _extends(_extends({}, output), {}, (_extends4 = {}, _extends4[itemKey] = _extends(_extends({}, item), {}, {
+              active: false,
+              sorting: false
+            }), _extends4));
+          }, {});
+        });
+      } else {
+        config.onEnd(index, init.moveTo);
+      }
     }
   }, [key, config, items, index, handle, onPointerDown]);
   var item = items[key];

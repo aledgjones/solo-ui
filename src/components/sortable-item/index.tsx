@@ -26,20 +26,10 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
     // if exists, the index has changed so update else register with the container
     useEffect(() => {
         setItems(items => {
-            const item = items[key];
-            if (item) {
-                // update the index in the context for use later
-                return {
-                    ...items,
-                    [key]: { ...item, index, ref }
-                };
-            } else {
-                // on creation
-                return {
-                    ...items,
-                    [key]: { key, index, sorting: false, active: false, ref }
-                };
-            }
+            return {
+                ...items,
+                [key]: { key, index, sorting: false, active: false, ref }
+            };
         });
     }, [key, index, ref, setItems]);
 
@@ -136,22 +126,26 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
                 }
             },
             onEnd: (_e, init) => {
-                config.onEnd(index, init.moveTo);
-                setItems(items => {
-                    return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
-                        if (init.moveTo === index) {
-                            item.ref.current?.style.removeProperty("transform");
-                        }
-                        return {
-                            ...output,
-                            [itemKey]: {
-                                ...item,
-                                active: false,
-                                sorting: false
-                            }
-                        };
-                    }, {});
-                });
+                // if no move
+                if (init.moveTo === index) {
+                    Object.values(items).forEach(item => {
+                        item.ref.current?.style.removeProperty("transform");
+                    });
+                    setItems(items => {
+                        return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                            return {
+                                ...output,
+                                [itemKey]: {
+                                    ...item,
+                                    active: false,
+                                    sorting: false
+                                }
+                            };
+                        }, {});
+                    });
+                } else {
+                    config.onEnd(index, init.moveTo);
+                }
             }
         },
         [key, config, items, index, handle, onPointerDown]
