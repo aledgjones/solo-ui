@@ -2,6 +2,8 @@ import { MutableRefObject, Dispatch, SetStateAction } from "react";
 export interface Item {
     key: string;
     index: number;
+    sorting: boolean;
+    active: boolean;
     ref: MutableRefObject<HTMLDivElement | null>;
 }
 export interface Items {

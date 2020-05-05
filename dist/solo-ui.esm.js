@@ -1871,6 +1871,8 @@ var SortableItem = function SortableItem(_ref) {
         return _extends(_extends({}, items), {}, (_extends3 = {}, _extends3[key] = {
           key: key,
           index: index,
+          sorting: false,
+          active: false,
           ref: ref
         }, _extends3));
       }
@@ -1920,19 +1922,17 @@ var SortableItem = function SortableItem(_ref) {
         }
       }
 
-      Object.entries(items).forEach(function (_ref2) {
-        var _item$ref$current2;
+      setItems(function (items) {
+        return Object.entries(items).reduce(function (output, _ref2) {
+          var _extends4;
 
-        var itemKey = _ref2[0],
-            item = _ref2[1];
-
-        if (itemKey === key) {
-          var _item$ref$current;
-
-          (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.classList.add("ui-sortable-item--active");
-        }
-
-        (_item$ref$current2 = item.ref.current) === null || _item$ref$current2 === void 0 ? void 0 : _item$ref$current2.classList.add("ui-sortable-item--sorting");
+          var itemKey = _ref2[0],
+              item = _ref2[1];
+          return _extends(_extends({}, output), {}, (_extends4 = {}, _extends4[itemKey] = _extends(_extends({}, item), {}, {
+            active: itemKey === key,
+            sorting: true
+          }), _extends4));
+        }, {});
       }); // init mouse/pointer position
 
       return {
@@ -1946,43 +1946,54 @@ var SortableItem = function SortableItem(_ref) {
       if (config.direction === "x") {
         init.moveTo = getInsertPointX(e, Object.values(items), index);
         Object.entries(items).forEach(function (_ref3) {
-          var _item$ref$current3;
+          var _item$ref$current;
 
           var itemKey = _ref3[0],
               item = _ref3[1];
-          (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.style.setProperty("transform", "translate3d(" + (itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px, 0px)");
+          (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.style.setProperty("transform", "translate3d(" + (itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px, 0px)");
         });
       } else {
         init.moveTo = getInsertPointY(e, Object.values(items), index);
         Object.entries(items).forEach(function (_ref4) {
-          var _item$ref$current4;
+          var _item$ref$current2;
 
           var itemKey = _ref4[0],
               item = _ref4[1];
-          (_item$ref$current4 = item.ref.current) === null || _item$ref$current4 === void 0 ? void 0 : _item$ref$current4.style.setProperty("transform", "translate3d(0px, " + (itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px)");
+          (_item$ref$current2 = item.ref.current) === null || _item$ref$current2 === void 0 ? void 0 : _item$ref$current2.style.setProperty("transform", "translate3d(0px, " + (itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px)");
         });
       }
     },
     onEnd: function onEnd(_e, init) {
       config.onEnd(index, init.moveTo);
-      Object.values(items).forEach(function (item) {
-        var _item$ref$current6, _item$ref$current7;
+      setItems(function (items) {
+        return Object.entries(items).reduce(function (output, _ref5) {
+          var _extends5;
 
-        if (init.moveTo === index) {
-          var _item$ref$current5;
+          var itemKey = _ref5[0],
+              item = _ref5[1];
 
-          (_item$ref$current5 = item.ref.current) === null || _item$ref$current5 === void 0 ? void 0 : _item$ref$current5.style.removeProperty("transform");
-        }
+          if (init.moveTo === index) {
+            var _item$ref$current3;
 
-        (_item$ref$current6 = item.ref.current) === null || _item$ref$current6 === void 0 ? void 0 : _item$ref$current6.classList.remove("ui-sortable-item--active");
-        (_item$ref$current7 = item.ref.current) === null || _item$ref$current7 === void 0 ? void 0 : _item$ref$current7.classList.remove("ui-sortable-item--sorting");
+            (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.style.removeProperty("transform");
+          }
+
+          return _extends(_extends({}, output), {}, (_extends5 = {}, _extends5[itemKey] = _extends(_extends({}, item), {}, {
+            active: false,
+            sorting: false
+          }), _extends5));
+        }, {});
       });
     }
   }, [key, config, items, index, handle, onPointerDown]);
+  var item = items[key];
   return React.createElement("div", Object.assign({
     ref: ref,
     onPointerDown: onDown,
-    className: merge("ui-sortable-item", className)
+    className: merge("ui-sortable-item", {
+      "ui-sortable-item--sorting": item === null || item === void 0 ? void 0 : item.sorting,
+      "ui-sortable-item--active": item === null || item === void 0 ? void 0 : item.active
+    }, className)
   }, props), children);
 };
 

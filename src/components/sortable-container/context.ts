@@ -3,6 +3,8 @@ import { MutableRefObject, Dispatch, SetStateAction, createContext } from "react
 export interface Item {
     key: string;
     index: number;
+    sorting: boolean;
+    active: boolean;
     ref: MutableRefObject<HTMLDivElement | null>;
 }
 

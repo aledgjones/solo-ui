@@ -350,16 +350,7 @@ const App = () => {
                             }
                         >
                             {items.map((item, i) => (
-                                <SortableItem
-                                    key={item}
-                                    style={{
-                                        padding: 20,
-                                        border: "1px solid rgb(235,235,235)",
-                                        backgroundColor: "white",
-                                        marginBottom: 8
-                                    }}
-                                    index={i}
-                                >
+                                <SortableItem key={item} index={i}>
                                     <p>{item}</p>
                                 </SortableItem>
                             ))}

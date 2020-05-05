@@ -1,14 +1,7 @@
-import React, {
-    useRef,
-    useEffect,
-    useContext,
-    MutableRefObject,
-    useMemo,
-    useLayoutEffect
-} from "react";
+import React, { useRef, useEffect, useContext, MutableRefObject, useMemo, useLayoutEffect } from "react";
 import shortid from "shortid";
 
-import { SortableContext } from "../sortable-container/context";
+import { SortableContext, Items } from "../sortable-container/context";
 import { useDragHandler } from "../../hooks/use-drag-handler";
 import { merge } from "../../utils/merge";
 import { SuperFC } from "../../generic";
@@ -23,14 +16,7 @@ interface Props {
     handle?: MutableRefObject<HTMLDivElement | null>;
 }
 
-export const SortableItem: SuperFC<Props> = ({
-    index,
-    handle,
-    className,
-    onPointerDown,
-    children,
-    ...props
-}) => {
+export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPointerDown, children, ...props }) => {
     const ref = useRef<HTMLDivElement>(null);
 
     // set a fixed key for the duration of the items life
@@ -39,7 +25,7 @@ export const SortableItem: SuperFC<Props> = ({
 
     // if exists, the index has changed so update else register with the container
     useEffect(() => {
-        setItems((items) => {
+        setItems(items => {
             const item = items[key];
             if (item) {
                 // update the index in the context for use later
@@ -51,7 +37,7 @@ export const SortableItem: SuperFC<Props> = ({
                 // on creation
                 return {
                     ...items,
-                    [key]: { key, index, ref }
+                    [key]: { key, index, sorting: false, active: false, ref }
                 };
             }
         });
@@ -65,7 +51,7 @@ export const SortableItem: SuperFC<Props> = ({
     // cleanup on item destroyed
     useEffect(() => {
         return () => {
-            setItems((items) => {
+            setItems(items => {
                 const { [key]: item, ...others } = items;
                 return others;
             });
@@ -82,7 +68,7 @@ export const SortableItem: SuperFC<Props> = ({
 
     const onDown = useDragHandler<{ x: number; y: number; offsetItemsBy: number; moveTo: number }>(
         {
-            onDown: (e) => {
+            onDown: e => {
                 if (onPointerDown) {
                     onPointerDown(e as any);
                 }
@@ -100,11 +86,17 @@ export const SortableItem: SuperFC<Props> = ({
                     }
                 }
 
-                Object.entries(items).forEach(([itemKey, item]) => {
-                    if (itemKey === key) {
-                        item.ref.current?.classList.add("ui-sortable-item--active");
-                    }
-                    item.ref.current?.classList.add("ui-sortable-item--sorting");
+                setItems(items => {
+                    return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                        return {
+                            ...output,
+                            [itemKey]: {
+                                ...item,
+                                active: itemKey === key,
+                                sorting: true
+                            }
+                        };
+                    }, {});
                 });
 
                 // init mouse/pointer position
@@ -112,9 +104,7 @@ export const SortableItem: SuperFC<Props> = ({
                     x: e.screenX,
                     y: e.screenY,
                     offsetItemsBy:
-                        config.direction === "x"
-                            ? getAbsoluteWidth(ref.current)
-                            : getAbsoluteHeight(ref.current),
+                        config.direction === "x" ? getAbsoluteWidth(ref.current) : getAbsoluteHeight(ref.current),
                     moveTo: index
                 };
             },
@@ -147,24 +137,37 @@ export const SortableItem: SuperFC<Props> = ({
             },
             onEnd: (_e, init) => {
                 config.onEnd(index, init.moveTo);
-                Object.values(items).forEach((item) => {
-                    if (init.moveTo === index) {
-                        item.ref.current?.style.removeProperty("transform");
-                    }
-
-                    item.ref.current?.classList.remove("ui-sortable-item--active");
-                    item.ref.current?.classList.remove("ui-sortable-item--sorting");
+                setItems(items => {
+                    return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                        if (init.moveTo === index) {
+                            item.ref.current?.style.removeProperty("transform");
+                        }
+                        return {
+                            ...output,
+                            [itemKey]: {
+                                ...item,
+                                active: false,
+                                sorting: false
+                            }
+                        };
+                    }, {});
                 });
             }
         },
         [key, config, items, index, handle, onPointerDown]
     );
 
+    const item = items[key];
+
     return (
         <div
             ref={ref}
             onPointerDown={onDown}
-            className={merge("ui-sortable-item", className)}
+            className={merge(
+                "ui-sortable-item",
+                { "ui-sortable-item--sorting": item?.sorting, "ui-sortable-item--active": item?.active },
+                className
+            )}
             {...props}
         >
             {children}
