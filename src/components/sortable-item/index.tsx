@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext, MutableRefObject, useMemo } from "react";
 import shortid from "shortid";
 
-import { SortableContext } from "../sortable-container/context";
+import { SortableContext, Items } from "../sortable-container/context";
 import { useDragHandler } from "../../hooks/use-drag-handler";
 import { merge } from "../../utils/merge";
 import { SuperFC } from "../../generic";
@@ -25,19 +25,42 @@ export const SortableItem: SuperFC<Props> = ({
     children,
     ...props
 }) => {
-    const key = useMemo(() => shortid(), []);
     const ref = useRef<HTMLDivElement>(null);
+
+    // set a fixed key for the duration of the items life
+    const key = useMemo(() => shortid(), []);
     const { config, items, setItems } = useContext(SortableContext);
+    const item = items[key];
 
-    const item = items.find(item => item.key === key);
-
-    // register the dom element ref with the container.
+    // if exists, the index has changed so update else register with the container
     useEffect(() => {
-        setItems(s => [...s, { key, index, sorting: false, active: false, offset: { x: 0, y: 0 }, ref }]);
-        return () => {
-            setItems(s => s.filter(item => item.key !== key));
-        };
+        setItems(items => {
+            const item = items[key];
+            if (item) {
+                // if the item exits but we are updating the index...
+                return {
+                    ...items,
+                    [key]: { ...item, index, ref }
+                };
+            } else {
+                // on creation
+                return {
+                    ...items,
+                    [key]: { key, index, sorting: false, active: false, offset: { x: 0, y: 0 }, ref }
+                };
+            }
+        });
     }, [key, index, ref, setItems]);
+
+    // cleanup on item destroyed
+    useEffect(() => {
+        return () => {
+            setItems(items => {
+                const { [key]: item, ...others } = items;
+                return others;
+            });
+        };
+    }, [key]);
 
     // stop native touch scrolling in the config.direction
     useEffect(() => {
@@ -47,7 +70,7 @@ export const SortableItem: SuperFC<Props> = ({
         }
     }, [handle, ref, config]);
 
-    const onDown = useDragHandler<{ x: number; y: number; insertAt: number }>(
+    const onDown = useDragHandler<{ x: number; y: number; moveTo: number }>(
         {
             onDown: e => {
                 if (onPointerDown) {
@@ -68,65 +91,83 @@ export const SortableItem: SuperFC<Props> = ({
                 }
 
                 setItems(items => {
-                    return items.map(item => {
-                        return { ...item, active: item.key === key, sorting: true };
-                    });
+                    return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                        return {
+                            ...output,
+                            [itemKey]: {
+                                ...item,
+                                active: itemKey === key,
+                                sorting: true
+                            }
+                        };
+                    }, {});
                 });
 
                 // init mouse/pointer position
                 return {
                     x: e.screenX,
                     y: e.screenY,
-                    insertAt: index
+                    moveTo: index
                 };
             },
             onMove: (e, init) => {
                 setItems(items => {
                     if (config.direction === "x") {
                         const offsetItemsBy = getAbsoluteWidth(ref.current);
-                        init.insertAt = getInsertPointX(e, items, index);
-                        return items.map(item => {
-                            if (item.key === key) {
-                                // if selected offset by pointer delta
-                                return { ...item, offset: { x: e.screenX - init.x, y: 0 } };
-                            } else {
-                                // else offset by selection height
-                                return {
+                        init.moveTo = getInsertPointX(e, Object.values(items), index);
+                        return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                            return {
+                                ...output,
+                                [itemKey]: {
                                     ...item,
                                     offset: {
-                                        x: getOffset(item, init.insertAt, index, offsetItemsBy),
+                                        x:
+                                            itemKey === key
+                                                ? e.screenX - init.x
+                                                : getOffset(item, init.moveTo, index, offsetItemsBy),
                                         y: 0
                                     }
-                                };
-                            }
-                        });
+                                }
+                            };
+                        }, {});
                     } else {
                         const offsetItemsBy = getAbsoluteHeight(ref.current);
-                        init.insertAt = getInsertPointY(e, items, index);
-                        return items.map(item => {
-                            if (item.key === key) {
-                                // if selected offset by pointer delta
-                                return { ...item, offset: { y: e.screenY - init.y, x: 0 } };
-                            } else {
-                                // else offset by selection height
-                                return {
+                        init.moveTo = getInsertPointY(e, Object.values(items), index);
+                        return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                            return {
+                                ...output,
+                                [itemKey]: {
                                     ...item,
                                     offset: {
-                                        y: getOffset(item, init.insertAt, index, offsetItemsBy),
-                                        x: 0
+                                        x: 0,
+                                        y:
+                                            itemKey === key
+                                                ? e.screenY - init.y
+                                                : getOffset(item, init.moveTo, index, offsetItemsBy)
                                     }
-                                };
-                            }
-                        });
+                                }
+                            };
+                        }, {});
                     }
                 });
             },
             onEnd: (_e, init) => {
-                config.onEnd(index, init.insertAt);
+                config.onEnd(index, init.moveTo);
                 setItems(items => {
-                    return items.map(item => {
-                        return { ...item, sorting: false, active: false, offset: { x: 0, y: 0 } };
-                    });
+                    return Object.entries(items).reduce<Items>((output, [itemKey, item]) => {
+                        return {
+                            ...output,
+                            [itemKey]: {
+                                ...item,
+                                active: false,
+                                sorting: false,
+                                offset: {
+                                    x: 0,
+                                    y: 0
+                                }
+                            }
+                        };
+                    }, {});
                 });
             }
         },

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { SortableContext, Item } from "./context";
+import { SortableContext, Items } from "./context";
 import { merge } from "../../utils/merge";
 import { SuperFC } from "generic";
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const SortableContainer: SuperFC<Props> = ({ className, direction, onEnd, children, ...props }) => {
-    const [items, setItems] = useState<Item[]>([]);
+    const [items, setItems] = useState<Items>({});
 
     return (
         <SortableContext.Provider value={{ config: { direction, onEnd }, items, setItems }}>

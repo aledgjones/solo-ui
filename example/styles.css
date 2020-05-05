@@ -28,7 +28,7 @@
 }
 
 .type {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
 }
 
 .value {
@@ -73,4 +73,14 @@
 
 .label p {
     margin-top: 20px;
+}
+
+.ui-sortable-item--sorting {
+    transition: transform 0.2s;
+}
+
+.ui-sortable-item--active {
+    transition: transform 0s;
+    position: relative;
+    z-index: 100;
 }

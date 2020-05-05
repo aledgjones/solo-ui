@@ -10,13 +10,16 @@ export interface Item {
     };
     ref: MutableRefObject<HTMLDivElement | null>;
 }
-declare type ItemsUpdater = Dispatch<SetStateAction<Item[]>>;
+export interface Items {
+    [key: string]: Item;
+}
+declare type ItemsUpdater = Dispatch<SetStateAction<Items>>;
 interface Context {
     config: {
         direction: "x" | "y";
         onEnd: (oldIndex: number, newIndex: number) => void;
     };
-    items: Item[];
+    items: Items;
     setItems: ItemsUpdater;
 }
 export declare const SortableContext: import("react").Context<Context>;

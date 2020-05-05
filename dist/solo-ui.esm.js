@@ -76,6 +76,25 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
+function _toPrimitive(input, hint) {
+  if (typeof input !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (typeof res !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+
+  return (hint === "string" ? String : Number)(input);
+}
+
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+
+  return typeof key === "symbol" ? key : String(key);
+}
+
 /**
  * Merge strings into single string with conditional inclusion. Useful for className strings
  *
@@ -1696,7 +1715,7 @@ var SortableContext = /*#__PURE__*/createContext({
     direction: "y",
     onEnd: function onEnd() {}
   },
-  items: [],
+  items: {},
   setItems: function setItems() {}
 });
 
@@ -1707,7 +1726,7 @@ var SortableContainer = function SortableContainer(_ref) {
       children = _ref.children,
       props = _objectWithoutPropertiesLoose(_ref, ["className", "direction", "onEnd", "children"]);
 
-  var _useState = useState([]),
+  var _useState = useState({}),
       items = _useState[0],
       setItems = _useState[1];
 
@@ -1822,42 +1841,59 @@ var SortableItem = function SortableItem(_ref) {
       children = _ref.children,
       props = _objectWithoutPropertiesLoose(_ref, ["index", "handle", "className", "style", "onPointerDown", "children"]);
 
+  var ref = useRef(null); // set a fixed key for the duration of the items life
+
   var key = useMemo(function () {
     return shortid();
   }, []);
-  var ref = useRef(null);
 
   var _useContext = useContext(SortableContext),
       config = _useContext.config,
       items = _useContext.items,
       setItems = _useContext.setItems;
 
-  var item = items.find(function (item) {
-    return item.key === key;
-  }); // register the dom element ref with the container.
+  var item = items[key]; // if exists, the index has changed so update else register with the container
 
   useEffect(function () {
-    setItems(function (s) {
-      return [].concat(s, [{
-        key: key,
-        index: index,
-        sorting: false,
-        active: false,
-        offset: {
-          x: 0,
-          y: 0
-        },
-        ref: ref
-      }]);
+    setItems(function (items) {
+      var item = items[key];
+
+      if (item) {
+        var _extends2;
+
+        // if the item exits but we are updating the index...
+        return _extends(_extends({}, items), {}, (_extends2 = {}, _extends2[key] = _extends(_extends({}, item), {}, {
+          index: index,
+          ref: ref
+        }), _extends2));
+      } else {
+        var _extends3;
+
+        // on creation
+        return _extends(_extends({}, items), {}, (_extends3 = {}, _extends3[key] = {
+          key: key,
+          index: index,
+          sorting: false,
+          active: false,
+          offset: {
+            x: 0,
+            y: 0
+          },
+          ref: ref
+        }, _extends3));
+      }
     });
+  }, [key, index, ref, setItems]); // cleanup on item destroyed
+
+  useEffect(function () {
     return function () {
-      setItems(function (s) {
-        return s.filter(function (item) {
-          return item.key !== key;
-        });
+      setItems(function (items) {
+        var others = _objectWithoutPropertiesLoose(items, [key].map(_toPropertyKey));
+
+        return others;
       });
     };
-  }, [key, index, ref, setItems]); // stop native touch scrolling in the config.direction
+  }, [key]); // stop native touch scrolling in the config.direction
 
   useEffect(function () {
     var target = handle && handle.current ? handle.current : ref.current;
@@ -1887,83 +1923,77 @@ var SortableItem = function SortableItem(_ref) {
       }
 
       setItems(function (items) {
-        return items.map(function (item) {
-          return _extends(_extends({}, item), {}, {
-            active: item.key === key,
+        return Object.entries(items).reduce(function (output, _ref2) {
+          var _extends4;
+
+          var itemKey = _ref2[0],
+              item = _ref2[1];
+          return _extends(_extends({}, output), {}, (_extends4 = {}, _extends4[itemKey] = _extends(_extends({}, item), {}, {
+            active: itemKey === key,
             sorting: true
-          });
-        });
+          }), _extends4));
+        }, {});
       }); // init mouse/pointer position
 
       return {
         x: e.screenX,
         y: e.screenY,
-        insertAt: index
+        moveTo: index
       };
     },
     onMove: function onMove(e, init) {
       setItems(function (items) {
         if (config.direction === "x") {
           var offsetItemsBy = getAbsoluteWidth(ref.current);
-          init.insertAt = getInsertPointX(e, items, index);
-          return items.map(function (item) {
-            if (item.key === key) {
-              // if selected offset by pointer delta
-              return _extends(_extends({}, item), {}, {
-                offset: {
-                  x: e.screenX - init.x,
-                  y: 0
-                }
-              });
-            } else {
-              // else offset by selection height
-              return _extends(_extends({}, item), {}, {
-                offset: {
-                  x: getOffset(item, init.insertAt, index, offsetItemsBy),
-                  y: 0
-                }
-              });
-            }
-          });
+          init.moveTo = getInsertPointX(e, Object.values(items), index);
+          return Object.entries(items).reduce(function (output, _ref3) {
+            var _extends5;
+
+            var itemKey = _ref3[0],
+                item = _ref3[1];
+            return _extends(_extends({}, output), {}, (_extends5 = {}, _extends5[itemKey] = _extends(_extends({}, item), {}, {
+              offset: {
+                x: itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, offsetItemsBy),
+                y: 0
+              }
+            }), _extends5));
+          }, {});
         } else {
           var _offsetItemsBy = getAbsoluteHeight(ref.current);
 
-          init.insertAt = getInsertPointY(e, items, index);
-          return items.map(function (item) {
-            if (item.key === key) {
-              // if selected offset by pointer delta
-              return _extends(_extends({}, item), {}, {
-                offset: {
-                  y: e.screenY - init.y,
-                  x: 0
-                }
-              });
-            } else {
-              // else offset by selection height
-              return _extends(_extends({}, item), {}, {
-                offset: {
-                  y: getOffset(item, init.insertAt, index, _offsetItemsBy),
-                  x: 0
-                }
-              });
-            }
-          });
+          init.moveTo = getInsertPointY(e, Object.values(items), index);
+          return Object.entries(items).reduce(function (output, _ref4) {
+            var _extends6;
+
+            var itemKey = _ref4[0],
+                item = _ref4[1];
+            return _extends(_extends({}, output), {}, (_extends6 = {}, _extends6[itemKey] = _extends(_extends({}, item), {}, {
+              offset: {
+                x: 0,
+                y: itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, _offsetItemsBy)
+              }
+            }), _extends6));
+          }, {});
         }
       });
     },
     onEnd: function onEnd(_e, init) {
-      config.onEnd(index, init.insertAt);
+      config.onEnd(index, init.moveTo);
       setItems(function (items) {
-        return items.map(function (item) {
-          return _extends(_extends({}, item), {}, {
-            sorting: false,
+        return Object.entries(items).reduce(function (output, _ref5) {
+          var _extends7;
+
+          var itemKey = _ref5[0],
+              item = _ref5[1];
+          return _extends(_extends({}, output), {}, (_extends7 = {}, _extends7[itemKey] = _extends(_extends({}, item), {}, {
             active: false,
+            sorting: false,
             offset: {
               x: 0,
               y: 0
             }
-          });
-        });
+          }), _extends7));
+        }, {});
       });
     }
   }, [key, config, items, index, handle, onPointerDown]);

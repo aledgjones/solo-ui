@@ -8,16 +8,21 @@ export interface Item {
     offset: { x: number; y: number };
     ref: MutableRefObject<HTMLDivElement | null>;
 }
-type ItemsUpdater = Dispatch<SetStateAction<Item[]>>;
+
+export interface Items {
+    [key: string]: Item;
+}
+
+type ItemsUpdater = Dispatch<SetStateAction<Items>>;
 
 interface Context {
     config: { direction: "x" | "y"; onEnd: (oldIndex: number, newIndex: number) => void };
-    items: Item[];
+    items: Items;
     setItems: ItemsUpdater;
 }
 
 export const SortableContext = createContext<Context>({
     config: { direction: "y", onEnd: () => {} },
-    items: [],
+    items: {},
     setItems: () => {}
 });
