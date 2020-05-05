@@ -1843,10 +1843,9 @@ var SortableItem = function SortableItem(_ref) {
   var index = _ref.index,
       handle = _ref.handle,
       className = _ref.className,
-      style = _ref.style,
       onPointerDown = _ref.onPointerDown,
       children = _ref.children,
-      props = _objectWithoutPropertiesLoose(_ref, ["index", "handle", "className", "style", "onPointerDown", "children"]);
+      props = _objectWithoutPropertiesLoose(_ref, ["index", "handle", "className", "onPointerDown", "children"]);
 
   var ref = React.useRef(null); // set a fixed key for the duration of the items life
 
@@ -1857,18 +1856,19 @@ var SortableItem = function SortableItem(_ref) {
   var _useContext = React.useContext(SortableContext),
       config = _useContext.config,
       items = _useContext.items,
-      setItems = _useContext.setItems;
+      setItems = _useContext.setItems; // if exists, the index has changed so update else register with the container
 
-  var item = items[key]; // if exists, the index has changed so update else register with the container
 
   React.useEffect(function () {
     setItems(function (items) {
       var item = items[key];
 
       if (item) {
-        var _extends2;
+        var _item$ref$current, _extends2;
 
-        // if the item exits but we are updating the index...
+        // clear any offsets if the index has changed
+        (_item$ref$current = item.ref.current) === null || _item$ref$current === void 0 ? void 0 : _item$ref$current.style.removeProperty("display"); // update the index in the context for use later
+
         return _extends(_extends({}, items), {}, (_extends2 = {}, _extends2[key] = _extends(_extends({}, item), {}, {
           index: index,
           ref: ref
@@ -1880,12 +1880,6 @@ var SortableItem = function SortableItem(_ref) {
         return _extends(_extends({}, items), {}, (_extends3 = {}, _extends3[key] = {
           key: key,
           index: index,
-          sorting: false,
-          active: false,
-          offset: {
-            x: 0,
-            y: 0
-          },
           ref: ref
         }, _extends3));
       }
@@ -1929,91 +1923,73 @@ var SortableItem = function SortableItem(_ref) {
         }
       }
 
-      setItems(function (items) {
-        return Object.entries(items).reduce(function (output, _ref2) {
-          var _extends4;
+      Object.entries(items).forEach(function (_ref2) {
+        var _item$ref$current3;
 
-          var itemKey = _ref2[0],
-              item = _ref2[1];
-          return _extends(_extends({}, output), {}, (_extends4 = {}, _extends4[itemKey] = _extends(_extends({}, item), {}, {
-            active: itemKey === key,
-            sorting: true
-          }), _extends4));
-        }, {});
+        var itemKey = _ref2[0],
+            item = _ref2[1];
+
+        if (itemKey === key) {
+          var _item$ref$current2;
+
+          (_item$ref$current2 = item.ref.current) === null || _item$ref$current2 === void 0 ? void 0 : _item$ref$current2.classList.add("ui-sortable-item--active");
+        }
+
+        (_item$ref$current3 = item.ref.current) === null || _item$ref$current3 === void 0 ? void 0 : _item$ref$current3.classList.add("ui-sortable-item--sorting");
       }); // init mouse/pointer position
 
       return {
         x: e.screenX,
         y: e.screenY,
+        offsetItemsBy: config.direction === "x" ? getAbsoluteWidth(ref.current) : getAbsoluteHeight(ref.current),
         moveTo: index
       };
     },
     onMove: function onMove(e, init) {
-      setItems(function (items) {
-        if (config.direction === "x") {
-          var offsetItemsBy = getAbsoluteWidth(ref.current);
-          init.moveTo = getInsertPointX(e, Object.values(items), index);
-          return Object.entries(items).reduce(function (output, _ref3) {
-            var _extends5;
+      if (config.direction === "x") {
+        init.moveTo = getInsertPointX(e, Object.values(items), index);
+        Object.entries(items).forEach(function (_ref3) {
+          var _item$ref$current4;
 
-            var itemKey = _ref3[0],
-                item = _ref3[1];
-            return _extends(_extends({}, output), {}, (_extends5 = {}, _extends5[itemKey] = _extends(_extends({}, item), {}, {
-              offset: {
-                x: itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, offsetItemsBy),
-                y: 0
-              }
-            }), _extends5));
-          }, {});
-        } else {
-          var _offsetItemsBy = getAbsoluteHeight(ref.current);
+          var itemKey = _ref3[0],
+              item = _ref3[1];
+          (_item$ref$current4 = item.ref.current) === null || _item$ref$current4 === void 0 ? void 0 : _item$ref$current4.style.setProperty("transform", "translate3d(" + (itemKey === key ? e.screenX - init.x : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px, 0px)");
+        });
+      } else {
+        init.moveTo = getInsertPointY(e, Object.values(items), index);
+        Object.entries(items).forEach(function (_ref4) {
+          var _item$ref$current5;
 
-          init.moveTo = getInsertPointY(e, Object.values(items), index);
-          return Object.entries(items).reduce(function (output, _ref4) {
-            var _extends6;
-
-            var itemKey = _ref4[0],
-                item = _ref4[1];
-            return _extends(_extends({}, output), {}, (_extends6 = {}, _extends6[itemKey] = _extends(_extends({}, item), {}, {
-              offset: {
-                x: 0,
-                y: itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, _offsetItemsBy)
-              }
-            }), _extends6));
-          }, {});
-        }
-      });
+          var itemKey = _ref4[0],
+              item = _ref4[1];
+          (_item$ref$current5 = item.ref.current) === null || _item$ref$current5 === void 0 ? void 0 : _item$ref$current5.style.setProperty("transform", "translate3d(0px, " + (itemKey === key ? e.screenY - init.y : getOffset(item, init.moveTo, index, init.offsetItemsBy)) + "px, 0px)");
+        });
+      }
     },
     onEnd: function onEnd(_e, init) {
       config.onEnd(index, init.moveTo);
-      setItems(function (items) {
-        return Object.entries(items).reduce(function (output, _ref5) {
-          var _extends7;
+      Object.entries(items).forEach(function (_ref5) {
+        var _item$ref$current7, _item$ref$current8, _item$ref$current9;
 
-          var itemKey = _ref5[0],
-              item = _ref5[1];
-          return _extends(_extends({}, output), {}, (_extends7 = {}, _extends7[itemKey] = _extends(_extends({}, item), {}, {
-            active: false,
-            sorting: false,
-            offset: {
-              x: 0,
-              y: 0
-            }
-          }), _extends7));
-        }, {});
+        var itemKey = _ref5[0],
+            item = _ref5[1];
+
+        if (itemKey === key) {
+          var _item$ref$current6;
+
+          (_item$ref$current6 = item.ref.current) === null || _item$ref$current6 === void 0 ? void 0 : _item$ref$current6.style.setProperty("display", "none");
+        }
+
+        (_item$ref$current7 = item.ref.current) === null || _item$ref$current7 === void 0 ? void 0 : _item$ref$current7.style.setProperty("transform", "translate3d(0px, 0px, 0px)");
+        (_item$ref$current8 = item.ref.current) === null || _item$ref$current8 === void 0 ? void 0 : _item$ref$current8.classList.remove("ui-sortable-item--active");
+        (_item$ref$current9 = item.ref.current) === null || _item$ref$current9 === void 0 ? void 0 : _item$ref$current9.classList.remove("ui-sortable-item--sorting");
       });
     }
   }, [key, config, items, index, handle, onPointerDown]);
   return React__default.createElement("div", Object.assign({
     ref: ref,
-    style: _extends({
-      transform: "translate(" + ((item === null || item === void 0 ? void 0 : item.offset.x) || 0) + "px," + ((item === null || item === void 0 ? void 0 : item.offset.y) || 0) + "px)"
-    }, style),
     onPointerDown: onDown,
-    className: merge("ui-sortable-item", {
-      "ui-sortable-item--active": (item === null || item === void 0 ? void 0 : item.active) || false,
-      "ui-sortable-item--sorting": (item === null || item === void 0 ? void 0 : item.sorting) || false
-    }, className)
+    className: merge("ui-sortable-item", className)
   }, props), children);
 };
 

@@ -323,6 +323,7 @@ img {
 }
 
 .ui-sortable-item--active {
+    background-color: rgb(235, 235, 255);
     transition: transform 0s;
     position: relative;
     z-index: 100;
