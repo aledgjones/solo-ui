@@ -24,7 +24,8 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
     const { config, items, setItems } = useContext(SortableContext);
 
     // if exists, the index has changed so update else register with the container
-    useEffect(() => {
+    useLayoutEffect(() => {
+        ref.current?.style.removeProperty("transform");
         setItems(items => {
             return {
                 ...items,
@@ -32,11 +33,6 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
             };
         });
     }, [key, index, ref, setItems]);
-
-    useLayoutEffect(() => {
-        // clear any offsets if the index has changed
-        ref.current?.style.removeProperty("transform");
-    }, [index, ref]);
 
     // cleanup on item destroyed
     useEffect(() => {

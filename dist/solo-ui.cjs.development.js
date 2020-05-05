@@ -1859,7 +1859,10 @@ var SortableItem = function SortableItem(_ref) {
       setItems = _useContext.setItems; // if exists, the index has changed so update else register with the container
 
 
-  React.useEffect(function () {
+  React.useLayoutEffect(function () {
+    var _ref$current;
+
+    (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.style.removeProperty("transform");
     setItems(function (items) {
       var _extends2;
 
@@ -1871,13 +1874,7 @@ var SortableItem = function SortableItem(_ref) {
         ref: ref
       }, _extends2));
     });
-  }, [key, index, ref, setItems]);
-  React.useLayoutEffect(function () {
-    var _ref$current;
-
-    // clear any offsets if the index has changed
-    (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.style.removeProperty("transform");
-  }, [index, ref]); // cleanup on item destroyed
+  }, [key, index, ref, setItems]); // cleanup on item destroyed
 
   React.useEffect(function () {
     return function () {
