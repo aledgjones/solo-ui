@@ -657,36 +657,39 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto;box-shadow:0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{position:relative;margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto;box-shadow:0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22);max-height:calc(100vh - 80px)}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
 styleInject(css_248z$c);
 
 /**
- * Dialog component for displaying related but long form actions.
+ * Dialog component for displaying related but long form actions/information.
  */
 
-var Dialog = function Dialog(_ref) {
-  var className = _ref.className,
-      style = _ref.style,
-      width = _ref.width,
-      open = _ref.open,
-      children = _ref.children,
-      props = _objectWithoutPropertiesLoose(_ref, ["className", "style", "width", "open", "children"]);
+function Dialog(Content) {
+  return function (_ref) {
+    var width = _ref.width,
+        open = _ref.open,
+        id = _ref.id,
+        className = _ref.className,
+        style = _ref.style,
+        props = _objectWithoutPropertiesLoose(_ref, ["width", "open", "id", "className", "style"]);
 
-  var render = useDelayBoolean(open, 500);
-  return React.createElement(Portal, null, React.createElement(Backdrop, {
-    className: "ui-dialog__backdrop",
-    open: open
-  }), React.createElement("div", {
-    className: merge("ui-dialog", {
-      "ui-dialog--show": open
-    })
-  }, React.createElement(Card, Object.assign({
-    className: merge("ui-dialog__card", className),
-    style: _extends({
-      maxWidth: width
-    }, style)
-  }, props), render && children())));
-};
+    var render = useDelayBoolean(open, 500);
+    return React.createElement(Portal, null, React.createElement(Backdrop, {
+      className: "ui-dialog__backdrop",
+      open: open
+    }), React.createElement("div", {
+      className: merge("ui-dialog", {
+        "ui-dialog--show": open
+      })
+    }, React.createElement(Card, {
+      id: id,
+      className: merge("ui-dialog__card", className),
+      style: _extends({
+        maxWidth: width
+      }, style)
+    }, render && React.createElement(Content, Object.assign({}, props)))));
+  };
+}
 
 var css_248z$d = ".ui-divider{display:block;height:1px;width:100%;margin:8px 0;background-color:rgba(0,0,0,.1)}.ui-divider--compact{margin:0}";
 styleInject(css_248z$d);
@@ -2343,7 +2346,7 @@ function useStyles() {
   }, [args]);
 }
 
-var css_248z$z = ".markdown-content{font-size:14px}.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{margin-bottom:20px}.markdown-content p{margin-bottom:20px;font-size:14px;padding:0 20px;margin-top:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content h2{font-size:14px;font-weight:700;background-color:#c8c8c8;padding:20px}.markdown-content h3{font-size:14px;font-weight:700;padding:0 20px}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
+var css_248z$z = ".markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4,.markdown-content p{margin-bottom:20px}.markdown-content p:last-child{margin-bottom:0}.markdown-content code{padding:1px 2px;background-color:rgba(0,0,0,.1)!important}.markdown-content pre code{display:block;padding:20px;border-left:4px solid #fff;background-color:rgba(0,0,0,.1)!important;margin-bottom:20px}.markdown-content pre,.markdown-content pre *{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;cursor:text}.markdown-content blockquote{position:relative;display:block;padding:20px;margin:0 0 20px;line-height:1.4em}.markdown-content a:hover{text-decoration:underline}.markdown-content img{width:100%}.markdown-content ul{list-style:none;margin:0 0 20px;padding:0 20px}.markdown-content ol{color:rgba(0,0,0,.7);list-style:upper-roman}";
 styleInject(css_248z$z);
 
 var MarkdownContent = function MarkdownContent(_ref) {
