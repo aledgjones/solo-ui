@@ -6,7 +6,7 @@ interface Props {
     onClose: () => void;
 }
 
-const Example: React.FC<Props> = ({ theme, onClose }) => {
+export const DialogExample = Dialog<Props>(({ theme, onClose }) => {
     return (
         <>
             <Content style={{ paddingBottom: 0 }}>
@@ -19,6 +19,4 @@ const Example: React.FC<Props> = ({ theme, onClose }) => {
             </Content>
         </>
     );
-};
-
-export const DialogExample = Dialog(Example);
+});

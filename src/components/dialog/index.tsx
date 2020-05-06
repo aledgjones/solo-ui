@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from "react";
+import React, { CSSProperties, FC } from "react";
 
 import { merge } from "../../utils/merge";
 import { useDelayBoolean } from "../../hooks/use-delay-boolean";
@@ -10,7 +10,7 @@ import "./styles.css";
 
 interface Props {
     id?: string;
-    className?: string;
+    className?: string
     style?: CSSProperties;
     width?: number;
     open: boolean;
@@ -19,7 +19,7 @@ interface Props {
 /**
  * Dialog component for displaying related but long form actions/information.
  */
-export function Dialog<T>(Content: any): FC<T & Props> {
+export function Dialog<T>(Content: FC<T>): FC<T & Props> {
     return ({ width, open, id, className, style, ...props }) => {
         const render = useDelayBoolean(open, 500);
 
@@ -32,7 +32,7 @@ export function Dialog<T>(Content: any): FC<T & Props> {
                         className={merge("ui-dialog__card", className)}
                         style={{ maxWidth: width, ...style }}
                     >
-                        {render && <Content {...props} />}
+                        {render && <Content {...props as T} />}
                     </Card>
                 </div>
             </Portal>
