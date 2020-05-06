@@ -1,3 +1,4 @@
-import { FC, HTMLAttributes, DetailedHTMLProps } from "react";
+import { FC, HTMLAttributes, DetailedHTMLProps, PropsWithChildren } from "react";
 
-type SuperFC<Props> = FC<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & Props>;
+type SuperProps<Props> = Props & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+export type SuperFC<Props> = FC<SuperProps<Props>>;

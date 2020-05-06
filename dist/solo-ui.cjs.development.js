@@ -668,16 +668,17 @@ var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;just
 styleInject(css_248z$c);
 
 /**
- * Dialog component for displaying related but long form actions.
+ * Dialog component for displaying related but long form actions/information.
  */
 
 function Dialog(Content) {
-  var Output = function Output(_ref) {
+  return function (_ref) {
     var width = _ref.width,
         open = _ref.open,
+        id = _ref.id,
         className = _ref.className,
         style = _ref.style,
-        props = _objectWithoutPropertiesLoose(_ref, ["width", "open", "className", "style"]);
+        props = _objectWithoutPropertiesLoose(_ref, ["width", "open", "id", "className", "style"]);
 
     var render = useDelayBoolean(open, 500);
     return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
@@ -687,15 +688,14 @@ function Dialog(Content) {
       className: merge("ui-dialog", {
         "ui-dialog--show": open
       })
-    }, React__default.createElement(Card, Object.assign({
+    }, React__default.createElement(Card, {
+      id: id,
       className: merge("ui-dialog__card", className),
       style: _extends({
         maxWidth: width
       }, style)
-    }, props), render && React__default.createElement(Content, Object.assign({}, props)))));
+    }, render && React__default.createElement(Content, Object.assign({}, props)))));
   };
-
-  return Output;
 }
 
 var css_248z$d = ".ui-divider{display:block;height:1px;width:100%;margin:8px 0;background-color:rgba(0,0,0,.1)}.ui-divider--compact{margin:0}";

@@ -1,11 +1,14 @@
-import React, { ComponentType } from "react";
+import { FC, CSSProperties } from "react";
 import "./styles.css";
 interface Props {
+    id?: string;
+    className?: string;
+    style?: CSSProperties;
     width?: number;
     open: boolean;
 }
 /**
- * Dialog component for displaying related but long form actions.
+ * Dialog component for displaying related but long form actions/information.
  */
-export declare function Dialog<T>(Content: ComponentType<T>): React.FC<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Props & T>;
+export declare function Dialog<T>(Content: any): FC<T & Props>;
 export {};
