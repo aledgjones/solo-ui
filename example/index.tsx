@@ -1,4 +1,4 @@
-import {} from "react-dom/experimental";
+import { } from "react-dom/experimental";
 import * as React from "react";
 import { createRoot } from "react-dom";
 import { mdiMenu, mdiHeartOutline } from "@mdi/js";
@@ -27,6 +27,7 @@ import {
     SortableItem
 } from "../dist";
 import { Box } from "./box";
+import { DialogExample } from "./dialog-example";
 
 import "./styles.css";
 
@@ -272,20 +273,7 @@ const App = () => {
                     <Button color={theme} onClick={() => setDialog(true)}>
                         Open Dialog
                     </Button>
-                    <Dialog open={dialog} width={400}>
-                        {() => (
-                            <>
-                                <Content style={{ paddingBottom: 0 }}>
-                                    <p>Dialog content</p>
-                                </Content>
-                                <Content style={{ display: "flex", justifyContent: "flex-end" }}>
-                                    <Button color={theme} onClick={() => setDialog(false)}>
-                                        Close
-                                    </Button>
-                                </Content>
-                            </>
-                        )}
-                    </Dialog>
+                    <DialogExample open={dialog} width={500} theme={theme} onClose={() => setDialog(false)} />
                 </Box>
 
                 <Box id="tabs">

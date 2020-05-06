@@ -1,13 +1,11 @@
-import { ReactNode } from "react";
-import { SuperFC } from "../../generic";
+import React, { ComponentType } from "react";
 import "./styles.css";
 interface Props {
     width?: number;
     open: boolean;
-    children: () => ReactNode;
 }
 /**
  * Dialog component for displaying related but long form actions.
  */
-export declare const Dialog: SuperFC<Props>;
+export declare function Dialog<T>(Content: ComponentType<T>): React.FC<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Props & T>;
 export {};
