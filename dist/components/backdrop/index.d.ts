@@ -1,5 +1,5 @@
-import React, { CSSProperties } from 'react';
-import './styles.css';
+import React, { CSSProperties } from "react";
+import "./styles.css";
 interface Props {
     id?: string;
     className?: string;

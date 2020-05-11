@@ -27,7 +27,7 @@ export function Dialog<T>(Content: FC<T>): FC<T & Props> {
             return (
                 <Portal>
                     <Backdrop className="ui-dialog__backdrop" open={open} />
-                    <div className={merge("ui-dialog", { "ui-dialog--show": open })}>
+                    <div className={merge("ui-dialog", { "ui-dialog--hidden": !open })}>
                         <Card
                             id={id}
                             className={merge("ui-dialog__card", className)}

@@ -292,7 +292,7 @@ var Avatar = function Avatar(_ref) {
   }, letter));
 };
 
-var css_248z$3 = ".ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;background-color:rgba(30,30,30,0);transition:background-color .4s}.ui-backdrop--visible{pointer-events:all;background-color:rgba(30,30,30,.6)}.ui-backdrop--transparent{background-color:rgba(30,30,30,0)!important}";
+var css_248z$3 = "@-webkit-keyframes backdrop-in{0%{background-color:rgba(30,30,30,0)}to{background-color:rgba(30,30,30,.6)}}@keyframes backdrop-in{0%{background-color:rgba(30,30,30,0)}to{background-color:rgba(30,30,30,.6)}}.ui-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:all;background-color:rgba(30,30,30,0);transition:background-color .4s;-webkit-animation:backdrop-in .4s;animation:backdrop-in .4s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards}.ui-backdrop--hidden{pointer-events:none;background-color:rgba(30,30,30,0)}.ui-backdrop--transparent{background-color:rgba(30,30,30,0)!important}";
 styleInject(css_248z$3);
 
 /**
@@ -307,9 +307,9 @@ var Backdrop = function Backdrop(_ref) {
       onClick = _ref.onClick;
   return React__default.createElement("div", {
     id: id,
-    className: merge('ui-backdrop', className, {
-      'ui-backdrop--visible': open,
-      'ui-backdrop--transparent': transparent
+    className: merge("ui-backdrop", className, {
+      "ui-backdrop--hidden": !open,
+      "ui-backdrop--transparent": transparent
     }),
     onClick: onClick
   });
@@ -664,7 +664,7 @@ var Content = function Content(_ref) {
   }, children);
 };
 
-var css_248z$c = ".ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{position:relative;margin:0 auto;border-radius:8px;width:100%;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;overflow:auto;box-shadow:0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22);max-height:calc(100vh - 80px)}.ui-dialog--show{pointer-events:all}.ui-dialog--show .ui-dialog__card{opacity:1;transform:translateY(0)}";
+var css_248z$c = "@-webkit-keyframes dialog-in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes dialog-in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.ui-dialog{position:fixed;display:flex;align-items:center;justify-content:center;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:2;padding:40px}.ui-dialog__backdrop{z-index:1}.ui-dialog__card{position:relative;margin:0 auto;border-radius:8px;width:100%;overflow:auto;box-shadow:0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22);max-height:calc(100vh - 80px);-webkit-animation:dialog-in .4s;animation:dialog-in .4s;-webkit-animation-fill-mode:backwards;animation-fill-mode:backwards;transition:opacity .4s,transform .4s;pointer-events:all}.ui-dialog--hidden .ui-dialog__card{pointer-events:none;opacity:0;transform:translateY(16px)}";
 styleInject(css_248z$c);
 
 /**
@@ -688,7 +688,7 @@ function Dialog(Content) {
         open: open
       }), React__default.createElement("div", {
         className: merge("ui-dialog", {
-          "ui-dialog--show": open
+          "ui-dialog--hidden": !open
         })
       }, React__default.createElement(Card, {
         id: id,
