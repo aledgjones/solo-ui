@@ -10,7 +10,7 @@ import "./styles.css";
 
 interface Props {
     id?: string;
-    className?: string
+    className?: string;
     style?: CSSProperties;
     width?: number;
     open: boolean;
@@ -23,19 +23,23 @@ export function Dialog<T>(Content: FC<T>): FC<T & Props> {
     return ({ width, open, id, className, style, ...props }) => {
         const render = useDelayBoolean(open, 500);
 
-        return (
-            <Portal>
-                <Backdrop className="ui-dialog__backdrop" open={open} />
-                <div className={merge("ui-dialog", { "ui-dialog--show": open })}>
-                    <Card
-                        id={id}
-                        className={merge("ui-dialog__card", className)}
-                        style={{ maxWidth: width, ...style }}
-                    >
-                        {render && <Content {...props as T} />}
-                    </Card>
-                </div>
-            </Portal>
-        );
+        if (render) {
+            return (
+                <Portal>
+                    <Backdrop className="ui-dialog__backdrop" open={open} />
+                    <div className={merge("ui-dialog", { "ui-dialog--show": open })}>
+                        <Card
+                            id={id}
+                            className={merge("ui-dialog__card", className)}
+                            style={{ maxWidth: width, ...style }}
+                        >
+                            <Content {...(props as T)} />
+                        </Card>
+                    </div>
+                </Portal>
+            );
+        } else {
+            return null;
+        }
     };
 }

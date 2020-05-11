@@ -681,20 +681,25 @@ function Dialog(Content) {
         props = _objectWithoutPropertiesLoose(_ref, ["width", "open", "id", "className", "style"]);
 
     var render = useDelayBoolean(open, 500);
-    return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
-      className: "ui-dialog__backdrop",
-      open: open
-    }), React__default.createElement("div", {
-      className: merge("ui-dialog", {
-        "ui-dialog--show": open
-      })
-    }, React__default.createElement(Card, {
-      id: id,
-      className: merge("ui-dialog__card", className),
-      style: _extends({
-        maxWidth: width
-      }, style)
-    }, render && React__default.createElement(Content, Object.assign({}, props)))));
+
+    if (render) {
+      return React__default.createElement(Portal, null, React__default.createElement(Backdrop, {
+        className: "ui-dialog__backdrop",
+        open: open
+      }), React__default.createElement("div", {
+        className: merge("ui-dialog", {
+          "ui-dialog--show": open
+        })
+      }, React__default.createElement(Card, {
+        id: id,
+        className: merge("ui-dialog__card", className),
+        style: _extends({
+          maxWidth: width
+        }, style)
+      }, React__default.createElement(Content, Object.assign({}, props)))));
+    } else {
+      return null;
+    }
   };
 }
 
