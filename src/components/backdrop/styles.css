@@ -14,7 +14,7 @@
     width: 100vw;
     height: 100vh;
     pointer-events: all;
-    background-color: rgba(30, 30, 30, 0);
+    background-color: rgba(30, 30, 30, 0.6);
     transition: background-color 0.4s;
     animation: backdrop-in 0.4s;
     animation-fill-mode: backwards;
