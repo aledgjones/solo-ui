@@ -3,5 +3,5 @@ interface Props {
     direction: "x" | "y";
     onEnd: (oldIndex: number, newIndex: number) => void;
 }
-export declare const SortableContainer: SuperFC<Props>;
+export declare const SortableContainer: SuperFC<HTMLDivElement, Props>;
 export {};

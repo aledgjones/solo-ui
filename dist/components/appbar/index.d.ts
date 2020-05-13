@@ -6,5 +6,5 @@ interface Props {
 /**
  * A basic top of screen app bar with dynamic shadow.
  */
-export declare const Appbar: SuperFC<Props>;
+export declare const Appbar: SuperFC<HTMLDivElement, Props>;
 export {};

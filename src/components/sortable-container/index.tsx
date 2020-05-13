@@ -9,7 +9,7 @@ interface Props {
     onEnd: (oldIndex: number, newIndex: number) => void;
 }
 
-export const SortableContainer: SuperFC<Props> = ({ className, direction, onEnd, children, ...props }) => {
+export const SortableContainer: SuperFC<HTMLDivElement, Props> = ({ className, direction, onEnd, children, ...props }) => {
     const [items, setItems] = useState<Items>({});
 
     return (

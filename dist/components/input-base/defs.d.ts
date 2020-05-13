@@ -20,23 +20,27 @@ export interface InternalInputBaseProps extends InputBaseProps {
     validate: (value: string) => Error | null;
 }
 export interface TextInputProps extends InputBaseProps {
-    type: 'text';
+    type: "text";
     value: string;
 }
 export interface PasswordInputProps extends InputBaseProps {
-    type: 'password';
+    type: "password";
     value: string;
 }
 export interface EmailInputProps extends InputBaseProps {
-    type: 'email';
+    type: "email";
     value: string;
 }
 export interface NumberInputProps extends InputBaseProps {
-    type: 'number';
+    type: "number";
     value?: number;
     precision: number;
     step: number;
     units?: string;
 }
-export declare type InputProps = TextInputProps | PasswordInputProps | EmailInputProps | NumberInputProps;
+export interface SearchInputProps extends InputBaseProps {
+    type: "search";
+    value: string;
+}
+export declare type InputProps = TextInputProps | PasswordInputProps | EmailInputProps | SearchInputProps | NumberInputProps;
 export {};

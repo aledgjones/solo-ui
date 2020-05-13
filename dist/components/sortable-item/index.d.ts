@@ -4,5 +4,5 @@ interface Props {
     index: number;
     handle?: MutableRefObject<HTMLDivElement | null>;
 }
-export declare const SortableItem: SuperFC<Props>;
+export declare const SortableItem: SuperFC<HTMLDivElement, Props>;
 export {};

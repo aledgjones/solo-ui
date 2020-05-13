@@ -16,7 +16,7 @@ interface Props {
     handle?: MutableRefObject<HTMLDivElement | null>;
 }
 
-export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPointerDown, children, ...props }) => {
+export const SortableItem: SuperFC<HTMLDivElement, Props> = ({ index, handle, className, onPointerDown, children, ...props }) => {
     const ref = useRef<HTMLDivElement>(null);
 
     // set a fixed key for the duration of the items life
@@ -101,9 +101,9 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
                         item.ref.current?.style.setProperty(
                             "transform",
                             `translate3d(${
-                                itemKey === key
-                                    ? e.screenX - init.x
-                                    : getOffset(item, init.moveTo, index, init.offsetItemsBy)
+                            itemKey === key
+                                ? e.screenX - init.x
+                                : getOffset(item, init.moveTo, index, init.offsetItemsBy)
                             }px, 0px, 0px)`
                         );
                     });
@@ -113,9 +113,9 @@ export const SortableItem: SuperFC<Props> = ({ index, handle, className, onPoint
                         item.ref.current?.style.setProperty(
                             "transform",
                             `translate3d(0px, ${
-                                itemKey === key
-                                    ? e.screenY - init.y
-                                    : getOffset(item, init.moveTo, index, init.offsetItemsBy)
+                            itemKey === key
+                                ? e.screenY - init.y
+                                : getOffset(item, init.moveTo, index, init.offsetItemsBy)
                             }px, 0px)`
                         );
                     });

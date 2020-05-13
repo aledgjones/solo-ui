@@ -1,0 +1,36 @@
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:after {
+    content: attr(data-tooltip);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #616161e6;
+    padding: 0 8px;
+    font-size: 10px;
+    color: white;
+    border-radius: 4px;
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translate(-50%, -8px) scale(0.9);
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+[data-tooltip-direction="up"]:after {
+    bottom: initial;
+    top: -36px;
+    transform: translate(-50%, 8px) scale(0.9);
+}
+
+[data-tooltip]:hover:after {
+    opacity: 1;
+    transform: translate(-50%, 0px) scale(1);
+    transition: opacity 0.2s 0.5s, transform 0.2s 0.5s;
+}

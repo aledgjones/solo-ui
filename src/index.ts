@@ -1,6 +1,9 @@
 import "app-reset/app-reset.css";
 import "./index.css";
 
+// CSS only components
+import "./components/tooltip/styles.css";
+
 export { Appbar } from "./components/appbar";
 export { Avatar } from "./components/avatar";
 export { Backdrop } from "./components/backdrop";

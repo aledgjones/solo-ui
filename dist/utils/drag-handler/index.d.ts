@@ -9,5 +9,5 @@ export interface DragHandlerConfig<T> {
 /**
  * Boilerplate for adding pointer move events after an initial pointer down event
  */
-export declare function dragHandler<T>({ onDown, onMove, onEnd }: DragHandlerConfig<T>): (e: import("react").PointerEvent<HTMLElement>) => void;
+export declare function dragHandler<T>({ onDown, onMove, onEnd }: DragHandlerConfig<T>): (e: React.PointerEvent<HTMLElement>) => void;
 export {};
