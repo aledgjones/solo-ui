@@ -1400,7 +1400,7 @@ var Search = function Search(_ref) {
       label = _ref.label,
       onChange = _ref.onChange,
       className = _ref.className,
-      props = _objectWithoutPropertiesLoose(_ref, ["value", "label", "onChange", "className"]);
+      props = _objectWithoutPropertiesLoose(_ref, ["type", "value", "label", "onChange", "className"]);
 
   var _onChange = useCallback(function (e) {
     return onChange(e.target.value);
@@ -1414,6 +1414,7 @@ var Search = function Search(_ref) {
     size: 24,
     color: "#777777"
   }), React.createElement("input", Object.assign({
+    type: "text",
     placeholder: label,
     className: merge("ui-search", className),
     value: value,
