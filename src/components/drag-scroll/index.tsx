@@ -12,9 +12,9 @@ interface Props {
 
     x?: boolean;
     y?: boolean;
-    ignore?: string;
-    ignoreX?: string;
-    ignoreY?: string;
+    ignore?: string; // class to ignore completely
+    ignoreX?: string; // class to ignoreX completely
+    ignoreY?: string; // class to ignoreY completely
 }
 
 export const DragScroll: FC<Props> = ({ id, className, style, x, y, ignore, ignoreX, ignoreY, children }) => {
@@ -39,7 +39,8 @@ export const DragScroll: FC<Props> = ({ id, className, style, x, y, ignore, igno
     const onDrag = useDragHandler<{ target: HTMLElement, allowX: boolean, allowY: boolean, x: number, y: number, scrollLeft: number, scrollTop: number }>({
         onDown: e => {
 
-            if (!allow(e.target as HTMLElement, ignore)) {
+            // only accept unmodified left mouse buttons
+            if (e.button > 0 || e.ctrlKey || e.shiftKey || e.metaKey || !allow(e.target as HTMLElement, ignore)) {
                 return false;
             };
 

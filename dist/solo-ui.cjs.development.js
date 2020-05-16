@@ -813,7 +813,8 @@ var DragScroll = function DragScroll(_ref) {
   }, []);
   var onDrag = useDragHandler({
     onDown: function onDown(e) {
-      if (!allow(e.target, ignore)) {
+      // only accept unmodified left mouse buttons
+      if (e.button > 0 || e.ctrlKey || e.shiftKey || e.metaKey || !allow(e.target, ignore)) {
         return false;
       }
       var allowX = allow(e.target, ignoreX);
