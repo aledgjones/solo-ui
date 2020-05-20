@@ -26,7 +26,7 @@
 }
 
 [data-tooltip-direction="down"]:after {
-    bottom: -36px;
+    top: 100%;
     left: 50%;
     transform: translate(-50%, -8px) scale(0.9);
 }
@@ -37,7 +37,7 @@
 
 [data-tooltip-direction="up"]:after {
     bottom: initial;
-    top: -36px;
+    bottom: 100%;
     transform: translate(-50%, 8px) scale(0.9);
 }
 
@@ -47,7 +47,7 @@
 
 [data-tooltip-direction="right"]:after {
     top: 50%;
-    right: 36px;
+    left: 100%;
     transform: translate(8px, -50%) scale(0.9);
 }
 
@@ -57,7 +57,7 @@
 
 [data-tooltip-direction="left"]:after {
     top: 50%;
-    left: 36px;
+    right: 100%;
     transform: translate(-8px, -50%) scale(0.9);
 }
 
