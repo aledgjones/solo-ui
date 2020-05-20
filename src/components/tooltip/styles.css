@@ -14,13 +14,25 @@
     color: white;
     border-radius: 4px;
     position: absolute;
-    bottom: -36px;
-    left: 50%;
-    transform: translate(-50%, -8px) scale(0.9);
     transition: opacity 0.2s, transform 0.2s;
     opacity: 0;
     pointer-events: none;
     white-space: nowrap;
+}
+
+[data-tooltip]:hover:after {
+    opacity: 1;
+    transition: opacity 0.2s 0.5s, transform 0.2s 0.5s;
+}
+
+[data-tooltip-direction="down"]:after {
+    bottom: -36px;
+    left: 50%;
+    transform: translate(-50%, -8px) scale(0.9);
+}
+
+[data-tooltip-direction="down"]:hover:after {
+    transform: translate(-50%, 0) scale(1);
 }
 
 [data-tooltip-direction="up"]:after {
@@ -29,8 +41,26 @@
     transform: translate(-50%, 8px) scale(0.9);
 }
 
-[data-tooltip]:hover:after {
-    opacity: 1;
-    transform: translate(-50%, 0px) scale(1);
-    transition: opacity 0.2s 0.5s, transform 0.2s 0.5s;
+[data-tooltip-direction="up"]:hover:after {
+    transform: translate(-50%, 0) scale(1);
+}
+
+[data-tooltip-direction="right"]:after {
+    top: 50%;
+    right: 36px;
+    transform: translate(8px, -50%) scale(0.9);
+}
+
+[data-tooltip-direction="right"]:hover:after {
+    transform: translate(0, -50%) scale(1);
+}
+
+[data-tooltip-direction="left"]:after {
+    top: 50%;
+    left: 36px;
+    transform: translate(-8px, -50%) scale(0.9);
+}
+
+[data-tooltip-direction="left"]:hover:after {
+    transform: translate(0, -50%) scale(1);
 }
