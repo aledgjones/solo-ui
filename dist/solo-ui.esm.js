@@ -2414,53 +2414,63 @@ var MarkdownContent = function MarkdownContent(_ref) {
   });
 };
 
-var styles = "\n    body {\n        margin: 20px;\n        font-family: monospace;\n    }\n    .prop {\n        position: relative;\n        margin-left: 20px;\n        pointer-events: none;\n    }\n    .prop__caret {\n        position: absolute;\n        top: 4px;\n        left: -12px;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .prop > .prop {\n        display: none;\n    }\n    .prop > .prop__placeholder {\n        display: inline-block;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .prop > .prop__caret--right {\n        display: block;\n    }\n    .prop > .prop__caret--down {\n        display: none;\n    }\n    .prop__expand > .prop {\n        display: block !important;\n    }\n    .prop__expand > .prop__placeholder {\n        display: none !important;\n    }\n    .prop__expand > .prop__caret--right {\n        display: none;\n    }\n    .prop__expand > .prop__caret--down {\n        display: block;\n    }\n    .prop__key {\n        color: purple;\n    }\n    .prop__value--undefined,\n    .prop__value--null {\n        color: green;\n    }\n    .prop__value--string {\n        color: red;\n    }\n    .prop__value--number,\n    .prop__value--boolean {\n        color: blue;\n    }\n";
+var styles = "\n    body {\n        margin: 20px;\n        font-family: monospace;\n    }\n    .prop {\n        position: relative;\n        margin-left: 20px;\n        pointer-events: none;\n    }\n    .prop__caret {\n        position: absolute;\n        top: 4px;\n        left: -12px;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .prop > .prop {\n        display: none;\n    }\n    .prop > .prop__placeholder {\n        display: inline-block;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .prop > .prop__caret--right {\n        display: block;\n    }\n    .prop > .prop__caret--down {\n        display: none;\n    }\n    .prop__expand > .prop {\n        display: block !important;\n    }\n    .prop__expand > .prop__placeholder {\n        display: none !important;\n    }\n    .prop__expand > .prop__caret--right {\n        display: none;\n    }\n    .prop__expand > .prop__caret--down {\n        display: block;\n    }\n    .prop__key {\n        color: purple;\n    }\n    .prop__value--undefined,\n    .prop__value--null {\n        color: green;\n    }\n    .prop__value--string {\n        color: red;\n    }\n    .prop__value--number,\n    .prop__value--boolean {\n        color: blue;\n    }\n    .prop__value--circular {\n        color: grey;\n        font-style: italics;\n    }\n";
 var right = '<svg class="prop__caret prop__caret--right" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24"><path fill="grey" d="M21 12l-18 12v-24z"/></svg>';
 var down = '<svg class="prop__caret prop__caret--down" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24"><path fill="grey" d="M12 21l-12-18h24z"/></svg>';
 
-function parse(win, key, val, path) {
-  if (val === undefined) {
+function parse(win, key, value, path, cache) {
+  if (typeof value === "object" && value !== null) {
+    if (cache.indexOf(value) !== -1) {
+      // Circular reference found, discard key
+      return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value\">\"<span class=\"prop__value--circular\">Circular</span>\"</span></div>";
+    } // Store value in our collection
+
+
+    cache.push(value);
+  }
+
+  if (value === undefined) {
     return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value\">\"<span class=\"prop__value--undefined\">undefined</span>\"</span></div>";
   }
 
-  if (val === null) {
+  if (value === null) {
     return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value\">\"<span class=\"prop__value--null\">null</span>\"</span></div>";
   }
 
-  if (isString(val)) {
-    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value\">\"<span class=\"prop__value--string\">" + val + "</span>\"</span></div>";
+  if (isString(value)) {
+    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value\">\"<span class=\"prop__value--string\">" + value + "</span>\"</span></div>";
   }
 
-  if (isNumber(val)) {
-    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value prop__value--number\">" + val + "</span></div>";
+  if (isNumber(value)) {
+    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value prop__value--number\">" + value + "</span></div>";
   }
 
-  if (isBoolean(val)) {
-    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value prop__value--boolean\">" + val + "</span></div>";
+  if (isBoolean(value)) {
+    return "<div class=\"prop\"><span class=\"prop__key\">" + key + "</span><span>:</span> <span class=\"prop__value prop__value--boolean\">" + value + "</span></div>";
   }
 
-  if (Array.isArray(val)) {
-    var props = val.map(function (_key, i) {
-      return parse(win, "" + i, _key, path + key);
+  if (Array.isArray(value)) {
+    var props = value.map(function (_key, i) {
+      return parse(win, "" + i, _key, path + key, []);
     });
-    var html = props.join('');
-    return "<div class=\"prop " + (win.__expanded[path + key] ? 'prop__expand' : '') + "\" onclick=\"this.classList.toggle('prop__expand'); window.__expanded['" + (path + key) + "'] = this.classList.contains('prop__expand'); event.stopPropagation();\">" + right + down + "<span class=\"prop__key\">" + key + "</span><span>:</span> <span>[</span>" + html + (html !== '' ? '<span class="prop__placeholder">...</span>' : '') + "<span>]</span></div>";
+    var html = props.join("");
+    return "<div class=\"prop " + (win.__expanded[path + key] ? "prop__expand" : "") + "\" onclick=\"this.classList.toggle('prop__expand'); window.__expanded['" + (path + key) + "'] = this.classList.contains('prop__expand'); event.stopPropagation();\">" + right + down + "<span class=\"prop__key\">" + key + "</span><span>:</span> <span>[</span>" + html + (html !== "" ? '<span class="prop__placeholder">...</span>' : "") + "<span>]</span></div>";
   }
 
-  if (isObject(val)) {
-    var _val = val;
+  if (isObject(value)) {
+    var _val = value;
     var keys = Object.keys(_val);
 
     var _props = keys.map(function (_key) {
-      return parse(win, _key, _val[_key], path + key);
+      return parse(win, _key, _val[_key], path + key, []);
     });
 
-    var _html = _props.join('');
+    var _html = _props.join("");
 
-    return "<div class=\"prop " + (win.__expanded[path + key] ? 'prop__expand' : '') + "\" onclick=\"this.classList.toggle('prop__expand'); window.__expanded['" + (path + key) + "'] = this.classList.contains('prop__expand'); event.stopPropagation();\">" + right + down + "<span class=\"prop__key\">" + key + "</span><span>:</span> " + (_html === '' ? '{}' : _html) + (_html !== '' ? "<span class=\"prop__placeholder\">{...}</span>" : '') + "</div>";
+    return "<div class=\"prop " + (win.__expanded[path + key] ? "prop__expand" : "") + "\" onclick=\"this.classList.toggle('prop__expand'); window.__expanded['" + (path + key) + "'] = this.classList.contains('prop__expand'); event.stopPropagation();\">" + right + down + "<span class=\"prop__key\">" + key + "</span><span>:</span> " + (_html === "" ? "{}" : _html) + (_html !== "" ? "<span class=\"prop__placeholder\">{...}</span>" : "") + "</div>";
   }
 
-  return '';
+  return "";
 }
 /**
  * Hook: Logs state to a seperate window, auto updating with the most current values.
@@ -2474,14 +2484,14 @@ function useLog(obj, rootName) {
 
 
   useEffect(function () {
-    var view = window.open('', '@ui/debug', 'menubar=no,toolbar=no,location=no,titlebar=no,status=no');
+    var view = window.open("", "@ui/debug", "menubar=no,toolbar=no,location=no,titlebar=no,status=no");
 
     if (view) {
       if (!view.__expanded) {
         view.__expanded = {};
       }
 
-      var style = view.document.createElement('style');
+      var style = view.document.createElement("style");
       style.innerHTML = styles;
       view.document.head.appendChild(style);
       setWin(view);
@@ -2490,7 +2500,7 @@ function useLog(obj, rootName) {
 
   useEffect(function () {
     if (win) {
-      win.document.body.innerHTML = parse(win, rootName, obj, '');
+      win.document.body.innerHTML = parse(win, rootName, obj, "", []);
     }
   }, [win, obj, rootName]);
 }
